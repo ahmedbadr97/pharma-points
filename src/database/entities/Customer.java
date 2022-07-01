@@ -1,13 +1,19 @@
 package database.entities;
 
 import database.DBStatement;
+import exceptions.DataNotFound;
 import main.Main;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class Customer implements TablesOperations<Customer>{
+   public enum QueryFilter{
+        ID,NAME,PHONE,BARCODE
+    }
     private int id;
     private String name,phone,barcode;
     private float points,balance;
@@ -71,6 +77,56 @@ public class Customer implements TablesOperations<Customer>{
     public void setBalance(float balance) {
         this.balance = balance;
     }
+    public static Customer getCustomer(String value,QueryFilter filter) throws SQLException, DataNotFound {
+        String sql_statement="SELECT *  FROM CUSTOMER WHERE ";
+        switch (filter){
+            case ID:
+                sql_statement+="CUS_ID=?";
+                break;
+            case BARCODE:
+                sql_statement+="CUS_BARCODE=?";
+                break;
+            case PHONE:
+                sql_statement+="CUS_PHONE=?";
+                break;
+            default:
+                throw new DataNotFound("Invalid Query Filter");
+        }
+        PreparedStatement p=Main.dBconnection.getConnection().prepareStatement(sql_statement);
+        if (filter==QueryFilter.ID)
+        {
+            int id=Integer.getInteger(value);
+            p.setInt(1,id);
+        }
+        else
+            p.setString(1,value);
+        ResultSet r=p.executeQuery();
+        Customer customer=null;
+        // CUS_ID CUS_NAME CUS_PHONE CUS_BARCODE CUS_POINTS CUS_BALANCE  <-- 6 cols
+        while (r.next())
+            customer=fetch_resultSet(r);
+        if (customer==null)
+            throw new DataNotFound("no Customer found with value ="+value);
+        return customer;
+
+    }
+    private static Customer fetch_resultSet(ResultSet r) throws SQLException
+    {
+        return new Customer(r.getInt(1),r.getString(2),r.getString(3),r.getString(4),r.getFloat(5),r.getFloat(6));
+    }
+    public static ArrayList<Customer> getCustomersByName(String name)throws SQLException,DataNotFound
+    {
+        ArrayList<Customer> customers=new ArrayList<>();
+        String sql_statement="SELECT *  FROM CUSTOMER WHERE CUS_NAME LIKE ?";
+        PreparedStatement p=Main.dBconnection.getConnection().prepareStatement(sql_statement);
+        p.setString(1,name);
+        ResultSet r=p.executeQuery();
+        while (r.next())
+            customers.add(fetch_resultSet(r));
+        if (customers.isEmpty())
+            throw new DataNotFound("no customer found with this name "+ name);
+        return customers;
+    }
 
     @Override
     public DBStatement<Customer> addRow()  {
@@ -131,9 +187,13 @@ public class Customer implements TablesOperations<Customer>{
             }
             @Override
             public void after_execution_action() {
-
             }
         };
         return dbStatement;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Customer (ID= %d , Name= %s , Phone= %s , Barcode= %s , Points %f , Balance %f )", id,name,phone,barcode,points,balance);
     }
 }
