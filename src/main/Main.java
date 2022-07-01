@@ -20,9 +20,7 @@ public class Main extends Application {
     public static Stage mainStage;
 
     public static void main(String[] args) throws SQLException {
-
         launch(args);
-
     }
 
     @Override
@@ -35,10 +33,11 @@ public class Main extends Application {
         dBconnection.Connect();
         DBOperations dbOperations=new DBOperations();
         Customer customer=new Customer("Ahmed Badr","01114242654");
-        dbOperations.add(customer, DBOperations.Type.ADD);
-        dbOperations.add(customer,DBOperations.Type.UPDATE);
-        dbOperations.add(customer, DBOperations.Type.DELETE);
-        dbOperations.add(customer, DBOperations.Type.ADD);
+        customer.setId(11);
+//        dbOperations.add(customer, DBOperations.Type.ADD);
+        dbOperations.add(customer,DBStatement.Type.UPDATE);
+        dbOperations.add(customer, DBStatement.Type.DELETE);
+//        dbOperations.add(customer, DBOperations.Type.ADD);
         dbOperations.execute();
 
         login.showStage();
