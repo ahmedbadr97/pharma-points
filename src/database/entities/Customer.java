@@ -105,6 +105,7 @@ public class Customer implements TablesOperations<Customer>{
         // CUS_ID CUS_NAME CUS_PHONE CUS_BARCODE CUS_POINTS CUS_BALANCE  <-- 6 cols
         while (r.next())
             customer=fetch_resultSet(r);
+        r.close();p.close();
         if (customer==null)
             throw new DataNotFound("no Customer found with value ="+value);
         return customer;
