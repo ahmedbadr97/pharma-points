@@ -1,3 +1,34 @@
 .main_background{
--fx-background-color: #7e1fff;
+-fx-background-color: #dcdcdc;
+    -fx-background-radius: 6px;
+-fx-border-color: white;
+-fx-border-radius: 6px;
+-fx-border-width: 3px;
+}
+.title_box{
+    -fx-background-radius: 6px;
+    -fx-border-radius: 3px;
+    -fx-background-color: #60087e;
+}
+.text_fields{
+    -fx-background-color: #60087e;
+    -fx-background-radius: 6px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+.labels{
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+    -fx-font-family: sans-serif;
+    -fx-font-size: 18px;
+}
+.buttons{
+    -fx-background-color: #60087e;
+    -fx-background-radius: 6px;
+    -fx-text-fill: white;
+}
+.buttons:hover{
+    -fx-background-color: #af4bd5;
+    -fx-background-radius: 6px;
+    -fx-text-fill: white;
 }
