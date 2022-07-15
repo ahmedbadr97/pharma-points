@@ -9,10 +9,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class SystemUser implements TablesOperations<SystemUser>{
-    int user_id;
-    String username;
-    String login_name;
-    String login_password;
+    private int user_id;
+    private String username;
+    private String login_name;
+    private String login_password;
     int admin=0;
 
     public SystemUser(int user_id, String username, String login_name, String login_password, int admin) {
@@ -45,6 +45,10 @@ public class SystemUser implements TablesOperations<SystemUser>{
     private static SystemUser fetch_resultSet(ResultSet r) throws SQLException
     {
         return new SystemUser(r.getInt(1),r.getString(2),r.getString(3),r.getString(4),r.getInt(5));
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     @Override

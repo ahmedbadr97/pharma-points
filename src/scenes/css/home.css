@@ -1,0 +1,19 @@
+.pharmacy_title{
+    -fx-font-weight: bold;
+    -fx-font-size: 30;
+    -fx-font-family: sans-serif;
+    -fx-fill: #4C0262;
+    -fx-text-fill: white;
+
+}
+
+.home_buttons{
+    -fx-font-weight: bold;
+    -fx-font-size: 13;
+    -fx-background-color: #60087e;
+    -fx-text-fill: white;
+    -fx-background-radius: 6px;
+    -fx-font-smoothing-type: lcd;
+
+
+}

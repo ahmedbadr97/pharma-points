@@ -1,67 +1,10 @@
-.mainLables{
-    -fx-text-fill: black;
-    -fx-font-weight: bold;
-    -fx-font-size: 12;
-}
-.titleHbox
-{
-    -fx-background-color: #1e486f;
+.title_bar{
+    -fx-background-color: #60087e;
     -fx-text-fill: white;
-    -fx-font-weight: bold;
-    -fx-font-size: 13px;
-    -fx-background-radius: 5px;
-
 }
-.roundedTextFeild
-{
-    -fx-background-radius: 50 50 50 50
-
-}
-.titleHbox .label
-{
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
-    -fx-font-size: 14px;
-
-}
-.dataVbox
-{
-    -fx-background-color: white;
-}
-.AcceptButton
-{
-    -fx-text-fill: rgb(251, 251, 251);
+.title_labels{
+    -fx-fill: white;
     -fx-font-size: 14;
     -fx-font-weight: bold;
-    -fx-background-color:  rgb(58, 134, 255)
-}
-.CancelButton
-{
-    -fx-text-fill: rgb(255, 255, 255);
-    -fx-font-size: 14;
-    -fx-font-weight: bold;
-    -fx-background-color:  rgb(255, 37, 39)
-}
-.darkBackground
-{
-    -fx-background-color: rgb(49, 49, 49);
-}
-.darkBackground .label{
-    -fx-text-fill: rgb(255, 255, 255);
 
-}
-.scroll-pane
-{
-    -fx-border-color: white;
-
-}
-.table-column
-{
-    -fx-alignment: center;
-}
-.greyLable
-{
--fx-background-color: gray;
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
 }
