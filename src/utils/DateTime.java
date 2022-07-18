@@ -17,7 +17,7 @@ public class DateTime implements Comparable<DateTime> {
     public static DateTimeFormatter normalDateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     public static DateTime from_timeStamp(String timeStamp){
-        LocalDateTime localDateTime = LocalDateTime.parse(timeStamp.substring(0, 18), timeStamp_24_Format);
+        LocalDateTime localDateTime = LocalDateTime.parse(timeStamp.substring(0, 19), timeStamp_24_Format);
         return new DateTime(localDateTime);
     }
 

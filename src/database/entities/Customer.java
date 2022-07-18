@@ -3,6 +3,7 @@ package database.entities;
 import database.DBStatement;
 import exceptions.DataNotFound;
 import main.Main;
+import utils.DateTime;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,21 +16,22 @@ public class Customer implements TablesOperations<Customer>{
         ID,NAME,PHONE,BARCODE
     }
     private int id;
-    private String name,phone,barcode;
-    private float points,balance;
+    private String name,phone,barcode,address;
+    private float balance;
+    DateTime expiry_date;
 
-    public Customer(int id, String name, String phone, String barcode, float points, float balance) {
+    public Customer(int id, String name, String phone, String barcode,String address, float balance,DateTime expiry_date) {
         this.id = id;
         this.name = name;
         this.phone = phone;
         this.barcode = barcode;
-        this.points = points;
         this.balance = balance;
+        this.address=address;
+        this.expiry_date=expiry_date;
     }
-    public Customer(String name,String phone){
-        this(0,name,phone,"",0,0);
+    public Customer(String name,String phone,String barcode,String address){
+        this(0,name,phone,barcode,address,0,null);
     }
-
     public int getId() {
         return id;
     }
@@ -62,12 +64,19 @@ public class Customer implements TablesOperations<Customer>{
         this.barcode = barcode;
     }
 
-    public float getPoints() {
-        return points;
+    public String getAddress() {
+        return address;
+    }
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public void setPoints(float points) {
-        this.points = points;
+    public DateTime getExpiry_date() {
+        return expiry_date;
+    }
+
+    public void setExpiry_date(DateTime expiry_date) {
+        this.expiry_date = expiry_date;
     }
 
     public float getBalance() {
@@ -113,7 +122,11 @@ public class Customer implements TablesOperations<Customer>{
     }
     private static Customer fetch_resultSet(ResultSet r) throws SQLException
     {
-        return new Customer(r.getInt(1),r.getString(2),r.getString(3),r.getString(4),r.getFloat(5),r.getFloat(6));
+        String dateTimestamp=r.getString(7);
+        DateTime expireDate=null;
+        if (dateTimestamp!=null)
+            expireDate=DateTime.from_timeStamp(dateTimestamp);
+        return new Customer(r.getInt(1),r.getString(2),r.getString(3),r.getString(4),r.getString(5),r.getFloat(6),expireDate);
     }
     public static ArrayList<Customer> getCustomersByName(String name)throws SQLException,DataNotFound
     {
@@ -131,8 +144,8 @@ public class Customer implements TablesOperations<Customer>{
 
     @Override
     public DBStatement<Customer> addRow()  {
-        // CUS_ID CUS_NAME CUS_PHONE CUS_BARCODE CUS_POINTS CUS_BALANCE  <-- 6 cols
-        String sql_statement="INSERT INTO CUSTOMER VALUES(?,?,?,?,?,?)";
+        // CUS_ID CUS_NAME CUS_PHONE CUS_BARCODE, CUS_ADDRESS ,CUS_BALANCE , EXPIRY_DATE <-- 7 cols
+        String sql_statement="INSERT INTO CUSTOMER VALUES(?,?,?,?,?,?,?)";
         DBStatement<Customer> dbStatement=new DBStatement<Customer>(sql_statement,this,DBStatement.Type.ADD) {
             @Override
             public void statement_initialization() throws SQLException {
@@ -145,8 +158,12 @@ public class Customer implements TablesOperations<Customer>{
                 this.getPreparedStatement().setString(2,getStatement_table().getName());
                 this.getPreparedStatement().setString(3,getStatement_table().getPhone());
                 this.getPreparedStatement().setString(4,getStatement_table().getBarcode());
-                this.getPreparedStatement().setFloat(5,getStatement_table().getPoints());
+                this.getPreparedStatement().setString(5,getStatement_table().getAddress());
                 this.getPreparedStatement().setFloat(6,getStatement_table().getBalance());
+                if (getExpiry_date()!=null)
+                    this.getPreparedStatement().setString(7,getStatement_table().getExpiry_date().getTimeStamp());
+                else
+                    this.getPreparedStatement().setString(7,null);
             }
             @Override
             public void after_execution_action() {
@@ -158,7 +175,7 @@ public class Customer implements TablesOperations<Customer>{
 
     @Override
     public DBStatement<Customer> DeleteRow() {
-        // CUS_ID CUS_NAME CUS_PHONE CUS_BARCODE CUS_POINTS CUS_BALANCE  <-- 6 cols
+        // CUS_ID CUS_NAME CUS_PHONE CUS_BARCODE, CUS_ADDRESS ,CUS_BALANCE , EXPIRY_DATE <-- 7 cols
         String sql_statement="DELETE FROM CUSTOMER WHERE CUS_ID=?";
         DBStatement<Customer> dbStatement=new DBStatement<Customer>(sql_statement,this,DBStatement.Type.DELETE) {
             @Override
@@ -174,17 +191,22 @@ public class Customer implements TablesOperations<Customer>{
 
     @Override
     public DBStatement<Customer> update() {
-        // CUS_ID CUS_NAME CUS_PHONE CUS_BARCODE CUS_POINTS CUS_BALANCE  <-- 6 cols
-        String sql_statement="UPDATE CUSTOMER set CUS_NAME=? , CUS_PHONE=? ,CUS_BARCODE=? , CUS_POINTS=? , CUS_BALANCE=? where CUS_ID=?";
+        // CUS_ID CUS_NAME CUS_PHONE CUS_BARCODE, CUS_ADDRESS ,CUS_BALANCE , EXPIRY_DATE <-- 7 cols
+        String sql_statement="UPDATE CUSTOMER set CUS_NAME=? , CUS_PHONE=? ,CUS_BARCODE=? , CUS_ADDRESS=? , CUS_BALANCE=? ,EXPIRY_DATE=TO_TIMESTAMP(?,'YYYY-MM-DD HH24:MI:SS.FF') where CUS_ID=?";
         DBStatement<Customer> dbStatement=new DBStatement<Customer>(sql_statement,this,DBStatement.Type.UPDATE) {
             @Override
             public void statement_initialization() throws SQLException {
                 this.getPreparedStatement().setString(1,getStatement_table().getName());
                 this.getPreparedStatement().setString(2,getStatement_table().getPhone());
                 this.getPreparedStatement().setString(3,getStatement_table().getBarcode());
-                this.getPreparedStatement().setFloat(4,getStatement_table().getPoints());
+                this.getPreparedStatement().setString(4,getStatement_table().getAddress());
                 this.getPreparedStatement().setFloat(5,getStatement_table().getBalance());
-                this.getPreparedStatement().setInt(6,getStatement_table().getId());
+                if (getExpiry_date()!=null)
+                    this.getPreparedStatement().setString(6,getStatement_table().getExpiry_date().getTimeStamp());
+                else
+                    this.getPreparedStatement().setString(6,null);
+
+                this.getPreparedStatement().setInt(7,getStatement_table().getId());
             }
             @Override
             public void after_execution_action() {
@@ -195,6 +217,6 @@ public class Customer implements TablesOperations<Customer>{
 
     @Override
     public String toString() {
-        return String.format("Customer (ID= %d , Name= %s , Phone= %s , Barcode= %s , Points %f , Balance %f )", id,name,phone,barcode,points,balance);
+        return String.format("Customer (ID= %d , Name= %s , Phone= %s , Barcode= %s ,Address= %s ,Balance= %f , Expiry Date= %s)", id,name,phone,barcode,address,balance,expiry_date.get_Date());
     }
 }
