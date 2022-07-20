@@ -4,7 +4,32 @@
 }
 .title_labels{
     -fx-fill: white;
-    -fx-font-size: 14;
+    -fx-text-fill: white;
+    -fx-font-size: 16;
     -fx-font-weight: bold;
 
+}
+.primary_labels{
+    -fx-fill: black;
+    -fx-text-fill: black;
+    -fx-font-size: 16;
+    -fx-font-weight: bold;
+}
+.secondary_labels{
+    -fx-fill: black;
+    -fx-text-fill: black;
+    -fx-font-size: 14;
+    -fx-font-weight: bold;
+}
+.table-column
+{
+    -fx-alignment: center;
+}
+.greyLabel{
+    -fx-background-color: gray;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-background-radius: 6px;
+    -fx-alignment: center;
 }

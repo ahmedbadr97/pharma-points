@@ -25,9 +25,10 @@ public class DateTime implements Comparable<DateTime> {
         localDateTime = LocalDateTime.now();
     }
 
-    public DateTime(DatePicker datePicker, LocalTime time) {
 
-        localDateTime = LocalDateTime.of(datePicker.getValue(), time);
+    public static DateTime getDateTimeFromDatePicker(DatePicker datePicker, LocalTime time) {
+
+        return new DateTime(LocalDateTime.of(datePicker.getValue(), time));
     }
     public LocalDate getLocalDate() {
         return localDateTime.toLocalDate();

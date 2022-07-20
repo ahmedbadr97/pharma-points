@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="650.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scenes.controller.CustomerSearch">
+   <top>
+      <HBox alignment="CENTER" prefHeight="33.0" prefWidth="707.0" styleClass="title_bar" BorderPane.alignment="CENTER">
+         <children>
+            <Label styleClass="title_labels" text="بحث العملاء" />
+         </children>
+      </HBox>
+   </top>
+   <stylesheets>
+      <URL value="@../css/mainStyles.css" />
+      <URL value="@../css/customer_search.css" />
+   </stylesheets>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="720.0" spacing="10.0">
+               <children>
+                  <Label styleClass="secondary_labels" text="بحث ب" />
+                  <ComboBox fx:id="cus_search_cb" prefWidth="150.0" styleClass="secondary_labels" />
+                  <TextField fx:id="cus_search_tf" onAction="#search_btn_action" />
+                  <Button fx:id="cus_search_btn" mnemonicParsing="false" onAction="#search_btn_action" prefHeight="30.0" prefWidth="85.0" styleClass="secondary_labels" text="بحث" />
+                  <Button mnemonicParsing="false" onAction="#new_customer_btn_action" prefHeight="30.0" prefWidth="85.0" styleClass="secondary_labels" text="عميل جديد" />
+               </children>
+            </HBox>
+            <Separator prefHeight="0.0" prefWidth="710.0" styleClass="title_bar">
+               <VBox.margin>
+                  <Insets bottom="15.0" top="15.0" />
+               </VBox.margin>
+            </Separator>
+            <GridPane hgap="5.0" prefHeight="71.0" prefWidth="710.0" vgap="1.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="381.0" minWidth="10.0" prefWidth="267.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="592.0" minWidth="10.0" prefWidth="310.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="592.0" minWidth="10.0" prefWidth="96.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="49.0" minHeight="10.0" prefHeight="29.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="90.0" minHeight="10.0" prefHeight="37.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <HBox spacing="5.0">
+                     <children>
+                        <Separator orientation="VERTICAL" prefHeight="200.0" />
+                        <Label styleClass="primary_labels" text="عدد النقاط" />
+                        <ImageView fitHeight="28.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/searchIcon.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="64.0" prefWidth="225.0" spacing="5.0" GridPane.rowIndex="1">
+                     <children>
+                        <Separator orientation="VERTICAL" prefHeight="200.0" />
+                        <TextField fx:id="balance_start_tf" onAction="#filter_btn_action" prefHeight="25.0" prefWidth="70.0" />
+                        <Label styleClass="secondary_labels" text="&lt; النقاط &lt;" />
+                        <TextField fx:id="balance_end_tf" onAction="#filter_btn_action" prefHeight="25.0" prefWidth="70.0" />
+                     </children>
+                  </HBox>
+                  <HBox spacing="5.0" GridPane.columnIndex="1">
+                     <children>
+                        <Separator orientation="VERTICAL" prefHeight="200.0" />
+                        <Label styleClass="primary_labels" text="تاريخ الانتهاء" />
+                        <ImageView fitHeight="28.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/searchIcon.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="48.0" prefWidth="299.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <children>
+                        <Separator orientation="VERTICAL" prefHeight="200.0" />
+                        <Label styleClass="secondary_labels" text="من" />
+                        <DatePicker fx:id="exp_from_db" prefHeight="25.0" prefWidth="100.0" />
+                        <Label styleClass="secondary_labels" text="الى">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                        <DatePicker fx:id="exp_to_db" prefHeight="25.0" prefWidth="100.0" />
+                        <CheckBox fx:id="filter_by_expiry_cb" mnemonicParsing="false" onAction="#filter_by_expiry_cb_action" selected="true">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </CheckBox>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                     <children>
+                        <Button fx:id="filter_btn" mnemonicParsing="false" onAction="#filter_btn_action" prefWidth="85.0" styleClass="secondary_labels" text="تحديد" />
+                     </children>
+                  </HBox>
+               </children>
+            </GridPane>
+            <Separator prefHeight="0.0" prefWidth="710.0" styleClass="title_bar">
+               <VBox.margin>
+                  <Insets bottom="15.0" top="15.0" />
+               </VBox.margin>
+            </Separator>
+            <TableView fx:id="cus_tv" prefHeight="343.0" prefWidth="710.0">
+              <columns>
+                <TableColumn fx:id="cus_name_col" prefWidth="217.0" text="اسم العميل" />
+                <TableColumn fx:id="cus_phone_col" minWidth="0.0" prefWidth="167.0" text="رقم التليفون" />
+                  <TableColumn fx:id="cus_balance_col" prefWidth="114.0" text="عدد النقاط" />
+                  <TableColumn fx:id="cus_exp_col" prefWidth="198.0" text="تاريخ الانتهاء" />
+              </columns>
+            </TableView>
+            <HBox alignment="CENTER_RIGHT" prefHeight="45.0" prefWidth="697.0" spacing="5.0">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+               <children>
+                  <Label styleClass="secondary_labels" text="العدد" />
+                  <Label fx:id="tv_cnt_lb" prefHeight="44.0" prefWidth="105.0" styleClass="greyLabel" text="0" />
+               </children>
+            </HBox>
+            <GridPane fx:id="cus_edit_admin_panal" prefHeight="91.0" prefWidth="687.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="43.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="66.0" minHeight="10.0" prefHeight="66.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="58.0" prefWidth="687.0" spacing="10.0" GridPane.rowIndex="1">
+                     <children>
+                        <ComboBox fx:id="edit_customers_cb" prefWidth="150.0" styleClass="secondary_labels" />
+                        <Button mnemonicParsing="false" onAction="#edit_cus_btn_action" prefHeight="30.0" prefWidth="85.0" styleClass="secondary_labels" text="تنفيذ" />
+                        <Button mnemonicParsing="false" onAction="#save_cus_edit_action" prefWidth="85.0" styleClass="secondary_labels" text="حفظ" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Separator orientation="VERTICAL" prefHeight="200.0" />
+                        <Label styleClass="secondary_labels" text="تعديل الكل" />
+                     </children>
+                  </HBox>
+               </children>
+            </GridPane>
+         </children>
+         <padding>
+            <Insets left="10.0" right="10.0" top="30.0" />
+         </padding>
+      </VBox>
+   </center>
+</BorderPane>

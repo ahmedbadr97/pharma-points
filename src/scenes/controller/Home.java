@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import scenes.main.CustomerSearch;
 
 public class Home {
     @FXML
@@ -11,6 +12,7 @@ public class Home {
     @FXML
     private Circle connection_circle;
     private scenes.main.Home main_screen;
+    private scenes.main.CustomerSearch customerSearchScene;
     public void init(scenes.main.Home main_screen){
         this.main_screen=main_screen;
         system_user_t.setText(main_screen.getLogged_in_user().getUsername());
@@ -19,6 +21,8 @@ public class Home {
 
     @FXML
     void customer_data_btn_action(ActionEvent event) {
+        customerSearchScene=new CustomerSearch();
+        customerSearchScene.showStage();
 
     }
 

@@ -141,6 +141,78 @@ public class Customer implements TablesOperations<Customer>{
             throw new DataNotFound("no customer found with this name "+ name);
         return customers;
     }
+    public static ArrayList<Customer> getCustomersByExpiry(DateTime from,DateTime to) throws SQLException,DataNotFound {
+        return getCustomersBy_BalanceAndExpiry(from,to,-1,-1);
+    }
+    public static ArrayList<Customer> getCustomersBy_BalanceAndExpiry(DateTime from,DateTime to,int balance_start,int balance_end) throws SQLException,DataNotFound {
+        ArrayList<Customer> customers=new ArrayList<>();
+        String sql_statement="SELECT *  FROM CUSTOMER WHERE";
+        int prep_col_idx=1;
+        boolean filter_with_date=(from!=null && to!=null);
+        boolean balance_between_value=(balance_start!=-1 && balance_end!=-1);
+        boolean balance_start_only=!balance_between_value && balance_start!=-1;
+        boolean balance_end_only=!balance_between_value && balance_end!=-1;
+
+
+        if (!filter_with_date&& balance_start==-1 && balance_end==-1)
+            throw new DataNotFound("please specify filter for search first");
+
+
+        if (filter_with_date){
+            sql_statement+=" EXPIRY_DATE BETWEEN  TO_TIMESTAMP(?,'YYYY-MM-DD HH24:MI:SS.FF') AND TO_TIMESTAMP(?,'YYYY-MM-DD HH24:MI:SS.FF')";
+        }
+        if (balance_between_value)
+        {
+            if (filter_with_date)
+                sql_statement+=" AND ";
+            // balance between interval and expiry date between to dates
+            sql_statement+=" CUS_BALANCE BETWEEN ? AND ?";
+        }
+        else if (balance_start_only){
+            if (filter_with_date)
+                sql_statement+=" AND ";
+            sql_statement+=" CUS_BALANCE>= ?";
+        }
+        else if(balance_end_only){
+            if (filter_with_date)
+                sql_statement+=" AND ";
+            sql_statement+=" CUS_BALANCE<= ?";
+        }
+
+        PreparedStatement p=Main.dBconnection.getConnection().prepareStatement(sql_statement);
+        if (filter_with_date)
+        {
+            p.setString(prep_col_idx++,from.getTimeStamp());
+            p.setString(prep_col_idx++,to.getTimeStamp());
+        }
+        if(balance_between_value)
+        {
+            p.setInt(prep_col_idx++,balance_start);
+            p.setInt(prep_col_idx,balance_end);
+        }
+        else if(balance_start_only)
+        {
+            p.setInt(prep_col_idx,balance_start);
+        }
+        else if (balance_end_only)
+        {
+            p.setInt(prep_col_idx,balance_end);
+        }
+
+
+
+
+        ResultSet r=p.executeQuery();
+        while (r.next())
+            customers.add(fetch_resultSet(r));
+        if (customers.isEmpty())
+            throw new DataNotFound("no customers found");
+        return customers;
+    }
+    private static ArrayList<Customer> getCustomersBy_Balance(int balance_start,int balance_end) throws SQLException,DataNotFound {
+        return getCustomersBy_BalanceAndExpiry(null,null,balance_start,balance_end);
+    }
+
 
     @Override
     public DBStatement<Customer> addRow()  {
