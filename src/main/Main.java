@@ -22,6 +22,7 @@ public class Main extends Application {
     public static ClientComputer connectedComputer;
     public static ExecutorService mainThreadsPool;
     public static Stage mainStage;
+    public static AppSettings appSettings;
 
     public static void main(String[] args) throws SQLException {
         launch(args);
@@ -36,6 +37,7 @@ public class Main extends Application {
         dBconnection.Connect();
         Login login=new Login();
         login.showStage();
+
 
 
 

@@ -9,6 +9,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import main.AppSettings;
+import main.Main;
 import scenes.main.Alerts;
 import scenes.main.Home;
 
@@ -35,6 +37,7 @@ public class Login {
             System.out.println("Welcome");
            Home home= new Home(logged_in_user);
            home.showStage();
+            Main.appSettings=new AppSettings(logged_in_user);
         }
         catch (SQLException s)
         {

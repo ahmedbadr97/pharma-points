@@ -80,7 +80,7 @@ public class SystemConfiguration implements TablesOperations<SystemConfiguration
     }
 
     public static SaleHistory getCurrentSale() throws SQLException, DataNotFound {
-        String sql_statement = "SELECT *  FROM SYSTEM_CONFIGURATION WHERE ATTRIB_VALUE=CURRENT_SALE";
+        String sql_statement = "SELECT *  FROM SYSTEM_CONFIGURATION WHERE ATTRIB_NAME='CURRENT_SALE'";
         Statement s = Main.dBconnection.getConnection().createStatement();
         ResultSet r = s.executeQuery(sql_statement);
         SaleHistory current_sale_history = null;
@@ -93,7 +93,7 @@ public class SystemConfiguration implements TablesOperations<SystemConfiguration
     }
 
     public static CreditExpirySettings get_CreditExpirySettings() throws SQLException {
-        String sql_statement = "SELECT *  FROM SYSTEM_CONFIGURATION WHERE ATTRIB_NAME=CREDIT_EXPIRY_SETTINGS";
+        String sql_statement = "SELECT *  FROM SYSTEM_CONFIGURATION WHERE ATTRIB_NAME='CREDIT_EXPIRY_SETTINGS'";
         Statement p = Main.dBconnection.getConnection().createStatement();
         ResultSet r = p.executeQuery(sql_statement);
         CreditExpirySettings creditExpirySettings = null;

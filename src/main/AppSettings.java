@@ -9,13 +9,11 @@ public class AppSettings {
 
     private SystemUser logged_in_user;
     private String server_ip;
-    private   ClientComputer connectedComputer;
     private CreditExpirySettings creditExpirySettings;
     private SaleHistory current_sale;
 
-    public AppSettings(SystemUser logged_in_user, ClientComputer connectedComputer) throws SQLException, DataNotFound {
+    public AppSettings(SystemUser logged_in_user) throws SQLException, DataNotFound {
         this.logged_in_user = logged_in_user;
-        this.connectedComputer = connectedComputer;
         this.current_sale= SystemConfiguration.getCurrentSale();
         this.creditExpirySettings=SystemConfiguration.get_CreditExpirySettings();
         //TODO load server ip from config file
@@ -29,9 +27,6 @@ public class AppSettings {
         return server_ip;
     }
 
-    public ClientComputer getConnectedComputer() {
-        return connectedComputer;
-    }
 
     public CreditExpirySettings getCreditExpirySettings() {
         return creditExpirySettings;
