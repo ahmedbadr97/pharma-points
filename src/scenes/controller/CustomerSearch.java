@@ -177,7 +177,7 @@ public class CustomerSearch {
             toDateTime=DateTime.getDateTimeFromDatePicker(exp_to_db, LocalTime.MAX);
         }
         try {
-            filterCustomers=Customer.getCustomersBy_BalanceAndExpiry(fromDateTime,toDateTime,balance_start,balance_end);
+            filterCustomers=Customer.getCustomersBy_CreditAndExpiry(fromDateTime,toDateTime,balance_start,balance_end);
         } catch (SQLException e) {
             new Alerts(e);
         } catch (DataNotFound e) {

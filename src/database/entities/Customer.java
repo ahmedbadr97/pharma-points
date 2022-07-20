@@ -13,24 +13,25 @@ import java.util.ArrayList;
 
 public class Customer implements TablesOperations<Customer>{
    public enum QueryFilter{
-        ID,NAME,PHONE,BARCODE
+        ID,PHONE,BARCODE
     }
     private int id;
     private String name,phone,barcode,address;
-    private float balance;
+    private float active_credit,archived_credit;
     DateTime expiry_date;
 
-    public Customer(int id, String name, String phone, String barcode,String address, float balance,DateTime expiry_date) {
+    public Customer(int id, String name, String phone, String barcode, String address, float active_credit,float archived_credit, DateTime expiry_date) {
         this.id = id;
         this.name = name;
         this.phone = phone;
         this.barcode = barcode;
-        this.balance = balance;
+        this.active_credit = active_credit;
+        this.archived_credit=archived_credit;
         this.address=address;
         this.expiry_date=expiry_date;
     }
     public Customer(String name,String phone,String barcode,String address){
-        this(0,name,phone,barcode,address,0,null);
+        this(0,name,phone,barcode,address,0,0,null);
     }
     public int getId() {
         return id;
@@ -79,12 +80,20 @@ public class Customer implements TablesOperations<Customer>{
         this.expiry_date = expiry_date;
     }
 
-    public float getBalance() {
-        return balance;
+    public float getActive_credit() {
+        return active_credit;
     }
 
-    public void setBalance(float balance) {
-        this.balance = balance;
+    public float getArchived_credit() {
+        return archived_credit;
+    }
+
+    public void setArchived_credit(float archived_credit) {
+        this.archived_credit = archived_credit;
+    }
+
+    public void setActive_credit(float active_credit) {
+        this.active_credit = active_credit;
     }
     public static Customer getCustomer(String value,QueryFilter filter) throws SQLException, DataNotFound {
         String sql_statement="SELECT *  FROM CUSTOMER WHERE ";
@@ -111,7 +120,7 @@ public class Customer implements TablesOperations<Customer>{
             p.setString(1,value);
         ResultSet r=p.executeQuery();
         Customer customer=null;
-        // CUS_ID CUS_NAME CUS_PHONE CUS_BARCODE CUS_POINTS CUS_BALANCE  <-- 6 cols
+        // CUS_ID CUS_NAME CUS_PHONE CUS_BARCODE, CUS_ADDRESS ,CUS_ACTIVE_CREDIT,CUS_ARCHIVED_CREDIT , EXPIRY_DATE <-- 7 cols
         while (r.next())
             customer=fetch_resultSet(r);
         r.close();p.close();
@@ -122,11 +131,11 @@ public class Customer implements TablesOperations<Customer>{
     }
     private static Customer fetch_resultSet(ResultSet r) throws SQLException
     {
-        String dateTimestamp=r.getString(7);
+        String dateTimestamp=r.getString(8);
         DateTime expireDate=null;
         if (dateTimestamp!=null)
             expireDate=DateTime.from_timeStamp(dateTimestamp);
-        return new Customer(r.getInt(1),r.getString(2),r.getString(3),r.getString(4),r.getString(5),r.getFloat(6),expireDate);
+        return new Customer(r.getInt(1),r.getString(2),r.getString(3),r.getString(4),r.getString(5),r.getFloat(6),r.getFloat(7),expireDate);
     }
     public static ArrayList<Customer> getCustomersByName(String name)throws SQLException,DataNotFound
     {
@@ -141,42 +150,40 @@ public class Customer implements TablesOperations<Customer>{
             throw new DataNotFound("no customer found with this name "+ name);
         return customers;
     }
-    public static ArrayList<Customer> getCustomersByExpiry(DateTime from,DateTime to) throws SQLException,DataNotFound {
-        return getCustomersBy_BalanceAndExpiry(from,to,-1,-1);
-    }
-    public static ArrayList<Customer> getCustomersBy_BalanceAndExpiry(DateTime from,DateTime to,int balance_start,int balance_end) throws SQLException,DataNotFound {
+
+    public static ArrayList<Customer> getCustomersBy_CreditAndExpiry(DateTime from, DateTime to, int credit_start, int credit_end) throws SQLException,DataNotFound {
         ArrayList<Customer> customers=new ArrayList<>();
         String sql_statement="SELECT *  FROM CUSTOMER WHERE";
         int prep_col_idx=1;
         boolean filter_with_date=(from!=null && to!=null);
-        boolean balance_between_value=(balance_start!=-1 && balance_end!=-1);
-        boolean balance_start_only=!balance_between_value && balance_start!=-1;
-        boolean balance_end_only=!balance_between_value && balance_end!=-1;
+        boolean credit_between_value=(credit_start!=-1 && credit_end!=-1);
+        boolean credit_start_only=!credit_between_value && credit_start!=-1;
+        boolean credit_end_only=!credit_between_value && credit_end!=-1;
 
 
-        if (!filter_with_date&& balance_start==-1 && balance_end==-1)
+        if (!filter_with_date&& credit_start==-1 && credit_end==-1)
             throw new DataNotFound("please specify filter for search first");
 
 
         if (filter_with_date){
             sql_statement+=" EXPIRY_DATE BETWEEN  TO_TIMESTAMP(?,'YYYY-MM-DD HH24:MI:SS.FF') AND TO_TIMESTAMP(?,'YYYY-MM-DD HH24:MI:SS.FF')";
         }
-        if (balance_between_value)
+        if (credit_between_value)
         {
             if (filter_with_date)
                 sql_statement+=" AND ";
-            // balance between interval and expiry date between to dates
-            sql_statement+=" CUS_BALANCE BETWEEN ? AND ?";
+            // credit between interval and expiry date between to dates
+            sql_statement+=" CUS_ACTIVE_CREDIT BETWEEN ? AND ?";
         }
-        else if (balance_start_only){
+        else if (credit_start_only){
             if (filter_with_date)
                 sql_statement+=" AND ";
-            sql_statement+=" CUS_BALANCE>= ?";
+            sql_statement+=" CUS_ACTIVE_CREDIT>= ?";
         }
-        else if(balance_end_only){
+        else if(credit_end_only){
             if (filter_with_date)
                 sql_statement+=" AND ";
-            sql_statement+=" CUS_BALANCE<= ?";
+            sql_statement+=" CUS_ACTIVE_CREDIT<= ?";
         }
 
         PreparedStatement p=Main.dBconnection.getConnection().prepareStatement(sql_statement);
@@ -185,18 +192,18 @@ public class Customer implements TablesOperations<Customer>{
             p.setString(prep_col_idx++,from.getTimeStamp());
             p.setString(prep_col_idx++,to.getTimeStamp());
         }
-        if(balance_between_value)
+        if(credit_between_value)
         {
-            p.setInt(prep_col_idx++,balance_start);
-            p.setInt(prep_col_idx,balance_end);
+            p.setInt(prep_col_idx++,credit_start);
+            p.setInt(prep_col_idx,credit_end);
         }
-        else if(balance_start_only)
+        else if(credit_start_only)
         {
-            p.setInt(prep_col_idx,balance_start);
+            p.setInt(prep_col_idx,credit_start);
         }
-        else if (balance_end_only)
+        else if (credit_end_only)
         {
-            p.setInt(prep_col_idx,balance_end);
+            p.setInt(prep_col_idx,credit_end);
         }
 
 
@@ -209,15 +216,12 @@ public class Customer implements TablesOperations<Customer>{
             throw new DataNotFound("no customers found");
         return customers;
     }
-    private static ArrayList<Customer> getCustomersBy_Balance(int balance_start,int balance_end) throws SQLException,DataNotFound {
-        return getCustomersBy_BalanceAndExpiry(null,null,balance_start,balance_end);
-    }
 
 
     @Override
     public DBStatement<Customer> addRow()  {
-        // CUS_ID CUS_NAME CUS_PHONE CUS_BARCODE, CUS_ADDRESS ,CUS_BALANCE , EXPIRY_DATE <-- 7 cols
-        String sql_statement="INSERT INTO CUSTOMER VALUES(?,?,?,?,?,?,?)";
+        // CUS_ID CUS_NAME CUS_PHONE CUS_BARCODE, CUS_ADDRESS ,CUS_ACTIVE_CREDIT,CUS_ARCHIVED_CREDIT , EXPIRY_DATE <-- 7 cols
+        String sql_statement="INSERT INTO CUSTOMER VALUES(?,?,?,?,?,?,?,?)";
         DBStatement<Customer> dbStatement=new DBStatement<Customer>(sql_statement,this,DBStatement.Type.ADD) {
             @Override
             public void statement_initialization() throws SQLException {
@@ -231,11 +235,12 @@ public class Customer implements TablesOperations<Customer>{
                 this.getPreparedStatement().setString(3,getStatement_table().getPhone());
                 this.getPreparedStatement().setString(4,getStatement_table().getBarcode());
                 this.getPreparedStatement().setString(5,getStatement_table().getAddress());
-                this.getPreparedStatement().setFloat(6,getStatement_table().getBalance());
+                this.getPreparedStatement().setFloat(6,getStatement_table().getActive_credit());
+                this.getPreparedStatement().setFloat(7,getStatement_table().getArchived_credit());
                 if (getExpiry_date()!=null)
-                    this.getPreparedStatement().setString(7,getStatement_table().getExpiry_date().getTimeStamp());
+                    this.getPreparedStatement().setString(8,getStatement_table().getExpiry_date().getTimeStamp());
                 else
-                    this.getPreparedStatement().setString(7,null);
+                    this.getPreparedStatement().setString(8,null);
             }
             @Override
             public void after_execution_action() {
@@ -247,7 +252,7 @@ public class Customer implements TablesOperations<Customer>{
 
     @Override
     public DBStatement<Customer> DeleteRow() {
-        // CUS_ID CUS_NAME CUS_PHONE CUS_BARCODE, CUS_ADDRESS ,CUS_BALANCE , EXPIRY_DATE <-- 7 cols
+        // CUS_ID CUS_NAME CUS_PHONE CUS_BARCODE, CUS_ADDRESS ,CUS_ACTIVE_CREDIT,CUS_archived_CREDIT , EXPIRY_DATE <-- 7 cols
         String sql_statement="DELETE FROM CUSTOMER WHERE CUS_ID=?";
         DBStatement<Customer> dbStatement=new DBStatement<Customer>(sql_statement,this,DBStatement.Type.DELETE) {
             @Override
@@ -263,8 +268,8 @@ public class Customer implements TablesOperations<Customer>{
 
     @Override
     public DBStatement<Customer> update() {
-        // CUS_ID CUS_NAME CUS_PHONE CUS_BARCODE, CUS_ADDRESS ,CUS_BALANCE , EXPIRY_DATE <-- 7 cols
-        String sql_statement="UPDATE CUSTOMER set CUS_NAME=? , CUS_PHONE=? ,CUS_BARCODE=? , CUS_ADDRESS=? , CUS_BALANCE=? ,EXPIRY_DATE=TO_TIMESTAMP(?,'YYYY-MM-DD HH24:MI:SS.FF') where CUS_ID=?";
+        // CUS_ID CUS_NAME CUS_PHONE CUS_BARCODE, CUS_ADDRESS ,CUS_ACTIVE_CREDIT,CUS_ARCHIVED_CREDIT , EXPIRY_DATE <-- 8 cols
+        String sql_statement="UPDATE CUSTOMER set CUS_NAME=? , CUS_PHONE=? ,CUS_BARCODE=? , CUS_ADDRESS=? , CUS_ACTIVE_CREDIT=?,CUS_ARCHIVED_CREDIT=? ,EXPIRY_DATE=TO_TIMESTAMP(?,'YYYY-MM-DD HH24:MI:SS.FF') where CUS_ID=?";
         DBStatement<Customer> dbStatement=new DBStatement<Customer>(sql_statement,this,DBStatement.Type.UPDATE) {
             @Override
             public void statement_initialization() throws SQLException {
@@ -272,13 +277,14 @@ public class Customer implements TablesOperations<Customer>{
                 this.getPreparedStatement().setString(2,getStatement_table().getPhone());
                 this.getPreparedStatement().setString(3,getStatement_table().getBarcode());
                 this.getPreparedStatement().setString(4,getStatement_table().getAddress());
-                this.getPreparedStatement().setFloat(5,getStatement_table().getBalance());
+                this.getPreparedStatement().setFloat(5,getStatement_table().getActive_credit());
+                this.getPreparedStatement().setFloat(6,getStatement_table().getArchived_credit());
                 if (getExpiry_date()!=null)
-                    this.getPreparedStatement().setString(6,getStatement_table().getExpiry_date().getTimeStamp());
+                    this.getPreparedStatement().setString(7,getStatement_table().getExpiry_date().getTimeStamp());
                 else
-                    this.getPreparedStatement().setString(6,null);
+                    this.getPreparedStatement().setString(7,null);
 
-                this.getPreparedStatement().setInt(7,getStatement_table().getId());
+                this.getPreparedStatement().setInt(8,getStatement_table().getId());
             }
             @Override
             public void after_execution_action() {
@@ -289,6 +295,6 @@ public class Customer implements TablesOperations<Customer>{
 
     @Override
     public String toString() {
-        return String.format("Customer (ID= %d , Name= %s , Phone= %s , Barcode= %s ,Address= %s ,Balance= %f , Expiry Date= %s)", id,name,phone,barcode,address,balance,expiry_date.get_Date());
+        return String.format("Customer (ID= %d , Name= %s , Phone= %s , Barcode= %s ,Address= %s ,active_credit= %f ,archived_credit= %f, Expiry Date= %s)", id,name,phone,barcode,address, active_credit,archived_credit,expiry_date==null ? "":expiry_date.get_Date());
     }
 }
