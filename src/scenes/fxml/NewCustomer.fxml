@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="303.0" prefWidth="695.0" stylesheets="@../css/mainStyles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scenes.controller.NewCustomer">
+   <top>
+      <HBox alignment="CENTER" prefHeight="31.0" prefWidth="695.0" styleClass="title_bar" stylesheets="@../css/mainStyles.css" BorderPane.alignment="CENTER">
+         <children>
+            <Label styleClass="title_labels" text="عميل جديد" />
+         </children>
+      </HBox>
+   </top>
+   <center>
+      <VBox prefHeight="236.0" prefWidth="665.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="663.0">
+               <children>
+                  <VBox prefHeight="52.0" prefWidth="89.0" spacing="5.0">
+                     <children>
+                        <Label styleClass="primary_labels" text="بيانات العميل" />
+                        <Separator prefWidth="200.0" styleClass="title_bar" />
+                     </children>
+                  </VBox>
+               </children>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </HBox>
+            <GridPane prefHeight="111.0" prefWidth="663.0">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="327.0" minWidth="10.0" prefWidth="82.0" />
+                  <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="327.0" minWidth="10.0" prefWidth="227.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="327.0" minWidth="10.0" prefWidth="106.0" />
+                <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="581.0" minWidth="10.0" prefWidth="285.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="61.0" minHeight="10.0" prefHeight="61.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="83.0" minHeight="10.0" prefHeight="65.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label styleClass="secondary_labels" text="اسم العميل" />
+                  <Label styleClass="secondary_labels" text="باركود" GridPane.rowIndex="1" />
+                  <Label styleClass="secondary_labels" text="رقم التليفون" GridPane.columnIndex="2" />
+                  <Label styleClass="secondary_labels" text="العنوان" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <TextField fx:id="cus_barcode_tf" prefHeight="25.0" prefWidth="156.0" styleClass="text_field" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="cus_name_tf" prefHeight="25.0" prefWidth="158.0" styleClass="text_field" GridPane.columnIndex="1" />
+                  <TextField fx:id="cus_phone_tf" styleClass="text_field" GridPane.columnIndex="3" />
+                  <TextArea fx:id="cus_address_tf" prefHeight="58.0" prefWidth="277.0" styleClass="text_field" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </GridPane>
+         </children>
+         <BorderPane.margin>
+            <Insets left="15.0" right="15.0" />
+         </BorderPane.margin>
+      </VBox>
+   </center>
+   <bottom>
+      <HBox alignment="CENTER" prefHeight="45.0" prefWidth="695.0" spacing="50.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#cancel_btn_action" prefHeight="30.0" prefWidth="70.0" styleClass="secondary_labels" text="الغاء" />
+            <Button mnemonicParsing="false" onAction="#save_btn_action" prefWidth="70.0" styleClass="secondary_labels" text="حفظ" />
+         </children>
+      </HBox>
+   </bottom>
+</BorderPane>

@@ -112,7 +112,7 @@ public abstract class WindowAbstract<windowController> {
         stage.initModality(Modality.APPLICATION_MODAL);
     }
 
-    public  void CloseStage(){
+    public  void closeStage(){
         CloseAction();
         this.stage.close();
     }

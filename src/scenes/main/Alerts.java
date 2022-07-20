@@ -17,7 +17,7 @@ public class Alerts {
     public Alerts(SQLException s) {
         this.current_exception = s;
         iniOracleMessage(s.getErrorCode());
-        alert=new Alert(Alert.AlertType.ERROR,oracleMessage);
+        alert=new Alert(Alert.AlertType.ERROR,oracleMessage+" "+s.getMessage());
 
         alert.setOnCloseRequest(event -> alertOnClose());
         alert.showAndWait();
@@ -55,10 +55,14 @@ public class Alerts {
     {
         switch (error_code)
         {
+            case 1:
+                oracleMessage="يوجد تشابه ببيانات تم اضافتها من قبل";
+                break;
             case 2001:
                 oracleMessage="No Items";
-                default:
-                    oracleMessage="Database Server Error "+error_code;
+                break;
+            default:
+                oracleMessage="Database Server Error "+"code="+error_code;
         }
     }
 

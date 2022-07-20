@@ -33,3 +33,9 @@
     -fx-background-radius: 6px;
     -fx-alignment: center;
 }
+.text_field{
+    -fx-fill: black;
+    -fx-text-fill: black;
+    -fx-font-size: 13;
+
+}

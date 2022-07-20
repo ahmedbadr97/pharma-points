@@ -10,6 +10,7 @@ import exceptions.DataNotFound;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import scenes.main.Login;
+import scenes.main.NewCustomer;
 import utils.DateTime;
 
 import java.sql.SQLException;
@@ -33,16 +34,10 @@ public class Main extends Application {
         mainThreadsPool= Executors.newCachedThreadPool();
         dBconnection=new DBconnection("127.0.0.1");
         dBconnection.Connect();
-//        Login login=new Login();
-//        login.showStage();
-        Customer customer=Customer.getCustomer("01114242654", Customer.QueryFilter.PHONE);
-        DBOperations dbOperations=new DBOperations();
-        DateTime dateTime=new DateTime();
-        customer.setExpiry_date(dateTime);
-        dbOperations.add(customer, DBStatement.Type.UPDATE);
-        customer.setBalance(500);
-        customer.setBarcode("5030");
-        dbOperations.execute();
+        Login login=new Login();
+        login.showStage();
+
+
 
     }
 }
