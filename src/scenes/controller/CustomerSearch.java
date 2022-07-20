@@ -33,9 +33,9 @@ public class CustomerSearch {
     private Button cus_search_btn;
 
     @FXML
-    private TextField balance_end_tf;
+    private TextField credit_end_tf;
     @FXML
-    private TextField balance_start_tf;
+    private TextField credit_start_tf;
     @FXML
     private CheckBox filter_by_expiry_cb;
     @FXML
@@ -57,7 +57,7 @@ public class CustomerSearch {
     private TableColumn<Customer, String> cus_phone_col;
 
     @FXML
-    private TableColumn<Customer, Integer> cus_balance_col;
+    private TableColumn<Customer, Integer> cus_credit_col;
 
     @FXML
     private TableColumn<Customer, DateTime> cus_exp_col;
@@ -116,7 +116,7 @@ public class CustomerSearch {
         customers_tv_list=FXCollections.observableArrayList();
         cus_name_col.setCellValueFactory((new PropertyValueFactory<>("name")));
         cus_phone_col.setCellValueFactory((new PropertyValueFactory<>("phone")));
-        cus_balance_col.setCellValueFactory((new PropertyValueFactory<>("balance")));
+        cus_credit_col.setCellValueFactory((new PropertyValueFactory<>("active_credit")));
         cus_exp_col.setCellValueFactory((new PropertyValueFactory<>("expiry_date")));
 
         //TODO add row on click action
@@ -146,19 +146,19 @@ public class CustomerSearch {
     void filter_btn_action(ActionEvent event) {
         customers_tv_list.clear();
         ArrayList<Customer> filterCustomers=null;
-        int balance_start=-1,balance_end=-1;
+        int credit_start=-1,credit_end=-1;
 
         try {
-            if (balance_start_tf.getText()!=null&&!balance_start_tf.getText().isEmpty())
+            if (credit_start_tf.getText()!=null&&!credit_start_tf.getText().isEmpty())
             {
-                balance_start=Integer.parseInt(balance_start_tf.getText());
-                if (balance_start<0)
+                credit_start=Integer.parseInt(credit_start_tf.getText());
+                if (credit_start<0)
                     throw new NumberFormatException();
             }
-            if (balance_end_tf.getText()!=null&&!balance_end_tf.getText().isEmpty())
+            if (credit_end_tf.getText()!=null&&!credit_end_tf.getText().isEmpty())
             {
-                balance_end=Integer.parseInt(balance_end_tf.getText());
-                if (balance_end<0)
+                credit_end=Integer.parseInt(credit_end_tf.getText());
+                if (credit_end<0)
                     throw new NumberFormatException();
             }
 
@@ -177,7 +177,7 @@ public class CustomerSearch {
             toDateTime=DateTime.getDateTimeFromDatePicker(exp_to_db, LocalTime.MAX);
         }
         try {
-            filterCustomers=Customer.getCustomersBy_CreditAndExpiry(fromDateTime,toDateTime,balance_start,balance_end);
+            filterCustomers=Customer.getCustomersBy_CreditAndExpiry(fromDateTime,toDateTime,credit_start,credit_end);
         } catch (SQLException e) {
             new Alerts(e);
         } catch (DataNotFound e) {

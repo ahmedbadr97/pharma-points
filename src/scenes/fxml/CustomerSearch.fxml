@@ -74,9 +74,9 @@
                   <HBox alignment="CENTER_LEFT" prefHeight="64.0" prefWidth="225.0" spacing="5.0" GridPane.rowIndex="1">
                      <children>
                         <Separator orientation="VERTICAL" prefHeight="200.0" />
-                        <TextField fx:id="balance_start_tf" onAction="#filter_btn_action" prefHeight="25.0" prefWidth="70.0" />
+                        <TextField fx:id="credit_start_tf" onAction="#filter_btn_action" prefHeight="25.0" prefWidth="70.0" />
                         <Label styleClass="secondary_labels" text="&lt; النقاط &lt;" />
-                        <TextField fx:id="balance_end_tf" onAction="#filter_btn_action" prefHeight="25.0" prefWidth="70.0" />
+                        <TextField fx:id="credit_end_tf" onAction="#filter_btn_action" prefHeight="25.0" prefWidth="70.0" />
                      </children>
                   </HBox>
                   <HBox spacing="5.0" GridPane.columnIndex="1">
@@ -124,7 +124,7 @@
               <columns>
                 <TableColumn fx:id="cus_name_col" prefWidth="217.0" text="اسم العميل" />
                 <TableColumn fx:id="cus_phone_col" minWidth="0.0" prefWidth="167.0" text="رقم التليفون" />
-                  <TableColumn fx:id="cus_balance_col" prefWidth="114.0" text="عدد النقاط" />
+                  <TableColumn fx:id="cus_credit_col" prefWidth="114.0" text="عدد النقاط" />
                   <TableColumn fx:id="cus_exp_col" prefWidth="198.0" text="تاريخ الانتهاء" />
               </columns>
             </TableView>
