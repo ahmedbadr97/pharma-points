@@ -37,7 +37,7 @@ public class Login {
             System.out.println("Welcome");
            Home home= new Home(logged_in_user);
            home.showStage();
-            Main.appSettings=new AppSettings(logged_in_user);
+
         }
         catch (SQLException s)
         {
@@ -48,6 +48,14 @@ public class Login {
             new Alerts(d.getMessage(), Alert.AlertType.ERROR);
             login_password_pf.clear();
         }
+        try {
+            Main.appSettings.loadAppSettings(scene_main.getLogged_in_user());
+        } catch (Exception e) {
+            new Alerts(e.getMessage()+" unable to load app settings .. app will shutdown", Alert.AlertType.ERROR);
+            Main.shutdownSystem();
+
+        }
+
     }
 
     @FXML

@@ -12,11 +12,16 @@ public class AppSettings {
     private CreditExpirySettings creditExpirySettings;
     private SaleHistory current_sale;
 
-    public AppSettings(SystemUser logged_in_user) throws SQLException, DataNotFound {
-        this.logged_in_user = logged_in_user;
+    public AppSettings() {
+        //TODO load server ip from config file
+    }
+    public void loadAppSettings(SystemUser logged_in_user)throws SQLException,DataNotFound
+    {
+        this.logged_in_user=logged_in_user;
         this.current_sale= SystemConfiguration.getCurrentSale();
         this.creditExpirySettings=SystemConfiguration.get_CreditExpirySettings();
-        //TODO load server ip from config file
+
+
     }
 
     public SystemUser getLogged_in_user() {
@@ -43,5 +48,17 @@ public class AppSettings {
             this.years = years;
             this.months = months;
             this.days = days;
+        }
+
+        public int getYears() {
+            return years;
+        }
+
+        public int getMonths() {
+            return months;
+        }
+
+        public int getDays() {
+            return days;
         }
     }}

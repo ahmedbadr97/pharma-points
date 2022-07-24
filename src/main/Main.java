@@ -6,6 +6,7 @@ import database.DBStatement;
 import database.DBconnection;
 import database.entities.ClientComputer;
 import database.entities.Customer;
+import database.entities.SystemUser;
 import exceptions.DataNotFound;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -33,13 +34,16 @@ public class Main extends Application {
         Main.mainStage=primaryStage;
         primaryStage.setTitle("Fayed Pharmacy");
         mainThreadsPool= Executors.newCachedThreadPool();
+        appSettings=new AppSettings();
+        //TODO get saved server ip , pass it to db connection or make db connection use it directly
         dBconnection=new DBconnection("127.0.0.1");
         dBconnection.Connect();
         Login login=new Login();
         login.showStage();
 
-
-
-
+    }
+    public static void shutdownSystem()
+    {
+        System.exit(-1);
     }
 }

@@ -24,6 +24,14 @@ public class DateTime implements Comparable<DateTime> {
     public DateTime() {
         localDateTime = LocalDateTime.now();
     }
+    public void add_to_date(int years,int months,int days){
+        this.localDateTime=this.localDateTime.plusYears(years);
+        this.localDateTime=this.localDateTime.plusMonths(months);
+        this.localDateTime=this.localDateTime.plusDays(days);
+
+
+
+    }
 
 
     public static DateTime getDateTimeFromDatePicker(DatePicker datePicker, LocalTime time) {
