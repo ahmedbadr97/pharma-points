@@ -162,6 +162,11 @@ public class CustomerSearch {
                 if (credit_end<0)
                     throw new NumberFormatException();
             }
+            if(credit_end<credit_start)
+            {
+                new Alerts("نهايه فتره النقاط اكبر من البدايه", Alert.AlertType.ERROR);
+                return;
+            }
 
 
         }
@@ -199,6 +204,7 @@ public class CustomerSearch {
 
     @FXML
     void search_btn_action(ActionEvent event) {
+
         String cus_search_value=cus_search_tf.getText();
         if (cus_search_value ==null || cus_search_value.isEmpty()){
             new Alerts("برجاء كتابه بيانات البحث اولا", Alert.AlertType.ERROR);
@@ -251,6 +257,7 @@ public class CustomerSearch {
 
     }
     private void update_cusTv_data(ArrayList<Customer> customerArrayList){
+        customers_tv_list.clear();
         customers_tv_list.addAll(customerArrayList);
         tv_cnt_lb.setText(Integer.toString(customerArrayList.size()));
     }

@@ -74,8 +74,13 @@
                   <HBox alignment="CENTER_LEFT" prefHeight="64.0" prefWidth="225.0" spacing="5.0" GridPane.rowIndex="1">
                      <children>
                         <Separator orientation="VERTICAL" prefHeight="200.0" />
+                        <Label styleClass="secondary_labels" text="من" />
                         <TextField fx:id="credit_start_tf" onAction="#filter_btn_action" prefHeight="25.0" prefWidth="70.0" />
-                        <Label styleClass="secondary_labels" text="&lt; النقاط &lt;" />
+                        <Label styleClass="secondary_labels" text="الى">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
                         <TextField fx:id="credit_end_tf" onAction="#filter_btn_action" prefHeight="25.0" prefWidth="70.0" />
                      </children>
                   </HBox>
