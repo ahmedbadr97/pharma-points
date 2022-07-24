@@ -105,7 +105,8 @@ public class SystemConfiguration implements TablesOperations<SystemConfiguration
     }
 
     private static CreditExpirySettings fetch_credit_resultSet(ResultSet r) throws SQLException {
-        String data[] = r.getString(1).split(",");
+        String s=r.getString(3);
+        String data[] =s.split(",");
         int years = Integer.parseInt(data[0]);
         int months = Integer.parseInt(data[1]);
         int days = Integer.parseInt(data[2]);

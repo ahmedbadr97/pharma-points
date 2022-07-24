@@ -2,6 +2,7 @@ package database.entities;
 
 import database.DBStatement;
 import exceptions.DataNotFound;
+import main.AppSettings;
 import main.Main;
 import utils.DateTime;
 
@@ -150,6 +151,14 @@ public class Customer implements TablesOperations<Customer>{
             throw new DataNotFound("no customer found with this name "+ name);
         return customers;
     }
+    public void systemSetExpiryDate(){
+        DateTime expiry_date=new DateTime();
+        AppSettings.CreditExpirySettings creditExpirySettings=Main.appSettings.getCreditExpirySettings();
+        int years=creditExpirySettings.getYears(),months=creditExpirySettings.getMonths(),days=creditExpirySettings.getDays();
+        expiry_date.add_to_date(years,months,days);
+        this.expiry_date=expiry_date;
+
+    }
 
     public static ArrayList<Customer> getCustomersBy_CreditAndExpiry(DateTime from, DateTime to, int credit_start, int credit_end) throws SQLException,DataNotFound {
         ArrayList<Customer> customers=new ArrayList<>();
@@ -221,7 +230,7 @@ public class Customer implements TablesOperations<Customer>{
     @Override
     public DBStatement<Customer> addRow()  {
         // CUS_ID CUS_NAME CUS_PHONE CUS_BARCODE, CUS_ADDRESS ,CUS_ACTIVE_CREDIT,CUS_ARCHIVED_CREDIT , EXPIRY_DATE <-- 7 cols
-        String sql_statement="INSERT INTO CUSTOMER VALUES(?,?,?,?,?,?,?,?)";
+        String sql_statement="INSERT INTO CUSTOMER VALUES(?,?,?,?,?,?,?,TO_TIMESTAMP(?,'YYYY-MM-DD HH24:MI:SS.FF'))";
         DBStatement<Customer> dbStatement=new DBStatement<Customer>(sql_statement,this,DBStatement.Type.ADD) {
             @Override
             public void statement_initialization() throws SQLException {
