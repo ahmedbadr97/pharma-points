@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import scenes.main.Alerts;
+import scenes.main.NewCustomer;
 import utils.DateTime;
 
 import java.sql.SQLException;
@@ -245,7 +246,8 @@ public class CustomerSearch {
     }
     @FXML
     void new_customer_btn_action(ActionEvent event) {
-
+        new NewCustomer().showStage();
+        //TODO after save settings go to customer data
 
     }
     private void update_cusTv_data(ArrayList<Customer> customerArrayList){
