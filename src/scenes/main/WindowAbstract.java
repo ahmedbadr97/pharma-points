@@ -15,6 +15,7 @@ public abstract class WindowAbstract<windowController> {
   private   FXMLLoader loader;
   private Parent parent;
   private windowController controller;
+  //TODO add update screen method
     public WindowAbstract() {
         stage = new Stage(){
             @Override
@@ -46,7 +47,7 @@ public abstract class WindowAbstract<windowController> {
     }
     public void loadFxmlOnly(String fxmlfileName,int width,int hight){
         try {
-            loader = FMXLResourcesLoader.FXML(fxmlfileName + ".scenes.fxml");
+            loader = FMXLResourcesLoader.FXML(fxmlfileName + ".fxml");
             parent = loader.load();
             controller = loader.getController();
         }

@@ -62,9 +62,11 @@ public class NewCustomer {
             new Alerts("برجاء كتابه ارقم التليفون ارقام فقط", Alert.AlertType.ERROR);
             return;
         }
-
-        String cus_barcode=cus_barcode_tf.getText();
-        String cus_address=cus_address_tf.getText();
+        String cus_barcode=null,cus_address=null;
+        if(cus_barcode_tf.getText()!=null && !cus_barcode_tf.getText().isEmpty())
+             cus_barcode=cus_barcode_tf.getText();
+        if(cus_address_tf.getText()!=null && !cus_address_tf.getText().isEmpty())
+             cus_address=cus_address_tf.getText();
 
         Customer new_customer=new Customer(cus_name,cus_phone,cus_barcode,cus_address);
         new_customer.systemSetExpiryDate();

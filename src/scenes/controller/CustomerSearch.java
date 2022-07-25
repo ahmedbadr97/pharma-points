@@ -73,19 +73,15 @@ public class CustomerSearch {
     private GridPane cus_edit_admin_panel;
 
 
-
-
-
-
     private scenes.main.CustomerSearch main_screen;
     private ObservableList<Customer> customers_tv_list;
 
-    public void init(scenes.main.CustomerSearch main_screen){
-        this.main_screen=main_screen;
+    public void init(scenes.main.CustomerSearch main_screen) {
+        this.main_screen = main_screen;
 
         // --------------initialize combo boxes----------------//
         // search with combo box
-        List<SearchWith> searchWithList=Arrays.asList(SearchWith.values());
+        List<SearchWith> searchWithList = Arrays.asList(SearchWith.values());
         cus_search_cb.setItems(FXCollections.observableList(searchWithList));
         cus_search_cb.setValue(SearchWith.CUSTOMER_BARCODE);
         cus_search_cb.setOnAction(event -> {
@@ -93,10 +89,9 @@ public class CustomerSearch {
         });
 
         // Edit Customer combo box
-        List<EditCustomer> editCustomers=Arrays.asList(EditCustomer.values());
+        List<EditCustomer> editCustomers = Arrays.asList(EditCustomer.values());
         edit_customers_cb.setItems(FXCollections.observableList(editCustomers));
         edit_customers_cb.setValue(EditCustomer.EXPIRY_DATE);
-
 
 
         //--------------- initialize DatePickers----------- //
@@ -109,12 +104,10 @@ public class CustomerSearch {
         cus_table_init();
 
 
-
-
     }
 
-    private void cus_table_init(){
-        customers_tv_list=FXCollections.observableArrayList();
+    private void cus_table_init() {
+        customers_tv_list = FXCollections.observableArrayList();
         cus_name_col.setCellValueFactory((new PropertyValueFactory<>("name")));
         cus_phone_col.setCellValueFactory((new PropertyValueFactory<>("phone")));
         cus_credit_col.setCellValueFactory((new PropertyValueFactory<>("active_credit")));
@@ -132,12 +125,10 @@ public class CustomerSearch {
 
     @FXML
     void filter_by_expiry_cb_action(ActionEvent event) {
-        if (filter_by_expiry_cb.isSelected())
-        {
+        if (filter_by_expiry_cb.isSelected()) {
             exp_to_db.setDisable(false);
             exp_from_db.setDisable(false);
-        }
-        else {
+        } else {
             exp_to_db.setDisable(true);
             exp_from_db.setDisable(true);
         }
@@ -146,51 +137,44 @@ public class CustomerSearch {
     @FXML
     void filter_btn_action(ActionEvent event) {
         customers_tv_list.clear();
-        ArrayList<Customer> filterCustomers=null;
-        int credit_start=-1,credit_end=-1;
+        ArrayList<Customer> filterCustomers = null;
+        int credit_start = -1, credit_end = -1;
 
         try {
-            if (credit_start_tf.getText()!=null&&!credit_start_tf.getText().isEmpty())
-            {
-                credit_start=Integer.parseInt(credit_start_tf.getText());
-                if (credit_start<0)
+            if (credit_start_tf.getText() != null && !credit_start_tf.getText().isEmpty()) {
+                credit_start = Integer.parseInt(credit_start_tf.getText());
+                if (credit_start < 0)
                     throw new NumberFormatException();
             }
-            if (credit_end_tf.getText()!=null&&!credit_end_tf.getText().isEmpty())
-            {
-                credit_end=Integer.parseInt(credit_end_tf.getText());
-                if (credit_end<0)
+            if (credit_end_tf.getText() != null && !credit_end_tf.getText().isEmpty()) {
+                credit_end = Integer.parseInt(credit_end_tf.getText());
+                if (credit_end < 0)
                     throw new NumberFormatException();
             }
-            if(credit_end<credit_start)
-            {
+            if (credit_end < credit_start) {
                 new Alerts("نهايه فتره النقاط اكبر من البدايه", Alert.AlertType.ERROR);
                 return;
             }
 
 
-        }
-        catch (NumberFormatException nf)
-        {
+        } catch (NumberFormatException nf) {
             new Alerts("النقاط يجب ان تكون ارقام فقط", Alert.AlertType.ERROR);
             return;
         }
-        DateTime fromDateTime=null,toDateTime=null;
+        DateTime fromDateTime = null, toDateTime = null;
 
-        if (filter_by_expiry_cb.isSelected())
-        {
-            fromDateTime=DateTime.getDateTimeFromDatePicker(exp_from_db, LocalTime.MIN);
-            toDateTime=DateTime.getDateTimeFromDatePicker(exp_to_db, LocalTime.MAX);
+        if (filter_by_expiry_cb.isSelected()) {
+            fromDateTime = DateTime.getDateTimeFromDatePicker(exp_from_db, LocalTime.MIN);
+            toDateTime = DateTime.getDateTimeFromDatePicker(exp_to_db, LocalTime.MAX);
         }
         try {
-            filterCustomers=Customer.getCustomersBy_CreditAndExpiry(fromDateTime,toDateTime,credit_start,credit_end);
+            filterCustomers = Customer.getCustomersBy_CreditAndExpiry(fromDateTime, toDateTime, credit_start, credit_end);
         } catch (SQLException e) {
             new Alerts(e);
         } catch (DataNotFound e) {
             new Alerts(e);
         }
-        if (filterCustomers!= null)
-        {
+        if (filterCustomers != null) {
             update_cusTv_data(filterCustomers);
         }
 
@@ -205,16 +189,16 @@ public class CustomerSearch {
     @FXML
     void search_btn_action(ActionEvent event) {
 
-        String cus_search_value=cus_search_tf.getText();
-        if (cus_search_value ==null || cus_search_value.isEmpty()){
+        String cus_search_value = cus_search_tf.getText();
+        if (cus_search_value == null || cus_search_value.isEmpty()) {
             new Alerts("برجاء كتابه بيانات البحث اولا", Alert.AlertType.ERROR);
             Platform.runLater(() -> {
                 cus_search_tf.requestFocus();
             });
             return;
         }
-        ArrayList<Customer> searchCustomers=null;
-        Customer SearchCustomer=null;
+        ArrayList<Customer> searchCustomers = null;
+        Customer SearchCustomer = null;
         try {
 
             switch (cus_search_cb.getValue()) {
@@ -222,41 +206,41 @@ public class CustomerSearch {
                     searchCustomers = Customer.getCustomersByName(cus_search_tf.getText());
                     break;
                 case CUSTOMER_BARCODE:
-                    searchCustomers=new ArrayList<Customer>();
-                    SearchCustomer=Customer.getCustomer(cus_search_value, Customer.QueryFilter.BARCODE);
+                    SearchCustomer = Customer.getCustomer(cus_search_value, Customer.QueryFilter.BARCODE);
+
+
                     //TODO add search with phone and with barcode open customer screen
                     System.out.println(SearchCustomer);
                     break;
                 case CUSTOMER_PHONE:
-                    searchCustomers=new ArrayList<Customer>();
-                    SearchCustomer=Customer.getCustomer(cus_search_value, Customer.QueryFilter.PHONE);
+                    SearchCustomer = Customer.getCustomer(cus_search_value, Customer.QueryFilter.PHONE);
                     //TODO add search with phone and with barcode open customer screen
                     System.out.println(SearchCustomer);
                     break;
 
             }
-        }
-         catch (SQLException e) {
+        } catch (SQLException e) {
             new Alerts(e);
             return;
         } catch (DataNotFound e) {
             new Alerts(e);
             return;
         }
-        if (searchCustomers!= null)
-        {
+        if (searchCustomers != null) {
             update_cusTv_data(searchCustomers);
         }
 
 
     }
+
     @FXML
     void new_customer_btn_action(ActionEvent event) {
         new NewCustomer().showStage();
         //TODO after save settings go to customer data
 
     }
-    private void update_cusTv_data(ArrayList<Customer> customerArrayList){
+
+    private void update_cusTv_data(ArrayList<Customer> customerArrayList) {
         customers_tv_list.clear();
         customers_tv_list.addAll(customerArrayList);
         tv_cnt_lb.setText(Integer.toString(customerArrayList.size()));
@@ -265,37 +249,41 @@ public class CustomerSearch {
     // -------------------------------------choice boxes enums -------------------------------------//
 
     enum SearchWith {
-        CUSTOMER_BARCODE("باركود"),CUSTOMER_PHONE("رقم التليفون"),CUSTOMER_NAME("الاسم");
+        CUSTOMER_BARCODE("باركود"), CUSTOMER_PHONE("رقم التليفون"), CUSTOMER_NAME("الاسم");
         private final String label;
 
         SearchWith(String label) {
             this.label = label;
         }
+
         @Override
         public String toString() {
             return label;
         }
     }
-    enum PointsAre{
-        GREATER_THAN("اكبر من"),SMALLER_THAN("اصغر من");
+
+    enum PointsAre {
+        GREATER_THAN("اكبر من"), SMALLER_THAN("اصغر من");
         private final String label;
 
         PointsAre(String label) {
             this.label = label;
         }
+
         @Override
         public String toString() {
             return label;
         }
     }
 
-    enum EditCustomer{
-        EXPIRY_DATE("تاريخ الانتهاء"),TRANSFER_POINTS("تحويل نقاط");
+    enum EditCustomer {
+        EXPIRY_DATE("تاريخ الانتهاء"), TRANSFER_POINTS("تحويل نقاط");
         private final String label;
 
         EditCustomer(String label) {
             this.label = label;
         }
+
         @Override
         public String toString() {
             return label;

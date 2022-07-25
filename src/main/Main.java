@@ -10,6 +10,7 @@ import database.entities.SystemUser;
 import exceptions.DataNotFound;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import scenes.abstracts.CustomerDataPane;
 import scenes.main.Login;
 import scenes.main.NewCustomer;
 import utils.DateTime;
@@ -24,6 +25,7 @@ public class Main extends Application {
     public static ExecutorService mainThreadsPool;
     public static Stage mainStage;
     public static AppSettings appSettings;
+    //TODO add running screens
 
     public static void main(String[] args) throws SQLException {
         launch(args);
