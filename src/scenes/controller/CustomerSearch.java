@@ -69,6 +69,7 @@ public class CustomerSearch {
     private scenes.main.CustomerSearch main_screen;
     private ObservableList<Customer> customers_tv_list;
     private scenes.abstracts.GetCustomerBar getCustomerBar;
+    private Customer selectedCustomer;
 
     public void init(scenes.main.CustomerSearch main_screen) {
         this.main_screen = main_screen;
@@ -112,7 +113,20 @@ public class CustomerSearch {
         cus_credit_col.setCellValueFactory((new PropertyValueFactory<>("active_credit")));
         cus_exp_col.setCellValueFactory((new PropertyValueFactory<>("expiry_date")));
 
-        //TODO add row on click action
+        cus_tv.setRowFactory(tv->
+        {
+            TableRow<Customer> roww=new  TableRow<Customer>();
+            roww.setOnMouseClicked(event ->
+            {
+                if(roww.isEmpty()) return;
+                if (event.getClickCount()==2) {
+                    selectedCustomer=roww.getItem();
+                    if(main_screen.getOnCustomerSelection()!=null)
+                        main_screen.getOnCustomerSelection().customerSelectionAction();
+                }
+            });
+            return roww ;
+        } );
         cus_tv.setItems(customers_tv_list);
 
     }
@@ -192,6 +206,10 @@ public class CustomerSearch {
 
     }
 
+    public Customer getSelectedCustomer() {
+        return selectedCustomer;
+    }
+
     private void update_cusTv_data(ArrayList<Customer> customerArrayList) {
         customers_tv_list.clear();
         customers_tv_list.addAll(customerArrayList);
@@ -213,5 +231,6 @@ public class CustomerSearch {
             return label;
         }
     }
+
 }
 

@@ -49,7 +49,6 @@ public class CustomerDataPane {
 
     public void ini(scenes.abstracts.CustomerDataPane main_screen) {
         this.main_screen = main_screen;
-        loadCustomerData();
         edit_data_hbox.setVisible(main_screen.isMutable());
         setEditMode(false);
         cus_expiry_date_db.setDisable(true);

@@ -8,14 +8,16 @@ public class CustomerDataPane  extends WindowAbstract<scenes.controller.Customer
 {
     private final boolean mutable;
     DBOperations dbOperations;
-    private final Customer customer;
-    public CustomerDataPane(Customer customer, boolean mutable, DBOperations dbOperations) {
+    private  Customer customer;
+    public CustomerDataPane( boolean mutable, DBOperations dbOperations) {
         this.mutable=mutable;
         this.dbOperations=dbOperations;
-        this.customer=customer;
         load("CustomerDataPane",860,290);
         getController().ini(this);
+    }
 
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public Customer getCustomer() {
