@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import scenes.main.Alerts;
 import scenes.main.NewCustomer;
 import utils.DateTime;
@@ -22,16 +23,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CustomerSearch {
-
-    @FXML
-    private ComboBox<SearchWith> cus_search_cb;
-
-
-    @FXML
-    private TextField cus_search_tf;
-
-    @FXML
-    private Button cus_search_btn;
 
     @FXML
     private TextField credit_end_tf;
@@ -71,22 +62,32 @@ public class CustomerSearch {
 
     @FXML
     private GridPane cus_edit_admin_panel;
+    @FXML
+    private StackPane cus_search_stack;
 
 
     private scenes.main.CustomerSearch main_screen;
     private ObservableList<Customer> customers_tv_list;
+    private scenes.abstracts.GetCustomerBar getCustomerBar;
 
     public void init(scenes.main.CustomerSearch main_screen) {
         this.main_screen = main_screen;
 
-        // --------------initialize combo boxes----------------//
-        // search with combo box
-        List<SearchWith> searchWithList = Arrays.asList(SearchWith.values());
-        cus_search_cb.setItems(FXCollections.observableList(searchWithList));
-        cus_search_cb.setValue(SearchWith.CUSTOMER_BARCODE);
-        cus_search_cb.setOnAction(event -> {
-            cus_search_tf.clear();
+        // -------------- Search HBOX initialize---------------//
+
+        getCustomerBar = new scenes.abstracts.GetCustomerBar();
+        cus_search_stack.getChildren().add(getCustomerBar.getController().getSearchHbox());
+        getCustomerBar.setSearchWithNameAction(() -> {
+            update_cusTv_data(getCustomerBar.getController().getSearchCustomers());
         });
+        getCustomerBar.setSearchWithIdAction(()->{
+            //TODO open customer screen
+            System.out.println(getCustomerBar.getController().getSearchCustomer());
+
+        });
+
+
+        // --------------initialize combo boxes----------------//
 
         // Edit Customer combo box
         List<EditCustomer> editCustomers = Arrays.asList(EditCustomer.values());
@@ -98,9 +99,7 @@ public class CustomerSearch {
         exp_from_db.setValue(LocalDate.now());
         exp_to_db.setValue(LocalDate.now());
 
-        Platform.runLater(() -> {
-            cus_search_tf.requestFocus();
-        });
+
         cus_table_init();
 
 
@@ -187,53 +186,6 @@ public class CustomerSearch {
 
 
     @FXML
-    void search_btn_action(ActionEvent event) {
-
-        String cus_search_value = cus_search_tf.getText();
-        if (cus_search_value == null || cus_search_value.isEmpty()) {
-            new Alerts("برجاء كتابه بيانات البحث اولا", Alert.AlertType.ERROR);
-            Platform.runLater(() -> {
-                cus_search_tf.requestFocus();
-            });
-            return;
-        }
-        ArrayList<Customer> searchCustomers = null;
-        Customer SearchCustomer = null;
-        try {
-
-            switch (cus_search_cb.getValue()) {
-                case CUSTOMER_NAME:
-                    searchCustomers = Customer.getCustomersByName(cus_search_tf.getText());
-                    break;
-                case CUSTOMER_BARCODE:
-                    SearchCustomer = Customer.getCustomer(cus_search_value, Customer.QueryFilter.BARCODE);
-
-
-                    //TODO add search with phone and with barcode open customer screen
-                    System.out.println(SearchCustomer);
-                    break;
-                case CUSTOMER_PHONE:
-                    SearchCustomer = Customer.getCustomer(cus_search_value, Customer.QueryFilter.PHONE);
-                    //TODO add search with phone and with barcode open customer screen
-                    System.out.println(SearchCustomer);
-                    break;
-
-            }
-        } catch (SQLException e) {
-            new Alerts(e);
-            return;
-        } catch (DataNotFound e) {
-            new Alerts(e);
-            return;
-        }
-        if (searchCustomers != null) {
-            update_cusTv_data(searchCustomers);
-        }
-
-
-    }
-
-    @FXML
     void new_customer_btn_action(ActionEvent event) {
         new NewCustomer().showStage();
         //TODO after save settings go to customer data
@@ -247,34 +199,6 @@ public class CustomerSearch {
     }
 
     // -------------------------------------choice boxes enums -------------------------------------//
-
-    enum SearchWith {
-        CUSTOMER_BARCODE("باركود"), CUSTOMER_PHONE("رقم التليفون"), CUSTOMER_NAME("الاسم");
-        private final String label;
-
-        SearchWith(String label) {
-            this.label = label;
-        }
-
-        @Override
-        public String toString() {
-            return label;
-        }
-    }
-
-    enum PointsAre {
-        GREATER_THAN("اكبر من"), SMALLER_THAN("اصغر من");
-        private final String label;
-
-        PointsAre(String label) {
-            this.label = label;
-        }
-
-        @Override
-        public String toString() {
-            return label;
-        }
-    }
 
     enum EditCustomer {
         EXPIRY_DATE("تاريخ الانتهاء"), TRANSFER_POINTS("تحويل نقاط");
@@ -290,3 +214,4 @@ public class CustomerSearch {
         }
     }
 }
+

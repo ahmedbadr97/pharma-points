@@ -23,7 +23,7 @@ public class OrderDataPane extends WindowAbstract<scenes.controller.OrderDataPan
     }
     public OrderDataPane(Customer customer, DBOperations dbOperations) {
         //new order
-        load("OrderDataPane",860,585);
+        load("OrderDataPane",860,470);
         this.customer=customer;
         this.dbOperations=dbOperations;
         this.orderSettings=OrderSettings.newOrder;

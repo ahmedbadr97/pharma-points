@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="430.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scenes.controller.Home">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="340.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scenes.controller.Home">
    <top>
       <HBox alignment="CENTER_RIGHT" prefHeight="32.0" prefWidth="712.0" styleClass="title_bar" BorderPane.alignment="CENTER">
          <children>
@@ -38,19 +38,18 @@
                   <Image url="@../images/fayed_logo.png" />
                </image>
                <VBox.margin>
-                  <Insets bottom="10.0" right="35.0" />
+                  <Insets bottom="10.0" right="35.0" top="15.0" />
                </VBox.margin>
             </ImageView>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="pharmacy_title" text="صيداية  د. روداينا طارق فايد" />
             <HBox alignment="CENTER" prefHeight="64.0" prefWidth="712.0" spacing="30.0">
                <children>
                   <Button mnemonicParsing="false" onAction="#new_operation_btn_action" prefHeight="30.0" prefWidth="110.0" styleClass="home_buttons" text="فاتوره جديده" />
-                  <Button mnemonicParsing="false" onAction="#return_operation_btn_action" prefHeight="30.0" prefWidth="110.0" styleClass="home_buttons" text="مرتجع" />
                   <Button mnemonicParsing="false" onAction="#customer_data_btn_action" prefHeight="30.0" prefWidth="110.0" styleClass="home_buttons" text="بيانات العملاء" />
                   <Button mnemonicParsing="false" onAction="#transactions_log_btn_action" prefHeight="30.0" prefWidth="110.0" styleClass="home_buttons" text="متابعه التداولات" />
                </children>
                <VBox.margin>
-                  <Insets top="30.0" />
+                  <Insets top="15.0" />
                </VBox.margin>
             </HBox>
             <HBox alignment="CENTER" prefHeight="64.0" prefWidth="712.0" spacing="30.0">
@@ -67,7 +66,7 @@
       <URL value="@../css/home.css" />
    </stylesheets>
    <bottom>
-      <HBox alignment="CENTER_RIGHT" prefHeight="32.0" prefWidth="712.0" spacing="10.0" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER_RIGHT" prefHeight="24.0" prefWidth="710.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
             <Label text="متصل">
                <font>

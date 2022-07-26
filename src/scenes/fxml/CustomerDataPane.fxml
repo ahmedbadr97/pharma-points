@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="290.0" prefWidth="860.0" stylesheets="@../css/mainStyles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scenes.controller.CustomerDataPane">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="240.0" prefWidth="860.0" stylesheets="@../css/mainStyles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scenes.controller.CustomerDataPane">
    <children>
       <Label styleClass="primary_labels" text="بيانات العميل" />
       <Separator prefWidth="200.0" styleClass="title_bar">
@@ -21,7 +21,7 @@
             <Insets bottom="15.0" />
          </VBox.margin>
       </Separator>
-      <GridPane hgap="10.0" prefHeight="93.0" prefWidth="853.0" vgap="10.0">
+      <GridPane hgap="10.0" prefHeight="77.0" prefWidth="855.0" vgap="10.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="679.0" minWidth="10.0" prefWidth="186.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="679.0" minWidth="10.0" prefWidth="147.0" />
@@ -96,7 +96,7 @@
             <Insets bottom="10.0" />
          </VBox.margin>
       </VBox>
-      <GridPane hgap="10.0" prefHeight="78.0" prefWidth="719.0" vgap="10.0">
+      <GridPane hgap="10.0" prefHeight="64.0" prefWidth="855.0" vgap="10.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="563.0" minWidth="10.0" prefWidth="242.0" />
             <ColumnConstraints hgrow="ALWAYS" maxWidth="619.0" minWidth="2.0" prefWidth="289.0" />

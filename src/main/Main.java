@@ -41,30 +41,30 @@ public class Main extends Application {
         //TODO get saved server ip , pass it to db connection or make db connection use it directly
         dBconnection=new DBconnection("127.0.0.1");
         dBconnection.Connect();
-//        Login login=new Login();
-//        login.showStage();
-        SystemUser user=SystemUser.get_user("badr","203046");
-        appSettings.loadAppSettings(user);
-        Customer customer=Customer.getCustomer("01114242654", Customer.QueryFilter.PHONE);
-        DBOperations dbOperations=new DBOperations();
-        CustomerDataPane customerDataPane=new CustomerDataPane(customer,true,dbOperations);
-        customerDataPane.showStage();
-
-        OrderDataPane orderDataPane=new OrderDataPane(customer,dbOperations){
-            @Override
-            public void closeAction() {
-                try {
-                    getDbOperations().execute();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-
-        orderDataPane.showStage();
-        orderDataPane.getOrder().addOnAddAction(()->{
-            customerDataPane.getController().loadCustomerData();
-        });
+        Login login=new Login();
+        login.showStage();
+//        SystemUser user=SystemUser.get_user("badr","203046");
+//        appSettings.loadAppSettings(user);
+//        Customer customer=Customer.getCustomer("01114242654", Customer.QueryFilter.PHONE);
+//        DBOperations dbOperations=new DBOperations();
+//        CustomerDataPane customerDataPane=new CustomerDataPane(customer,true,dbOperations);
+//        customerDataPane.showStage();
+//
+//        OrderDataPane orderDataPane=new OrderDataPane(customer,dbOperations){
+//            @Override
+//            public void closeAction() {
+//                try {
+//                    getDbOperations().execute();
+//                } catch (SQLException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        };
+//
+//        orderDataPane.showStage();
+//        orderDataPane.getOrder().addOnAddAction(()->{
+//            customerDataPane.getController().loadCustomerData();
+//        });
 
     }
     public static void shutdownSystem()
