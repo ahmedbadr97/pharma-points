@@ -8,7 +8,7 @@ public class CustomerSearch extends WindowAbstract<scenes.controller.CustomerSea
     }
 
     @Override
-    public void CloseAction() {
+    public void closeAction() {
 
     }
 }

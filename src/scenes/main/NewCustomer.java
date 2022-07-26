@@ -8,7 +8,7 @@ public class NewCustomer extends WindowAbstract<scenes.controller.NewCustomer>{
     }
 
     @Override
-    public void CloseAction() {
+    public void closeAction() {
 
     }
 }

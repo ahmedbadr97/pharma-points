@@ -106,7 +106,7 @@
                            </HBox.margin>
                         </Label>
                         <DatePicker fx:id="exp_to_db" prefHeight="25.0" prefWidth="100.0" />
-                        <CheckBox fx:id="filter_by_expiry_cb" mnemonicParsing="false" onAction="#filter_by_expiry_cb_action" selected="true">
+                        <CheckBox fx:id="filter_by_expiry_cb" mnemonicParsing="false" onAction="#filter_by_expiry_cb_action">
                            <HBox.margin>
                               <Insets left="10.0" />
                            </HBox.margin>

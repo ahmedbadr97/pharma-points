@@ -21,7 +21,7 @@ public abstract class WindowAbstract<windowController> {
             @Override
             public void close() {
                 super.close();
-                CloseAction();
+                closeAction();
             }
         };
     }
@@ -33,7 +33,7 @@ public abstract class WindowAbstract<windowController> {
             scene = new Scene(parent, width, hight);
   //          stage.getIcons().add(ImageLoader.LoadImage("exeicon.ico"));
             stage.setScene(scene);
-            stage.setOnCloseRequest(event -> CloseAction());
+            stage.setOnCloseRequest(event -> closeAction());
             stage.setMaxWidth(width+40);
             stage.setMaxHeight(hight+40);
             controller = loader.getController();
@@ -66,7 +66,7 @@ public abstract class WindowAbstract<windowController> {
             scene = new Scene(parent, width, hight);
             stage.getIcons().add(new Image("file:src/Images/exeicon.ico"));
             stage.setScene(scene);
-            stage.setOnCloseRequest(event -> CloseAction());
+            stage.setOnCloseRequest(event -> closeAction());
             controller = loader.getController();
         }
         catch (Exception e1)
@@ -114,8 +114,8 @@ public abstract class WindowAbstract<windowController> {
     }
 
     public  void closeStage(){
-        CloseAction();
+        closeAction();
         this.stage.close();
     }
-    public abstract void CloseAction();
+    public abstract void closeAction();
 }

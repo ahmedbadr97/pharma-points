@@ -11,7 +11,7 @@ public class Login extends WindowAbstract<scenes.controller.Login>{
         this.getController().init(this);
     }
     @Override
-    public void CloseAction() {
+    public void closeAction() {
 
     }
 

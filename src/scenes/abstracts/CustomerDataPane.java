@@ -13,7 +13,7 @@ public class CustomerDataPane  extends WindowAbstract<scenes.controller.Customer
         this.mutable=mutable;
         this.dbOperations=dbOperations;
         this.customer=customer;
-        loadFxmlOnly("CustomerDataPane",860,290);
+        load("CustomerDataPane",860,290);
         getController().ini(this);
 
     }
@@ -32,7 +32,7 @@ public class CustomerDataPane  extends WindowAbstract<scenes.controller.Customer
     }
 
     @Override
-    public void CloseAction() {
+    public void closeAction() {
 
     }
 }

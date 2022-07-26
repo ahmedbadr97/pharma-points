@@ -70,7 +70,7 @@ public class CustomerDataPane {
         if (customer.getAddress() != null)
             cus_address_tf.setText(customer.getAddress());
 
-        cus_active_credit_lb.setText(Integer.toString((int) customer.getActive_credit()));
+        cus_active_credit_lb.setText(Float.toString(customer.getActive_credit()));
         if (customer.getExpiry_date() != null)
             cus_expiry_date_db.setValue(customer.getExpiry_date().getLocalDate());
 

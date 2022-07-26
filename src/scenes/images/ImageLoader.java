@@ -20,12 +20,12 @@ public class ImageLoader {
 
     public static Image LoadImage(String imageName)
     {
-       return new Image("Images/"+imageName);
+       return new Image("scenes/images/"+imageName);
 
     }
     public static Image LoadImage(String imageName,int width,int height)
     {
-        return new Image("Images/"+imageName);
+        return new Image("scenes/images/"+imageName);
 
     }
     public static ImageView getIcon(String iconName,int size)

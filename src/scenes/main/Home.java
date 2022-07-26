@@ -16,7 +16,7 @@ public class Home extends WindowAbstract<scenes.controller.Home>{
     }
 
     @Override
-    public void CloseAction() {
+    public void closeAction() {
 
     }
 }

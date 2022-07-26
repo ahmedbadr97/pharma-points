@@ -89,13 +89,6 @@ public class Customer implements TablesOperations<Customer>{
         return archived_credit;
     }
 
-    public void setArchived_credit(float archived_credit) {
-        this.archived_credit = archived_credit;
-    }
-
-    public void setActive_credit(float active_credit) {
-        this.active_credit = active_credit;
-    }
     public static Customer getCustomer(String value,QueryFilter filter) throws SQLException, DataNotFound {
         String sql_statement="SELECT *  FROM CUSTOMER WHERE ";
         switch (filter){
@@ -300,6 +293,21 @@ public class Customer implements TablesOperations<Customer>{
             }
         };
         return dbStatement;
+    }
+    public void updateCustomerCredit() throws SQLException{
+        // CUS_ID CUS_NAME CUS_PHONE CUS_BARCODE, CUS_ADDRESS ,CUS_ACTIVE_CREDIT,CUS_ARCHIVED_CREDIT , EXPIRY_DATE <-- 8 cols
+        String sql_statement="UPDATE CUSTOMER set CUS_ACTIVE_CREDIT=?,CUS_ARCHIVED_CREDIT=? where CUS_ID=?";
+        PreparedStatement p=Main.dBconnection.getConnection().prepareStatement(sql_statement);
+        p.setFloat(1,getActive_credit());
+        p.setFloat(2,getArchived_credit());
+        p.setInt(3,getId());
+        p.execute();
+        p.close();
+    }
+    public void addToActiveCredit(float value)
+    {
+        this.active_credit+=value;
+
     }
 
     @Override
