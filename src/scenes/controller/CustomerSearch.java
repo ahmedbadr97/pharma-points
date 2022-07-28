@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import scenes.abstracts.GetCustomerBar;
 import scenes.main.Alerts;
 import scenes.main.NewCustomer;
 import utils.DateTime;
@@ -210,7 +211,11 @@ public class CustomerSearch {
         return selectedCustomer;
     }
 
-    private void update_cusTv_data(ArrayList<Customer> customerArrayList) {
+    public GetCustomerBar getGetCustomerBar() {
+        return getCustomerBar;
+    }
+
+    public void update_cusTv_data(ArrayList<Customer> customerArrayList) {
         customers_tv_list.clear();
         customers_tv_list.addAll(customerArrayList);
         tv_cnt_lb.setText(Integer.toString(customerArrayList.size()));

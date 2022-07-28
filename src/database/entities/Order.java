@@ -84,6 +84,14 @@ public class Order implements TablesOperations<Order>{
         getCustomer().addToActiveCredit(customer_credit);
         executeOnAddTransActions();
     }
+    private void changeOrderTotal(float trans_amount, OrderTransaction.TransactionType transactionType)
+    {
+
+    }
+    public void removeTransaction(OrderTransaction orderTransaction)
+    {
+
+    }
 
     public Customer getCustomer() {
         return customer;

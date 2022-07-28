@@ -136,7 +136,7 @@ public class Customer implements TablesOperations<Customer>{
         ArrayList<Customer> customers=new ArrayList<>();
         String sql_statement="SELECT *  FROM CUSTOMER WHERE CUS_NAME LIKE ?";
         PreparedStatement p=Main.dBconnection.getConnection().prepareStatement(sql_statement);
-        p.setString(1,name);
+        p.setString(1,name+"%");
         ResultSet r=p.executeQuery();
         while (r.next())
             customers.add(fetch_resultSet(r));

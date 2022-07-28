@@ -51,6 +51,8 @@ public class DBOperations {
                 statement.execute_statement();
             }
             Main.dBconnection.getConnection().commit();
+            operations_queue.clear();
+
         }
         catch (SQLException sqlException)
         {
@@ -58,4 +60,9 @@ public class DBOperations {
             throw sqlException;
         }
     }
+    public void clear()
+    {
+        operations_queue.clear();
+    }
+
 }

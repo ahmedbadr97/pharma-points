@@ -77,18 +77,44 @@ public class OrderDataPane {
     private Button save_data_btn;
     private scenes.abstracts.OrderDataPane main_screen;
     private ObservableList<OrderDataTableRow> transactions_tv_list;
+    float cusBalanceCredit;
     public void ini(scenes.abstracts.OrderDataPane main_screen)
     {
         this.main_screen=main_screen;
+        cusBalanceCredit =main_screen.getOrder().getCustomer().getActive_credit();
         OrderSettings orderSettings=main_screen.getOrderSettings();
         edit_data_hbox.setVisible(orderSettings== OrderSettings.viewAndEdit);
         if(orderSettings==OrderSettings.newOrder)
             trans_type_cb.getItems().addAll(TransactionType.money_in,TransactionType.credit_out);
         else if(orderSettings==OrderSettings.returnOrder)
             trans_type_cb.getItems().addAll(TransactionType.money_out,TransactionType.credit_in);
+        trans_type_cb.getSelectionModel().select(0);
+
+
+        //----------------------------------------------------//
+        trans_tv_ini();
+
+
+    }
+    public void clearData()
+    {
+        order_notes_ta.clear();
+        money_in_lb.setText(Integer.toString(0));
+        money_out_lb.setText(Integer.toString(0));
+        total_money_lb.setText(Integer.toString(0));
+
+        total_credit_in_lb.setText(Integer.toString(0));
+        total_credit_out_lb.setText(Integer.toString(0));
+        total_credit_lb.setText(Integer.toString(0));
+        trans_amount_tf.clear();
+        transactions_tv_list.clear();
+
+
+
+    }
+    public void initializeOrder(){
         String greenTextStyle="green_text";
         String redTextStyle="red_text";
-
         // -------initialize on add transaction to order calculating total credit and money-----------
         main_screen.getOrder().addOnAddAction(()->{
             Order current_order=main_screen.getOrder();
@@ -126,10 +152,9 @@ public class OrderDataPane {
 
 
         });
-        //----------------------------------------------------//
-        trans_tv_ini();
-
-
+        Platform.runLater(()->{
+            trans_amount_tf.requestFocus();
+        });
     }
     public void trans_tv_ini()
     {
@@ -213,7 +238,14 @@ public class OrderDataPane {
     void save_order_Data(ActionEvent event) {
 
     }
-    public static class OrderDataTableRow{
+    public String getOrderNotes()
+    {
+        if(order_notes_ta.getText()!=null||!order_notes_ta.getText().isEmpty())
+            return order_notes_ta.getText();
+        else
+            return null;
+    }
+    public  class OrderDataTableRow{
         OrderTransaction transaction;
         Button remove_btn;
 
@@ -221,6 +253,15 @@ public class OrderDataPane {
             this.transaction = transaction;
             this.remove_btn=new Button();
             ImageLoader.icoButton(remove_btn,"deleteButton.png",10);
+        }
+        public void removeBtnAction()
+        {
+            OrderSettings orderSettings=main_screen.getOrderSettings();
+            if (orderSettings==OrderSettings.newOrder)
+            {
+
+
+            }
         }
 
         public int getTrans_id() {

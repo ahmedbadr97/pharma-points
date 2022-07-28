@@ -110,6 +110,26 @@ public class GetCustomerBar {
             main_scene.getSearchWithNameAction().searchAction();
 
     }
+    public void searchByNameOnly()
+    {
+       cus_search_cb.setValue(SearchWith.CUSTOMER_NAME);
+       cus_search_cb.setDisable(true);
+        cus_search_cb.setStyle("-fx-opacity: 1");
+        cus_search_cb.getEditor().setStyle("-fx-opacity: 1");
+    }
+    public void updateSearchTf(String value)
+    {
+        cus_search_tf.setText(value);
+    }
+    public void clearData()
+    {
+        cus_search_tf.clear();
+        cus_search_cb.setValue(SearchWith.CUSTOMER_BARCODE);
+        Platform.runLater(()->{
+            cus_search_tf.requestFocus();
+        });
+    }
+
 
     public ArrayList<Customer> getSearchCustomers() {
         return searchCustomers;

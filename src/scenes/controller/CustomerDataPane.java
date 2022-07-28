@@ -74,6 +74,17 @@ public class CustomerDataPane {
             cus_expiry_date_db.setValue(customer.getExpiry_date().getLocalDate());
 
     }
+    public void clearData()
+    {
+        cus_name_tf.clear();
+        cus_phone_tf.clear();
+        cus_barcode_tf.clear();
+        cus_address_tf.clear();
+        edit_data_hbox.setVisible(main_screen.isMutable());
+        setEditMode(false);
+        cus_expiry_date_db.setValue(null);
+
+    }
 
     public void setEditMode(boolean edit_mode) {
         //customer data fields

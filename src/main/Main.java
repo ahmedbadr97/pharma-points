@@ -14,6 +14,7 @@ import scenes.abstracts.CustomerDataPane;
 import scenes.abstracts.OrderDataPane;
 import scenes.main.Login;
 import scenes.main.NewCustomer;
+import scenes.main.NewOrder;
 import utils.DateTime;
 
 import java.sql.SQLException;
@@ -47,24 +48,8 @@ public class Main extends Application {
 //        appSettings.loadAppSettings(user);
 //        Customer customer=Customer.getCustomer("01114242654", Customer.QueryFilter.PHONE);
 //        DBOperations dbOperations=new DBOperations();
-//        CustomerDataPane customerDataPane=new CustomerDataPane(customer,true,dbOperations);
-//        customerDataPane.showStage();
-//
-//        OrderDataPane orderDataPane=new OrderDataPane(customer,dbOperations){
-//            @Override
-//            public void closeAction() {
-//                try {
-//                    getDbOperations().execute();
-//                } catch (SQLException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        };
-//
-//        orderDataPane.showStage();
-//        orderDataPane.getOrder().addOnAddAction(()->{
-//            customerDataPane.getController().loadCustomerData();
-//        });
+//        NewOrder newOrder=new NewOrder();
+//        newOrder.showStage();
 
     }
     public static void shutdownSystem()

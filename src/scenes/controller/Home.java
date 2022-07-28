@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import scenes.main.CustomerSearch;
+import scenes.main.NewOrder;
 
 public class Home {
     @FXML
@@ -21,7 +22,7 @@ public class Home {
 
     @FXML
     void customer_data_btn_action(ActionEvent event) {
-        customerSearchScene=new CustomerSearch();
+        customerSearchScene=new CustomerSearch(false);
         customerSearchScene.showStage();
 
     }
@@ -33,6 +34,7 @@ public class Home {
 
     @FXML
     void new_operation_btn_action(ActionEvent event) {
+        new NewOrder().showStage();
 
     }
 
