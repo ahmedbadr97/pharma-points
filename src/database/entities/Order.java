@@ -1,6 +1,7 @@
 package database.entities;
 
 import database.DBStatement;
+import exceptions.InvalidTransaction;
 import main.Main;
 import utils.DateTime;
 
@@ -52,44 +53,59 @@ public class Order implements TablesOperations<Order>{
             action.transactionAction();
         }
     }
-    public void addTransaction(OrderTransaction orderTransaction)
+    public void addTransaction(OrderTransaction orderTransaction)throws InvalidTransaction
+    {
+        changeOrderTotal(orderTransaction.getMoney_amount(),orderTransaction.getTrans_type());
+        orderTransactions.add(orderTransaction);
+
+        executeOnAddTransActions();
+    }
+    private void changeOrderTotal(float trans_amount, OrderTransaction.TransactionType transactionType)throws InvalidTransaction
     {
         float customer_credit=0;
-        float trans_amount=orderTransaction.getMoney_amount();
-
-        switch (orderTransaction.getTrans_type())
+        float total_credit_in_change=0,total_money_in_change=0,total_credit_out_change=0,total_money_out_change=0;
+        switch (transactionType)
         {
             case money_in:
-                total_money_in+=trans_amount;
+                if(total_money_in+trans_amount<0)
+                    throw new InvalidTransaction(InvalidTransaction.ErrorType.invalidMoneyIn);
+                total_money_in_change=trans_amount;
                 customer_credit=trans_amount*getOrderSale().getMoney_to_credit();
                 break;
             case credit_out:
-                total_credit_out+=trans_amount;
+                if(total_credit_out+trans_amount<0)
+                    throw new InvalidTransaction(InvalidTransaction.ErrorType.inValidCreditOut);
+                total_credit_out_change=trans_amount;
                 customer_credit=-trans_amount;
                 break;
             case credit_in:
-                total_credit_in+=trans_amount;
+                if(total_credit_in+trans_amount<0)
+                    throw new InvalidTransaction(InvalidTransaction.ErrorType.invalidCreditIn);
+                total_credit_in_change=trans_amount;
                 customer_credit=trans_amount;
                 break;
             case money_out:
-                total_money_out+=trans_amount;
+                if(total_money_out+trans_amount<0)
+                    throw new InvalidTransaction(InvalidTransaction.ErrorType.invalidMoneyOut);
+                total_money_out_change=trans_amount;
                 customer_credit=-trans_amount*getOrderSale().getMoney_to_credit();
                 break;
             case money_in_settlement:
-                total_money_in+=trans_amount;
+                total_money_in_change=trans_amount;
                 customer_credit=trans_amount;
 
         }
-        orderTransactions.add(orderTransaction);
         getCustomer().addToActiveCredit(customer_credit);
+        total_credit_in+=total_credit_in_change;
+        total_credit_out+=total_credit_out_change;
+        total_money_in+=total_money_in_change;
+        total_money_out+=total_money_out_change;
+    }
+    public void removeTransaction(OrderTransaction orderTransaction)throws InvalidTransaction
+    {
+        changeOrderTotal(-orderTransaction.getMoney_amount(),orderTransaction.getTrans_type());
+        orderTransactions.remove(orderTransaction);
         executeOnAddTransActions();
-    }
-    private void changeOrderTotal(float trans_amount, OrderTransaction.TransactionType transactionType)
-    {
-
-    }
-    public void removeTransaction(OrderTransaction orderTransaction)
-    {
 
     }
 

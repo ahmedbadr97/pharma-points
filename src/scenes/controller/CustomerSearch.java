@@ -165,7 +165,7 @@ public class CustomerSearch {
                 if (credit_end < 0)
                     throw new NumberFormatException();
             }
-            if (credit_end < credit_start) {
+            if (credit_end!=-1&&(credit_end < credit_start)) {
                 new Alerts("نهايه فتره النقاط اكبر من البدايه", Alert.AlertType.ERROR);
                 return;
             }

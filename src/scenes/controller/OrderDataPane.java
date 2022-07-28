@@ -3,6 +3,7 @@ package scenes.controller;
 import database.DBStatement;
 import database.entities.Order;
 import database.entities.OrderTransaction;
+import exceptions.InvalidTransaction;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -81,7 +82,6 @@ public class OrderDataPane {
     public void ini(scenes.abstracts.OrderDataPane main_screen)
     {
         this.main_screen=main_screen;
-        cusBalanceCredit =main_screen.getOrder().getCustomer().getActive_credit();
         OrderSettings orderSettings=main_screen.getOrderSettings();
         edit_data_hbox.setVisible(orderSettings== OrderSettings.viewAndEdit);
         if(orderSettings==OrderSettings.newOrder)
@@ -113,8 +113,10 @@ public class OrderDataPane {
 
     }
     public void initializeOrder(){
-        String greenTextStyle="green_text";
-        String redTextStyle="red_text";
+        String greenTextStyle="green_summary_field";
+        String redTextStyle="red_summary_field";
+        cusBalanceCredit =main_screen.getOrder().getCustomer().getActive_credit();
+
         // -------initialize on add transaction to order calculating total credit and money-----------
         main_screen.getOrder().addOnAddAction(()->{
             Order current_order=main_screen.getOrder();
@@ -123,12 +125,12 @@ public class OrderDataPane {
             float total_credit=(current_order.getTotal_credit_in()-current_order.getTotal_credit_out());
             if(total_credit<0)
             {
-                total_credit_lb.getStyleClass().remove(greenTextStyle);
+                total_credit_lb.getStyleClass().clear();
                 total_credit_lb.getStyleClass().add(redTextStyle);
                 total_credit*=-1;
             }
             else{
-                total_credit_lb.getStyleClass().remove(redTextStyle);
+                total_credit_lb.getStyleClass().clear();
                 total_credit_lb.getStyleClass().add(greenTextStyle);
             }
             total_credit_lb.setText(Float.toString(total_credit));
@@ -186,23 +188,33 @@ public class OrderDataPane {
         switch (orderTransaction.getTrans_type())
         {
             case money_in:
-                addMoneyInTransaction(orderTransaction);
+                try {
+                    addMoneyInTransaction(orderTransaction);
+                } catch (InvalidTransaction e) {
+                    //TODO handle exception
+                    new Alerts(e.getMessage(), Alert.AlertType.ERROR);
+                }
                 break;
             case credit_out:
-                addCreditOutTransaction(orderTransaction);
+                try {
+                    addCreditOutTransaction(orderTransaction);
+                } catch (InvalidTransaction e) {
+                    new Alerts(e.getMessage(), Alert.AlertType.ERROR);
+
+                }
                 break;
         }
         trans_amount_tf.clear();
 
     }
-    void addMoneyInTransaction(OrderTransaction transaction)
+    void addMoneyInTransaction(OrderTransaction transaction)throws InvalidTransaction
     {
         // no validation for adding credit to customer, credit added with current sale money to credit
         main_screen.getOrder().addTransaction(transaction);
         transactions_tv_list.add(new OrderDataTableRow(transaction));
         main_screen.getDbOperations().add(transaction, DBStatement.Type.ADD);
     }
-    void addCreditOutTransaction(OrderTransaction transaction)
+    void addCreditOutTransaction(OrderTransaction transaction)throws InvalidTransaction
     {
         // validation--> check there is enough balance to give to the customer
         if(transaction.getMoney_amount()>main_screen.getCustomer().getActive_credit())
@@ -252,15 +264,23 @@ public class OrderDataPane {
         public OrderDataTableRow(OrderTransaction transaction) {
             this.transaction = transaction;
             this.remove_btn=new Button();
+            remove_btn.setOnAction((actionEvent)->{removeBtnAction();});
             ImageLoader.icoButton(remove_btn,"deleteButton.png",10);
         }
         public void removeBtnAction()
         {
             OrderSettings orderSettings=main_screen.getOrderSettings();
-            if (orderSettings==OrderSettings.newOrder)
+            if(orderSettings==OrderSettings.newOrder)
             {
-
-
+                try{
+                    main_screen.getOrder().removeTransaction(transaction);
+                    transactions_tv_list.remove(this);
+                    main_screen.getDbOperations().remove(transaction, DBStatement.Type.DELETE);
+                }
+                catch (InvalidTransaction e)
+                {
+                    new Alerts(e.getMessage(), Alert.AlertType.ERROR);
+                }
             }
         }
 

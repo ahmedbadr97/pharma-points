@@ -2,6 +2,7 @@ package database.entities;
 
 import database.DBStatement;
 import exceptions.DataNotFound;
+import exceptions.InvalidTransaction;
 import main.AppSettings;
 import main.Main;
 import utils.DateTime;
@@ -304,8 +305,10 @@ public class Customer implements TablesOperations<Customer>{
         p.execute();
         p.close();
     }
-    public void addToActiveCredit(float value)
+    public void addToActiveCredit(float value)throws InvalidTransaction
     {
+        if(this.active_credit+value<0)
+            throw new InvalidTransaction(InvalidTransaction.ErrorType.noEnoughCusCredit);
         this.active_credit+=value;
 
     }
