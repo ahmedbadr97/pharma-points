@@ -125,6 +125,7 @@ public class Order implements TablesOperations<Order> {
             case money_in:
                 total_money_in+= trans_amount;
                 customer_credit = trans_amount * getOrderSale().getMoney_to_credit();
+                total_credit_in+=customer_credit;
                 break;
             case credit_out:
                 total_credit_out += trans_amount;
@@ -138,6 +139,7 @@ public class Order implements TablesOperations<Order> {
             case money_out:
                 total_money_out += trans_amount;
                 customer_credit = -trans_amount * getOrderSale().getMoney_to_credit();
+                total_credit_in-=customer_credit;
                 break;
             case money_in_settlement:
                 total_money_in+= trans_amount;
