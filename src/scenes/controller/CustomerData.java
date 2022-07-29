@@ -49,7 +49,6 @@ public class CustomerData {
     private scenes.abstracts.CustomerDataPane customerDataPane;
     private ObservableList<Order> orders_tv_list;
 
-
     public void ini(scenes.main.CustomerData main_screen)
     {
         this.main_screen=main_screen;

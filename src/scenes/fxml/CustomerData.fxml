@@ -45,11 +45,11 @@
                   <TableView fx:id="orders_tv" prefHeight="236.0" prefWidth="681.0">
                     <columns>
                       <TableColumn fx:id="order_id_col" prefWidth="75.0" text="رقم الفاتوره" />
-                      <TableColumn fx:id="total_money_in_col" prefWidth="75.0" text="صادر الخزينه" />
                         <TableColumn fx:id="total_money_out_col" prefWidth="75.0" text="وارد الخزينه" />
+                      <TableColumn fx:id="total_money_in_col" prefWidth="75.0" text="صادر الخزينه" />
                         <TableColumn fx:id="total_money_col" prefWidth="83.0" text="اجمالى الخزينه" />
-                        <TableColumn fx:id="total_credit_in_col" prefWidth="75.0" text="صادر النقاط" />
-                        <TableColumn fx:id="total_credit_out_col" prefWidth="75.0" text="وارد النقاط" />
+                        <TableColumn fx:id="total_credit_in_col" prefWidth="75.0" text="  وارد النقاط" />
+                        <TableColumn fx:id="total_credit_out_col" prefWidth="75.0" text="صادر النقاط" />
                         <TableColumn fx:id="total_Credit_Col" prefWidth="75.0" text="اجمالى النقاط" />
                         <TableColumn fx:id="order_time_col" prefWidth="145.0" text="الوقت / التاريخ" />
                     </columns>

@@ -133,13 +133,13 @@ public class OrderTransaction implements TablesOperations<OrderTransaction> {
             throw new DataNotFound("no order transactions found for this order id " + order.getOrder_id());
         return orderTransactions;
     }
-    private static OrderTransaction fetch_resultSet(ResultSet r)throws SQLException
-    {
-        String dateTimeStr=r.getString(5);
-        DateTime transactionDateTime=null;
-        if(dateTimeStr!=null &&!dateTimeStr.isEmpty())
-            transactionDateTime=DateTime.from_timeStamp(dateTimeStr);
-        return new OrderTransaction(r.getInt(1),r.getInt(2),TransactionType.fromDatabaseValue(r.getInt(3)),r.getFloat(4),transactionDateTime);
+
+    private static OrderTransaction fetch_resultSet(ResultSet r) throws SQLException {
+        String dateTimeStr = r.getString(5);
+        DateTime transactionDateTime = null;
+        if (dateTimeStr != null && !dateTimeStr.isEmpty())
+            transactionDateTime = DateTime.from_timeStamp(dateTimeStr);
+        return new OrderTransaction(r.getInt(1), r.getInt(2), TransactionType.fromDatabaseValue(r.getInt(3)), r.getFloat(4), transactionDateTime);
 
     }
 
@@ -165,13 +165,11 @@ public class OrderTransaction implements TablesOperations<OrderTransaction> {
         public static TransactionType fromDatabaseValue(int trans_type) {
             switch (trans_type) {
                 case 1:
-                    return TransactionType.credit_in;
+                    return TransactionType.credit_out;
                 case 2:
                     return TransactionType.money_out;
-                case 3:
-                    return TransactionType.credit_out;
                 case 4:
-                    return TransactionType.money_in_settlement;
+                    return TransactionType.credit_in;
                 default:
                     return TransactionType.money_in;
             }
