@@ -1,0 +1,10 @@
+.red_col_field{
+    -fx-text-fill: red;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+}
+.green_col_field{
+    -fx-text-fill: green;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+}
