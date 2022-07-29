@@ -45,7 +45,7 @@ public class Main extends Application {
         dBconnection.Connect();
         Login login=new Login();
         login.showStage();
-        SystemUser user=SystemUser.get_user("badr","203046");
+//        SystemUser user=SystemUser.get_user("1","1");
 //        appSettings.loadAppSettings(user);
 //        Customer customer=Customer.getCustomer("01114242654", Customer.QueryFilter.PHONE);
 //        CustomerData customerData=new CustomerData(customer);

@@ -1,4 +1,4 @@
-.red_summary_field{
+.red_summary_field {
     -fx-text-fill: red;
     -fx-font-size: 14;
     -fx-font-weight: bold;
@@ -10,7 +10,8 @@
 
     -fx-alignment: center;
 }
-.green_summary_field{
+
+.green_summary_field {
     -fx-text-fill: green;
     -fx-font-size: 14;
     -fx-font-weight: bold;
@@ -21,4 +22,13 @@
     -fx-border-width: 1px;
 
     -fx-alignment: center;
+}
+
+.text_field_label {
+    -fx-font-size: 12;
+    -fx-text-alignment: center;
+    -fx-text-fill: black;
+    -fx-alignment: center;
+
+
 }

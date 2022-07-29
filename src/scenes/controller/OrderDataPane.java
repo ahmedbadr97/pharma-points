@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
@@ -36,10 +37,13 @@ public class OrderDataPane {
     private TableColumn<OrderDataTableRow, TransactionType> trans_type_col;
 
     @FXML
-    private TableColumn<OrderDataTableRow, Float> money_amount_col;
+    private TableColumn<OrderDataTableRow, TextField> money_amount_col;
 
     @FXML
     private TableColumn<OrderDataTableRow, DateTime> trans_time_col;
+
+    @FXML
+    private TableColumn<OrderDataTableRow, HBox> edit_save_btn_col;
 
     @FXML
     private TableColumn<OrderDataTableRow, Button> remove_btn_col;
@@ -171,9 +175,10 @@ public class OrderDataPane {
         transactions_tv_list = FXCollections.observableArrayList();
         trans_id_col.setCellValueFactory((new PropertyValueFactory<>("trans_id")));
         trans_type_col.setCellValueFactory((new PropertyValueFactory<>("trans_type")));
-        money_amount_col.setCellValueFactory((new PropertyValueFactory<>("money_amount")));
+        money_amount_col.setCellValueFactory((new PropertyValueFactory<>("money_amount_tf")));
         trans_time_col.setCellValueFactory((new PropertyValueFactory<>("trans_time")));
         remove_btn_col.setCellValueFactory((new PropertyValueFactory<>("remove_btn")));
+        edit_save_btn_col.setCellValueFactory((new PropertyValueFactory<>("edit_HBox")));
         order_trans_tv.setItems(transactions_tv_list);
     }
 
@@ -284,17 +289,112 @@ public class OrderDataPane {
 
     public class OrderDataTableRow {
         OrderTransaction transaction;
+        TextField money_amount_tf;
         Button remove_btn;
-
+        Button editButton;
+        Button cancelButton;
+        Button saveButton;
+        float amount_backup;
+        HBox edit_HBox;
         public OrderDataTableRow(OrderTransaction transaction) {
+
             this.transaction = transaction;
+            this.money_amount_tf=new TextField();
+            this.money_amount_tf.setText(Float.toString(transaction.getMoney_amount()));
+            this.money_amount_tf.setAlignment(Pos.CENTER);
             this.remove_btn = new Button();
+            ImageLoader.icoButton(remove_btn, "deleteButton.png", 10);
+
             remove_btn.setOnAction((actionEvent) -> {
                 removeBtnAction();
             });
-            ImageLoader.icoButton(remove_btn, "deleteButton.png", 10);
+
+            this.editButton =new Button();
+            editButton.setGraphicTextGap(0);
+            ImageLoader.icoButton(editButton,"editButton.png",10);
+            this.editButton.setOnAction((actionEvent)->{
+                editButtonAction();
+            });
+            if(main_screen.getOrderSettings()==OrderSettings.newOrder)
+                this.editButton.setDisable(true);
+
+
+            this.saveButton=new Button();
+            ImageLoader.icoButton(saveButton,"saveButton.png",10);
+            this.saveButton.setOnAction(event -> {
+                saveButtonAction();
+            });
+
+            this.cancelButton=new Button();
+            ImageLoader.icoButton(cancelButton,"ban-solid.png",10);
+            this.cancelButton.setOnAction((actionEvent)->{
+                cancelButtonAction();
+            });
+
+
+            edit_HBox=new HBox(cancelButton,editButton,saveButton);
+            edit_HBox.setAlignment(Pos.CENTER);
+
+            immutable_mode();
+
         }
 
+        public HBox getEdit_HBox() {
+            return edit_HBox;
+        }
+
+        public TextField getMoney_amount_tf() {
+            return money_amount_tf;
+        }
+
+        public Button getEditButton() {
+            return editButton;
+        }
+
+        public void immutable_mode()
+        {
+            editButton.setPrefWidth(10);
+            ImageLoader.icoButton(editButton,"editButton.png",10);
+            editButton.setVisible(true);
+            cancelButton.setVisible(false);
+            saveButton.setVisible(false);
+            money_amount_tf.getStyleClass().clear();
+            money_amount_tf.getStyleClass().add("text_field_label");
+            money_amount_tf.setEditable(false);
+
+
+
+
+        }
+        public void mutable_mode()
+        {
+            cancelButton.setVisible(true);
+            editButton.setGraphic(null);
+            saveButton.setVisible(true);
+            editButton.setVisible(false);
+            editButton.setMaxWidth(0);
+            editButton.setPrefWidth(0);
+            money_amount_tf.getStyleClass().clear();
+            money_amount_tf.getStyleClass().addAll("text-field", "text-input");
+            money_amount_tf.setEditable(true);
+        }
+
+
+        public void editButtonAction()
+        {
+            mutable_mode();
+
+
+        }
+        public void saveButtonAction()
+        {
+            immutable_mode();
+
+        }
+        public void cancelButtonAction()
+        {
+            immutable_mode();
+        }
         public void removeBtnAction() {
             OrderSettings orderSettings = main_screen.getOrderSettings();
             if (orderSettings == OrderSettings.newOrder) {
@@ -308,6 +408,7 @@ public class OrderDataPane {
             }
         }
 
+
         public int getTrans_id() {
             return transaction.getTrans_id();
         }
@@ -316,9 +417,6 @@ public class OrderDataPane {
             return transaction.getTrans_type();
         }
 
-        public float getMoney_amount() {
-            return transaction.getMoney_amount();
-        }
 
         public DateTime getTrans_time() {
             return transaction.getTrans_time();
