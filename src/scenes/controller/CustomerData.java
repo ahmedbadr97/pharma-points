@@ -9,11 +9,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
 import scenes.abstracts.CustomerDataPane;
 import scenes.main.Alerts;
+import scenes.main.OrderData;
 import utils.DateTime;
 
 import java.sql.SQLException;
@@ -52,10 +54,12 @@ public class CustomerData {
     private scenes.main.CustomerData main_screen;
     private scenes.abstracts.CustomerDataPane customerDataPane;
     private ObservableList<OrdersTableRows> orders_tv_list;
+    private OrdersTableRows selectedRow;
 
     public void ini(scenes.main.CustomerData main_screen)
     {
         this.main_screen=main_screen;
+        selectedRow=null;
         orders_tv_list = FXCollections.observableArrayList();
         // customerData Pane
         customerDataPane=new CustomerDataPane(true);
@@ -95,14 +99,37 @@ public class CustomerData {
         total_Credit_Col.setCellValueFactory((new PropertyValueFactory<>("total_credit_lb")));
         order_time_col.setCellValueFactory((new PropertyValueFactory<>("order_time")));
 
+        orders_tv.setRowFactory(tv->
+        {
+            TableRow<OrdersTableRows> roww=new  TableRow<OrdersTableRows>();
+            roww.setOnMouseClicked(event ->
+            {
+                if(roww.isEmpty()) return;
+                if (event.getClickCount()==2 && roww.getItem().orderDataScreen==null) {
+                    selectedRow=roww.getItem();
+
+                    selectedRow.orderDataScreen=new OrderData(roww.getItem().getOrder());
+                    selectedRow.orderDataScreen.addOnCloseAction(()->{
+                        loadData();
+                        selectedRow.orderDataScreen=null;
+
+                    });
+                    selectedRow.orderDataScreen.showStage();
+                }
+            });
+            return roww ;
+        } );
+
         orders_tv.setItems(orders_tv_list);
     }
     public class OrdersTableRows{
         Label total_money_lb,total_credit_lb;
         Order order;
+        OrderData orderDataScreen;
 
         public OrdersTableRows(Order order) {
             this.order=order;
+            orderDataScreen=null;
             float total_money=order.getTotal_money();
             this.total_money_lb=new Label();
             if(total_money<0)

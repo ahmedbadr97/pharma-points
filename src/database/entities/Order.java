@@ -138,8 +138,8 @@ public class Order implements TablesOperations<Order> {
                 break;
             case money_out:
                 total_money_out += trans_amount;
-                customer_credit = -trans_amount * getOrderSale().getMoney_to_credit();
-                total_credit_in-=customer_credit;
+                customer_credit =-trans_amount * getOrderSale().getMoney_to_credit();
+                total_credit_in+=customer_credit;
                 break;
             case money_in_settlement:
                 total_money_in+= trans_amount;
@@ -239,6 +239,9 @@ public class Order implements TablesOperations<Order> {
         return total_credit_out;
     }
 
+    public ArrayList<OrderTransaction> getOrderTransactions() {
+        return orderTransactions;
+    }
 
     @Override
     public DBStatement<Order> addRow() {
@@ -258,7 +261,6 @@ public class Order implements TablesOperations<Order> {
                 this.getPreparedStatement().setInt(3, getStatement_table().getSale_id());
                 this.getPreparedStatement().setString(4, getStatement_table().getNotes());
             }
-
             @Override
             public void after_execution_action() throws SQLException {
                 customer.updateCustomerCredit();

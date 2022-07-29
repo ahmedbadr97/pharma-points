@@ -24,12 +24,21 @@ public class OrderDataPane extends WindowAbstract<scenes.controller.OrderDataPan
 
     public OrderDataPane(DBOperations dbOperations) {
         //new order
-        load("OrderDataPane", 860, 470);
-        this.customer = customer;
+        loadFxmlOnly("OrderDataPane", 860, 470);
         this.dbOperations = dbOperations;
         this.orderSettings = OrderSettings.newOrder;
         getController().ini(this);
 
+    }
+
+    public OrderDataPane(DBOperations dbOperations, Order order) {
+        this.dbOperations = dbOperations;
+        this.order = order;
+        this.customer=order.getCustomer();
+        loadFxmlOnly("OrderDataPane", 860, 470);
+        orderSettings=OrderSettings.viewAndEdit;
+        getController().ini(this);
+        getController().initializeOrder();
     }
 
     public void initialize_order(Customer customer) {
@@ -51,11 +60,6 @@ public class OrderDataPane extends WindowAbstract<scenes.controller.OrderDataPan
 
     public Order getOrder() {
         return order;
-    }
-
-    public void initialize_order(Order order) {
-        this.order = order;
-        getController().initializeOrder();
     }
 
     public OrderSettings getOrderSettings() {
