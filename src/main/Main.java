@@ -12,6 +12,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import scenes.abstracts.CustomerDataPane;
 import scenes.abstracts.OrderDataPane;
+import scenes.main.CustomerData;
 import scenes.main.Login;
 import scenes.main.NewCustomer;
 import scenes.main.NewOrder;
@@ -44,9 +45,12 @@ public class Main extends Application {
         dBconnection.Connect();
         Login login=new Login();
         login.showStage();
-//        SystemUser user=SystemUser.get_user("badr","203046");
+        SystemUser user=SystemUser.get_user("badr","203046");
 //        appSettings.loadAppSettings(user);
 //        Customer customer=Customer.getCustomer("01114242654", Customer.QueryFilter.PHONE);
+//        CustomerData customerData=new CustomerData(customer);
+//        customerData.showStage();
+
 //        DBOperations dbOperations=new DBOperations();
 //        NewOrder newOrder=new NewOrder();
 //        newOrder.showStage();

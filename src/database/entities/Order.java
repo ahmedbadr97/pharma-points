@@ -1,112 +1,152 @@
 package database.entities;
 
 import database.DBStatement;
+import exceptions.DataNotFound;
 import exceptions.InvalidTransaction;
 import main.Main;
 import utils.DateTime;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class Order implements TablesOperations<Order>{
-    private int order_id,cus_id,sale_id;
+public class Order implements TablesOperations<Order> {
+    private int order_id, cus_id, sale_id;
     private DateTime order_time;
-    private float total_money_in,total_money_out,total_credit_in,total_credit_out;
+    private float total_money_in, total_money_out, total_credit_in, total_credit_out;
     private String notes;
     private Customer customer;
     SaleHistory orderSale;
     private ArrayList<OrderTransaction> orderTransactions;
+
     public interface OnAddTransactionsAction {
         void transactionAction();
     }
+
     private ArrayList<OnAddTransactionsAction> onAddTransactionsListener;
 
-    private Order(int order_id, int cus_id, DateTime order_time,int sale_id,String notes) {
+    private Order(int order_id, int cus_id, DateTime order_time, int sale_id, String notes) {
         this.order_id = order_id;
         this.cus_id = cus_id;
-        this.sale_id=sale_id;
+        this.sale_id = sale_id;
         this.order_time = order_time;
-        this.total_money_in=total_money_out= total_credit_in=total_credit_out= 0;
+        this.total_money_in = total_money_out = total_credit_in = total_credit_out = 0;
         this.notes = notes;
-        orderTransactions=new ArrayList<>();
-        onAddTransactionsListener =new ArrayList<>();
+        orderTransactions = new ArrayList<>();
+        onAddTransactionsListener = new ArrayList<>();
     }
-    public Order(Customer customer,SaleHistory orderSale){
-        this(0,customer.getId(),null, orderSale.getSale_id(),null);
-        this.customer=customer;
+
+    public Order(Customer customer, SaleHistory orderSale) {
+        this(0, customer.getId(), null, orderSale.getSale_id(), null);
+        this.customer = customer;
         this.orderSale = orderSale;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public int getOrder_id() {
         return order_id;
     }
 
+    public float getTotal_money() {
+        return total_money_in - total_money_out;
+    }
+
+    public float getTotal_credit() {
+        return total_credit_in - total_credit_out;
+    }
 
     public void addOnAddAction(OnAddTransactionsAction onAddTransactionsAction) {
-        this.onAddTransactionsListener.add(onAddTransactionsAction)  ;
+        this.onAddTransactionsListener.add(onAddTransactionsAction);
     }
-    public void executeOnAddTransActions()
-    {
-        for (OnAddTransactionsAction action:onAddTransactionsListener) {
+
+    public void executeOnAddTransActions() {
+        for (OnAddTransactionsAction action : onAddTransactionsListener) {
             action.transactionAction();
         }
     }
-    public void addTransaction(OrderTransaction orderTransaction)throws InvalidTransaction
-    {
-        changeOrderTotal(orderTransaction.getMoney_amount(),orderTransaction.getTrans_type());
+
+    public void addTransaction(OrderTransaction orderTransaction) throws InvalidTransaction {
+        changeOrderTotal(orderTransaction.getMoney_amount(), orderTransaction.getTrans_type());
         orderTransactions.add(orderTransaction);
 
         executeOnAddTransActions();
     }
-    private void changeOrderTotal(float trans_amount, OrderTransaction.TransactionType transactionType)throws InvalidTransaction
-    {
-        float customer_credit=0;
-        float total_credit_in_change=0,total_money_in_change=0,total_credit_out_change=0,total_money_out_change=0;
-        switch (transactionType)
-        {
+
+    private void changeOrderTotal(float trans_amount, OrderTransaction.TransactionType transactionType) throws InvalidTransaction {
+        float customer_credit = 0;
+        float total_credit_in_change = 0, total_money_in_change = 0, total_credit_out_change = 0, total_money_out_change = 0;
+        switch (transactionType) {
             case money_in:
-                if(total_money_in+trans_amount<0)
+                if (total_money_in + trans_amount < 0)
                     throw new InvalidTransaction(InvalidTransaction.ErrorType.invalidMoneyIn);
-                total_money_in_change=trans_amount;
-                customer_credit=trans_amount*getOrderSale().getMoney_to_credit();
+                total_money_in_change = trans_amount;
+                customer_credit = trans_amount * getOrderSale().getMoney_to_credit();
                 break;
             case credit_out:
-                if(total_credit_out+trans_amount<0)
+                if (total_credit_out + trans_amount < 0)
                     throw new InvalidTransaction(InvalidTransaction.ErrorType.inValidCreditOut);
-                total_credit_out_change=trans_amount;
-                customer_credit=-trans_amount;
+                total_credit_out_change = trans_amount;
+                customer_credit = -trans_amount;
                 break;
             case credit_in:
-                if(total_credit_in+trans_amount<0)
+                if (total_credit_in + trans_amount < 0)
                     throw new InvalidTransaction(InvalidTransaction.ErrorType.invalidCreditIn);
-                total_credit_in_change=trans_amount;
-                customer_credit=trans_amount;
+                total_credit_in_change = trans_amount;
+                customer_credit = trans_amount;
                 break;
             case money_out:
-                if(total_money_out+trans_amount<0)
+                if (total_money_out + trans_amount < 0)
                     throw new InvalidTransaction(InvalidTransaction.ErrorType.invalidMoneyOut);
-                total_money_out_change=trans_amount;
-                customer_credit=-trans_amount*getOrderSale().getMoney_to_credit();
+                total_money_out_change = trans_amount;
+                customer_credit = -trans_amount * getOrderSale().getMoney_to_credit();
                 break;
             case money_in_settlement:
-                total_money_in_change=trans_amount;
-                customer_credit=trans_amount;
+                total_money_in_change = trans_amount;
+                customer_credit = trans_amount;
 
         }
         getCustomer().addToActiveCredit(customer_credit);
-        total_credit_in+=total_credit_in_change;
-        total_credit_out+=total_credit_out_change;
-        total_money_in+=total_money_in_change;
-        total_money_out+=total_money_out_change;
+        total_credit_in += total_credit_in_change;
+        total_credit_out += total_credit_out_change;
+        total_money_in += total_money_in_change;
+        total_money_out += total_money_out_change;
     }
-    public void removeTransaction(OrderTransaction orderTransaction)throws InvalidTransaction
-    {
-        changeOrderTotal(-orderTransaction.getMoney_amount(),orderTransaction.getTrans_type());
+
+    public void removeTransaction(OrderTransaction orderTransaction) throws InvalidTransaction {
+        changeOrderTotal(-orderTransaction.getMoney_amount(), orderTransaction.getTrans_type());
         orderTransactions.remove(orderTransaction);
         executeOnAddTransActions();
 
+    }
+
+    public void setOrderTransactions(ArrayList<OrderTransaction> orderTransactions) {
+        this.orderTransactions = orderTransactions;
+        for (OrderTransaction transaction : orderTransactions) {
+
+            switch (transaction.getTrans_type()) {
+                case money_in:
+                    total_money_in += transaction.getMoney_amount();
+                    break;
+                case credit_out:
+                    total_credit_out += transaction.getMoney_amount();
+                    break;
+                case credit_in:
+                    total_credit_in += transaction.getMoney_amount();
+                    break;
+                case money_out:
+                    total_money_out += transaction.getMoney_amount();
+                    break;
+                case money_in_settlement:
+                    total_money_in += transaction.getMoney_amount();
+                    break;
+            }
+
+        }
     }
 
     public Customer getCustomer() {
@@ -165,25 +205,28 @@ public class Order implements TablesOperations<Order>{
         return total_credit_out;
     }
 
+
     @Override
     public DBStatement<Order> addRow() {
         //"ORDER_ID","CUS_ID" ,"ORDER_TIME","SALE_ID" ,"NOTES" ,
-        String sql_statement="INSERT INTO CUS_ORDER (ORDER_ID,CUS_ID,SALE_ID,NOTES) VALUES(?,?,?,?)";
-        DBStatement<Order> dbStatement=new DBStatement<Order>(sql_statement,this,DBStatement.Type.ADD) {
+        String sql_statement = "INSERT INTO CUS_ORDER (ORDER_ID,CUS_ID,SALE_ID,NOTES) VALUES(?,?,?,?)";
+        DBStatement<Order> dbStatement = new DBStatement<Order>(sql_statement, this, DBStatement.Type.ADD) {
             @Override
             public void statement_initialization() throws SQLException {
-                Statement s= Main.dBconnection.getConnection().createStatement();
-                ResultSet r=s.executeQuery(" SELECT CUS_ORDER_SEQ.NEXTVAL from DUAL");
+                Statement s = Main.dBconnection.getConnection().createStatement();
+                ResultSet r = s.executeQuery(" SELECT CUS_ORDER_SEQ.NEXTVAL from DUAL");
                 while (r.next())
                     this.getStatement_table().setOrder_id(r.getInt(1));
-                r.close();s.close();
-                this.getPreparedStatement().setInt(1,getStatement_table().getOrder_id());
-                this.getPreparedStatement().setInt(2,getStatement_table().getCustomer().getId());
-                this.getPreparedStatement().setInt(3,getStatement_table().getSale_id());
-                this.getPreparedStatement().setString(4,getStatement_table().getNotes());
+                r.close();
+                s.close();
+                this.getPreparedStatement().setInt(1, getStatement_table().getOrder_id());
+                this.getPreparedStatement().setInt(2, getStatement_table().getCustomer().getId());
+                this.getPreparedStatement().setInt(3, getStatement_table().getSale_id());
+                this.getPreparedStatement().setString(4, getStatement_table().getNotes());
             }
+
             @Override
-            public void after_execution_action()throws SQLException {
+            public void after_execution_action() throws SQLException {
                 customer.updateCustomerCredit();
 
             }
@@ -198,12 +241,13 @@ public class Order implements TablesOperations<Order>{
         //"ORDER_ID","CUS_ID" ,"ORDER_TIME","SALE_ID" ,"NOTES" ,
 
 
-        String sql_statement="DELETE FROM CUS_ORDER WHERE ORDER_ID=?";
-        DBStatement<Order> dbStatement=new DBStatement<Order>(sql_statement,this,DBStatement.Type.DELETE) {
+        String sql_statement = "DELETE FROM CUS_ORDER WHERE ORDER_ID=?";
+        DBStatement<Order> dbStatement = new DBStatement<Order>(sql_statement, this, DBStatement.Type.DELETE) {
             @Override
             public void statement_initialization() throws SQLException {
-                this.getPreparedStatement().setInt(1,getStatement_table().getOrder_id());
+                this.getPreparedStatement().setInt(1, getStatement_table().getOrder_id());
             }
+
             @Override
             public void after_execution_action() {
             }
@@ -214,5 +258,34 @@ public class Order implements TablesOperations<Order>{
     @Override
     public DBStatement<Order> update() {
         return null;
+    }
+
+
+    public static ArrayList<Order> getCustomerOrders(Customer customer) throws SQLException, DataNotFound {
+        ArrayList<Order> orders = new ArrayList<>();
+        String sql_statement = "SELECT *  FROM CUS_ORDER WHERE CUS_ID= ?";
+        PreparedStatement p = Main.dBconnection.getConnection().prepareStatement(sql_statement);
+        p.setInt(1, customer.getId());
+        ResultSet r = p.executeQuery();
+        while (r.next()) {
+            Order order = fetch_resultSet(r);
+            order.setCustomer(customer);
+            order.setOrderTransactions(OrderTransaction.getOrderTransactions(order));
+            order.orderSale=SaleHistory.getSaleBy_id(order.getSale_id());
+            orders.add(order);
+
+        }
+        if (orders.isEmpty())
+            throw new DataNotFound("no orders found for this customer " + customer.getName());
+        return orders;
+    }
+
+    private static Order fetch_resultSet(ResultSet r) throws SQLException {
+        String dateTimeStr = r.getString(3);
+        DateTime orderDateTime = null;
+        if (dateTimeStr != null && !dateTimeStr.isEmpty())
+            orderDateTime = DateTime.from_timeStamp(dateTimeStr);
+        return new Order(r.getInt(1), r.getInt(2), orderDateTime, r.getInt(4), r.getString(5));
+
     }
 }

@@ -1,13 +1,11 @@
 package scenes.controller;
 
 import database.DBOperations;
-import database.DBStatement;
 import database.entities.Customer;
 import database.entities.Order;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
 import scenes.abstracts.CustomerDataPane;
 import scenes.abstracts.GetCustomerBar;
 import scenes.abstracts.OrderDataPane;
@@ -32,7 +30,7 @@ public class NewOrder {
         customer=null;
         order=null;
         dbOperations=new DBOperations();
-        customerDataPane=new CustomerDataPane(false,dbOperations);
+        customerDataPane=new CustomerDataPane(false);
         customerSearch=new CustomerSearch(true);
         //---------------------------- add search HBox -------------------------------//
         getCustomerBar=new GetCustomerBar();

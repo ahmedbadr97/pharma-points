@@ -9,10 +9,10 @@ public class CustomerDataPane  extends WindowAbstract<scenes.controller.Customer
     private final boolean mutable;
     DBOperations dbOperations;
     private  Customer customer;
-    public CustomerDataPane( boolean mutable, DBOperations dbOperations) {
+    public CustomerDataPane( boolean mutable) {
         this.mutable=mutable;
-        this.dbOperations=dbOperations;
-        load("CustomerDataPane",860,290);
+        this.dbOperations=new DBOperations();
+        load("CustomerDataPane",880,290);
         getController().ini(this);
     }
 
@@ -33,8 +33,5 @@ public class CustomerDataPane  extends WindowAbstract<scenes.controller.Customer
         return mutable;
     }
 
-    @Override
-    public void closeAction() {
 
-    }
 }

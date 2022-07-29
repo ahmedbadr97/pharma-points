@@ -6,8 +6,5 @@ public class NewOrder extends WindowAbstract<scenes.controller.NewOrder>{
         getController().ini();
     }
 
-    @Override
-    public void closeAction() {
 
-    }
 }

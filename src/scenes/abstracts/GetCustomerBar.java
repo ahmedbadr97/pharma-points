@@ -33,8 +33,4 @@ public class GetCustomerBar extends WindowAbstract<scenes.controller.GetCustomer
 
 
 
-    @Override
-    public void closeAction() {
-
-    }
 }

@@ -10,10 +10,7 @@ public class Login extends WindowAbstract<scenes.controller.Login>{
         load("login_page",570,320);
         this.getController().init(this);
     }
-    @Override
-    public void closeAction() {
 
-    }
 
     public SystemUser getLogged_in_user() {
         return logged_in_user;

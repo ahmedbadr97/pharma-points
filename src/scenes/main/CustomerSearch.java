@@ -27,8 +27,4 @@ public class CustomerSearch extends WindowAbstract<scenes.controller.CustomerSea
         this.onCustomerSelection = onCustomerSelection;
     }
 
-    @Override
-    public void closeAction() {
-
-    }
 }

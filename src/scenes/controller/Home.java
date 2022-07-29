@@ -1,9 +1,11 @@
 package scenes.controller;
 
+import database.entities.Customer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import scenes.main.CustomerData;
 import scenes.main.CustomerSearch;
 import scenes.main.NewOrder;
 
@@ -23,6 +25,15 @@ public class Home {
     @FXML
     void customer_data_btn_action(ActionEvent event) {
         customerSearchScene=new CustomerSearch(false);
+        customerSearchScene.setOnCustomerSelection(()->{
+            Customer selectedCustomer=customerSearchScene.getController().getSelectedCustomer();
+            if (selectedCustomer!=null)
+            {
+                CustomerData customerData= new CustomerData(selectedCustomer);
+                customerData.setOnTop();
+                customerData.showStage();
+            }
+        });
         customerSearchScene.showStage();
 
     }

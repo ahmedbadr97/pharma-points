@@ -15,8 +15,5 @@ public class Home extends WindowAbstract<scenes.controller.Home>{
         return logged_in_user;
     }
 
-    @Override
-    public void closeAction() {
 
-    }
 }

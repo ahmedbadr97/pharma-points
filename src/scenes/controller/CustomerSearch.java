@@ -83,9 +83,7 @@ public class CustomerSearch {
             update_cusTv_data(getCustomerBar.getController().getSearchCustomers());
         });
         getCustomerBar.setSearchWithIdAction(()->{
-            //TODO open customer screen
-            System.out.println(getCustomerBar.getController().getSearchCustomer());
-
+            new scenes.main.CustomerData(getCustomerBar.getController().getSearchCustomer()).showStage();
         });
 
 
@@ -202,8 +200,15 @@ public class CustomerSearch {
 
     @FXML
     void new_customer_btn_action(ActionEvent event) {
-        new NewCustomer().showStage();
-        //TODO after save settings go to customer data
+       NewCustomer newCustomer =new NewCustomer();
+       newCustomer.addOnCloseAction(() -> {
+           if(newCustomer.getNewCustomer()!=null)
+           {
+               new scenes.main.CustomerData(newCustomer.getNewCustomer()).showStage();
+           }
+       });
+       newCustomer.setOnTop();
+       newCustomer.showStage();
 
     }
 

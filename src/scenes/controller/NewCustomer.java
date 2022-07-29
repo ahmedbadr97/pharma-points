@@ -75,11 +75,11 @@ public class NewCustomer {
         dbOperations.add(new_customer, DBStatement.Type.ADD);
         try {
             dbOperations.execute();
+            main_screen.setNewCustomer(new_customer);
             this.main_screen.closeStage();
         } catch (SQLException e) {
             new Alerts(e);
         }
-
 
     }
 

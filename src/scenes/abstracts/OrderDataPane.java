@@ -17,23 +17,24 @@ public class OrderDataPane extends WindowAbstract<scenes.controller.OrderDataPan
     private DBOperations dbOperations;
     private Order order;
     OrderSettings orderSettings;
-    public enum OrderSettings
-    {
-        newOrder,returnOrder,viewAndEdit
+
+    public enum OrderSettings {
+        newOrder, returnOrder, viewAndEdit
     }
+
     public OrderDataPane(DBOperations dbOperations) {
         //new order
-        load("OrderDataPane",860,470);
-        this.customer=customer;
-        this.dbOperations=dbOperations;
-        this.orderSettings=OrderSettings.newOrder;
+        load("OrderDataPane", 860, 470);
+        this.customer = customer;
+        this.dbOperations = dbOperations;
+        this.orderSettings = OrderSettings.newOrder;
         getController().ini(this);
 
     }
-    public void initialize_order(Customer customer)
-    {
+
+    public void initialize_order(Customer customer) {
         this.customer = customer;
-        this.order=new Order(customer,Main.appSettings.getCurrent_sale());
+        this.order = new Order(customer, Main.appSettings.getCurrent_sale());
         this.dbOperations.add(order, DBStatement.Type.ADD);
         getController().initializeOrder();
     }
@@ -51,18 +52,14 @@ public class OrderDataPane extends WindowAbstract<scenes.controller.OrderDataPan
     public Order getOrder() {
         return order;
     }
-    public void initialize_order(Order order)
-    {
-        this.order=order;
+
+    public void initialize_order(Order order) {
+        this.order = order;
         getController().initializeOrder();
     }
 
     public OrderSettings getOrderSettings() {
         return orderSettings;
     }
-
-    @Override
-    public void closeAction() {
-
-    }
+    
 }

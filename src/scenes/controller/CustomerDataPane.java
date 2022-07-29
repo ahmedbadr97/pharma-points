@@ -9,6 +9,7 @@ import javafx.scene.layout.HBox;
 import scenes.main.Alerts;
 import utils.DateTime;
 
+import java.sql.SQLException;
 import java.time.LocalTime;
 
 public class CustomerDataPane {
@@ -156,11 +157,18 @@ public class CustomerDataPane {
         main_screen.getCustomer().setPhone(cus_phone_tf.getText());
         if(cus_barcode_tf.getText()!=null && !cus_barcode_tf.getText().isEmpty())
             main_screen.getCustomer().setBarcode(cus_barcode_tf.getText());
+        if(cus_address_tf.getText()!=null && !cus_address_tf.getText().isEmpty())
+            main_screen.getCustomer().setAddress(cus_address_tf.getText());
 
         DateTime new_date = DateTime.getDateTimeFromDatePicker(cus_expiry_date_db, LocalTime.MAX);
         main_screen.getCustomer().setExpiry_date(new_date);
         main_screen.getDbOperations().add(main_screen.getCustomer(), DBStatement.Type.UPDATE);
         setEditMode(false);
+        try {
+            main_screen.getDbOperations().execute();
+        } catch (SQLException e) {
+            new Alerts(e);
+        }
     }
 
 }
