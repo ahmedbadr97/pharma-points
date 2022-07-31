@@ -69,7 +69,6 @@ public class NewCustomer {
              cus_address=cus_address_tf.getText();
 
         Customer new_customer=new Customer(cus_name,cus_phone,cus_barcode,cus_address);
-        new_customer.systemSetExpiryDate();
 
         DBOperations dbOperations=new DBOperations();
         dbOperations.add(new_customer, DBStatement.Type.ADD);

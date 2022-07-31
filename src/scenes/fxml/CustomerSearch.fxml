@@ -3,9 +3,7 @@
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
@@ -21,7 +19,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="650.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scenes.controller.CustomerSearch">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scenes.controller.CustomerSearch">
    <top>
       <HBox alignment="CENTER" prefHeight="33.0" prefWidth="707.0" styleClass="title_bar" BorderPane.alignment="CENTER">
          <children>
@@ -49,9 +47,8 @@
             </Separator>
             <GridPane hgap="5.0" prefHeight="71.0" prefWidth="710.0" vgap="1.0">
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="381.0" minWidth="10.0" prefWidth="267.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="592.0" minWidth="10.0" prefWidth="310.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="592.0" minWidth="10.0" prefWidth="96.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="381.0" minWidth="10.0" prefWidth="227.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="592.0" minWidth="10.0" prefWidth="351.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints maxHeight="49.0" minHeight="10.0" prefHeight="29.0" vgrow="SOMETIMES" />
@@ -82,36 +79,7 @@
                         <TextField fx:id="credit_end_tf" onAction="#filter_btn_action" prefHeight="25.0" prefWidth="70.0" />
                      </children>
                   </HBox>
-                  <HBox spacing="5.0" GridPane.columnIndex="1">
-                     <children>
-                        <Separator orientation="VERTICAL" prefHeight="200.0" />
-                        <Label styleClass="primary_labels" text="تاريخ الانتهاء" />
-                        <ImageView fitHeight="28.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/searchIcon.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="48.0" prefWidth="299.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                     <children>
-                        <Separator orientation="VERTICAL" prefHeight="200.0" />
-                        <Label styleClass="secondary_labels" text="من" />
-                        <DatePicker fx:id="exp_from_db" prefHeight="25.0" prefWidth="100.0" />
-                        <Label styleClass="secondary_labels" text="الى">
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                        </Label>
-                        <DatePicker fx:id="exp_to_db" prefHeight="25.0" prefWidth="100.0" />
-                        <CheckBox fx:id="filter_by_expiry_cb" mnemonicParsing="false" onAction="#filter_by_expiry_cb_action">
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                        </CheckBox>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
                         <Button fx:id="filter_btn" mnemonicParsing="false" onAction="#filter_btn_action" prefWidth="85.0" styleClass="secondary_labels" text="تحديد" />
                      </children>
@@ -123,15 +91,14 @@
                   <Insets bottom="15.0" top="15.0" />
                </VBox.margin>
             </Separator>
-            <TableView fx:id="cus_tv" prefHeight="343.0" prefWidth="710.0">
+            <TableView fx:id="cus_tv" prefHeight="292.0" prefWidth="615.0">
               <columns>
-                <TableColumn fx:id="cus_name_col" prefWidth="217.0" text="اسم العميل" />
-                <TableColumn fx:id="cus_phone_col" minWidth="0.0" prefWidth="167.0" text="رقم التليفون" />
-                  <TableColumn fx:id="cus_credit_col" prefWidth="114.0" text="عدد النقاط" />
-                  <TableColumn fx:id="cus_exp_col" prefWidth="198.0" text="تاريخ الانتهاء" />
+                <TableColumn fx:id="cus_name_col" prefWidth="253.0" text="اسم العميل" />
+                <TableColumn fx:id="cus_phone_col" minWidth="0.0" prefWidth="160.0" text="رقم التليفون" />
+                  <TableColumn fx:id="cus_credit_col" prefWidth="169.0" text="عدد النقاط" />
               </columns>
             </TableView>
-            <HBox alignment="CENTER_RIGHT" prefHeight="45.0" prefWidth="697.0" spacing="5.0">
+            <HBox alignment="CENTER_RIGHT" prefHeight="43.0" prefWidth="615.0" spacing="5.0">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>

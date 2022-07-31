@@ -16,7 +16,6 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
-import main.AppSettings;
 import main.Main;
 import scenes.abstracts.OrderDataPane.OrderSettings;
 import database.entities.OrderTransaction.TransactionType;

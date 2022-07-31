@@ -2,7 +2,6 @@ package scenes.controller;
 
 import database.entities.Customer;
 import exceptions.DataNotFound;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -29,16 +28,6 @@ public class CustomerSearch {
     private TextField credit_end_tf;
     @FXML
     private TextField credit_start_tf;
-    @FXML
-    private CheckBox filter_by_expiry_cb;
-    @FXML
-    private DatePicker exp_from_db;
-
-    @FXML
-    private DatePicker exp_to_db;
-
-    @FXML
-    private Button filter_btn;
 
     @FXML
     private TableView<Customer> cus_tv;
@@ -52,8 +41,6 @@ public class CustomerSearch {
     @FXML
     private TableColumn<Customer, Integer> cus_credit_col;
 
-    @FXML
-    private TableColumn<Customer, DateTime> cus_exp_col;
 
     @FXML
     private Label tv_cnt_lb;
@@ -95,9 +82,6 @@ public class CustomerSearch {
         edit_customers_cb.setValue(EditCustomer.EXPIRY_DATE);
 
 
-        //--------------- initialize DatePickers----------- //
-        exp_from_db.setValue(LocalDate.now());
-        exp_to_db.setValue(LocalDate.now());
 
 
         cus_table_init();
@@ -110,7 +94,6 @@ public class CustomerSearch {
         cus_name_col.setCellValueFactory((new PropertyValueFactory<>("name")));
         cus_phone_col.setCellValueFactory((new PropertyValueFactory<>("phone")));
         cus_credit_col.setCellValueFactory((new PropertyValueFactory<>("active_credit")));
-        cus_exp_col.setCellValueFactory((new PropertyValueFactory<>("expiry_date")));
 
         cus_tv.setRowFactory(tv->
         {
@@ -133,17 +116,6 @@ public class CustomerSearch {
     @FXML
     void edit_cus_btn_action(ActionEvent event) {
 
-    }
-
-    @FXML
-    void filter_by_expiry_cb_action(ActionEvent event) {
-        if (filter_by_expiry_cb.isSelected()) {
-            exp_to_db.setDisable(false);
-            exp_from_db.setDisable(false);
-        } else {
-            exp_to_db.setDisable(true);
-            exp_from_db.setDisable(true);
-        }
     }
 
     @FXML
@@ -173,14 +145,8 @@ public class CustomerSearch {
             new Alerts("النقاط يجب ان تكون ارقام فقط", Alert.AlertType.ERROR);
             return;
         }
-        DateTime fromDateTime = null, toDateTime = null;
-
-        if (filter_by_expiry_cb.isSelected()) {
-            fromDateTime = DateTime.getDateTimeFromDatePicker(exp_from_db, LocalTime.MIN);
-            toDateTime = DateTime.getDateTimeFromDatePicker(exp_to_db, LocalTime.MAX);
-        }
         try {
-            filterCustomers = Customer.getCustomersBy_CreditAndExpiry(fromDateTime, toDateTime, credit_start, credit_end);
+            filterCustomers = Customer.getCustomersBy_Credit(credit_start, credit_end);
         } catch (SQLException e) {
             new Alerts(e);
         } catch (DataNotFound e) {

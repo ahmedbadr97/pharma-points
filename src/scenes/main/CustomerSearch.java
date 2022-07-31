@@ -9,7 +9,7 @@ public class CustomerSearch extends WindowAbstract<scenes.controller.CustomerSea
     }
     private OnCustomerSelection onCustomerSelection;
     public CustomerSearch(boolean byNameOnly) {
-        load("CustomerSearch",700,650);
+        load("CustomerSearch",600,600);
         getController().init(this);
         if(byNameOnly)
         {
