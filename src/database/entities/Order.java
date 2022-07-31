@@ -80,6 +80,7 @@ public class Order implements TablesOperations<Order> {
         this.onAddTransactionsListener.add(onAddTransactionsAction);
     }
 
+
     public void executeOnAddTransActions() {
         for (OnAddTransactionsAction action : onAddTransactionsListener) {
             action.transactionAction();

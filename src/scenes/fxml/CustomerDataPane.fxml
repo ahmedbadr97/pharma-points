@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextArea?>
@@ -13,7 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="240.0" prefWidth="860.0" stylesheets="@../css/mainStyles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scenes.controller.CustomerDataPane">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="190.0" prefWidth="860.0" stylesheets="@../css/mainStyles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scenes.controller.CustomerDataPane">
    <children>
       <Label styleClass="primary_labels" text="بيانات العميل" />
       <Separator prefWidth="200.0" styleClass="title_bar">
@@ -21,16 +20,18 @@
             <Insets bottom="15.0" />
          </VBox.margin>
       </Separator>
-      <GridPane hgap="10.0" prefHeight="77.0" prefWidth="855.0" vgap="10.0">
+      <GridPane hgap="10.0" prefHeight="126.0" prefWidth="855.0" vgap="10.0">
         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="679.0" minWidth="10.0" prefWidth="186.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="679.0" minWidth="10.0" prefWidth="147.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="679.0" minWidth="10.0" prefWidth="164.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="679.0" minWidth="10.0" prefWidth="173.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="679.0" minWidth="0.0" prefWidth="150.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="679.0" minWidth="0.0" prefWidth="338.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints maxHeight="36.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="57.0" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="57.0" minHeight="10.0" prefHeight="27.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="57.0" minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="57.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <HBox>
@@ -85,38 +86,21 @@
                   <TextArea fx:id="cus_address_tf" editable="false" prefHeight="80.0" prefWidth="307.0" styleClass="text_field" />
                </children>
             </HBox>
-         </children>
-      </GridPane>
-      <VBox fillWidth="false">
-         <children>
-            <Label styleClass="primary_labels" text="رصيد العميل" />
-            <Separator prefHeight="3.0" prefWidth="83.0" styleClass="title_bar" />
-         </children>
-         <VBox.margin>
-            <Insets bottom="10.0" />
-         </VBox.margin>
-      </VBox>
-      <GridPane hgap="10.0" prefHeight="64.0" prefWidth="855.0" vgap="10.0">
-        <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="563.0" minWidth="10.0" prefWidth="242.0" />
-            <ColumnConstraints hgrow="ALWAYS" maxWidth="619.0" minWidth="2.0" prefWidth="289.0" />
-            <ColumnConstraints hgrow="ALWAYS" maxWidth="619.0" minWidth="10.0" prefWidth="325.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints maxHeight="43.0" minHeight="10.0" prefHeight="24.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="73.0" minHeight="10.0" prefHeight="33.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <HBox>
+            <HBox GridPane.rowIndex="2">
                <children>
                   <Separator orientation="VERTICAL" prefHeight="200.0" />
-                  <Label styleClass="secondary_labels" text="رصيد النقاط الحالى" />
+                  <Label styleClass="secondary_labels" text="رصيد العميل" />
                </children>
             </HBox>
-            <HBox GridPane.rowIndex="1">
+            <HBox GridPane.rowIndex="3">
                <children>
                   <Separator orientation="VERTICAL" prefHeight="200.0" />
-                  <Label fx:id="cus_active_credit_lb" prefHeight="29.0" prefWidth="106.0" styleClass="greyLabel" text="0" />
+                  <Label fx:id="cus_active_credit_lb" prefHeight="29.0" prefWidth="112.0" styleClass="greyLabel" text="0" />
+               </children>
+            </HBox>
+            <HBox GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <children>
+                  <Separator orientation="VERTICAL" prefHeight="200.0" />
                   <Button disable="true" mnemonicParsing="false" onAction="#open_cus_arch_credit" styleClass="secondary_labels" text="النقاط المجمده">
                      <HBox.margin>
                         <Insets left="10.0" />
@@ -124,24 +108,7 @@
                   </Button>
                </children>
             </HBox>
-            <HBox GridPane.columnIndex="1">
-               <children>
-                  <Separator orientation="VERTICAL" prefHeight="200.0" />
-                  <Label styleClass="secondary_labels" text="تاريخ الانتهاء" />
-               </children>
-            </HBox>
-            <HBox prefHeight="54.0" prefWidth="281.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <children>
-                  <Separator orientation="VERTICAL" prefHeight="200.0" />
-                  <DatePicker fx:id="cus_expiry_date_db" editable="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="113.0" />
-                  <Button fx:id="edit_expiry_date_btn" disable="true" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#edit_expiry_date" styleClass="secondary_labels" text="تعديل">
-                     <HBox.margin>
-                        <Insets left="10.0" />
-                     </HBox.margin>
-                  </Button>
-               </children>
-            </HBox>
-            <HBox fx:id="edit_data_hbox" alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="500000.0" spacing="8.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <HBox fx:id="edit_data_hbox" alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="500000.0" spacing="8.0" GridPane.columnIndex="3" GridPane.rowIndex="3">
                <children>
                   <Button fx:id="cancel_edit_btn" graphicTextGap="0.0" mnemonicParsing="false" onAction="#cancel_edit" prefHeight="30.0" prefWidth="60.0" styleClass="secondary_labels" text="الغاء" />
                   <Button fx:id="edit_cus_data_btn" graphicTextGap="0.0" minWidth="-Infinity" mnemonicParsing="false" onAction="#edit_cus_data" prefHeight="30.0" prefWidth="120.0" styleClass="secondary_labels" text="تعديل البياتات" />

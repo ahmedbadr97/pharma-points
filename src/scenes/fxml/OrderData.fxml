@@ -11,8 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="666.0" prefWidth="880.0" stylesheets="@../css/mainStyles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scenes.controller.OrderData">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="750.0" prefWidth="880.0" stylesheets="@../css/mainStyles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scenes.controller.OrderData">
    <top>
       <HBox alignment="CENTER" prefHeight="37.0" prefWidth="756.0" styleClass="title_bar" BorderPane.alignment="CENTER">
          <children>
@@ -23,16 +22,6 @@
    <center>
       <VBox fx:id="main_Vbox" prefHeight="551.0" prefWidth="880.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="CENTER" prefHeight="35.0" prefWidth="880.0" spacing="10.0">
-               <children>
-                  <Label styleClass="secondary_labels" text="رقم الفاتوره:" />
-                  <Label fx:id="order_id_lb" prefHeight="26.0" prefWidth="77.0" styleClass="whiteDataLabels" />
-                  <Button fx:id="remove_order_btn" mnemonicParsing="false" onAction="#remove_order" prefHeight="25.0" prefWidth="26.0" />
-               </children>
-               <VBox.margin>
-                  <Insets top="10.0" />
-               </VBox.margin>
-            </HBox>
             <VBox fillWidth="false">
                <children>
                   <Label styleClass="primary_labels" text="رصيد العميل" />
@@ -75,7 +64,7 @@
             </GridPane>
          </children>
          <padding>
-            <Insets left="10.0" />
+            <Insets left="10.0" top="10.0" />
          </padding>
       </VBox>
    </center>

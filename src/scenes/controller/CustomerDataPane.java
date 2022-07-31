@@ -7,10 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import scenes.main.Alerts;
-import utils.DateTime;
-
 import java.sql.SQLException;
-import java.time.LocalTime;
 
 public class CustomerDataPane {
 
@@ -29,8 +26,6 @@ public class CustomerDataPane {
     @FXML
     private Label cus_active_credit_lb;
 
-    @FXML
-    private DatePicker cus_expiry_date_db;
 
     @FXML
     private HBox edit_data_hbox;
@@ -41,8 +36,6 @@ public class CustomerDataPane {
     @FXML
     private Button edit_cus_data_btn;
 
-    @FXML
-    private Button edit_expiry_date_btn;
 
     @FXML
     private Button save_data_btn;
@@ -52,9 +45,6 @@ public class CustomerDataPane {
         this.main_screen = main_screen;
         edit_data_hbox.setVisible(main_screen.isMutable());
         setEditMode(false);
-        cus_expiry_date_db.setDisable(true);
-        cus_expiry_date_db.setStyle("-fx-opacity: 1");
-        cus_expiry_date_db.getEditor().setStyle("-fx-opacity: 1");
 
 
     }
@@ -74,8 +64,6 @@ public class CustomerDataPane {
             cus_address_tf.setText(customer.getAddress());
 
         cus_active_credit_lb.setText(Float.toString(customer.getActive_credit()));
-        if (customer.getExpiry_date() != null)
-            cus_expiry_date_db.setValue(customer.getExpiry_date().getLocalDate());
 
     }
     public void clearData()
@@ -86,7 +74,6 @@ public class CustomerDataPane {
         cus_address_tf.clear();
         edit_data_hbox.setVisible(main_screen.isMutable());
         setEditMode(false);
-        cus_expiry_date_db.setValue(null);
         cus_active_credit_lb.setText(Float.toString(0));
 
     }
@@ -99,7 +86,6 @@ public class CustomerDataPane {
         cus_barcode_tf.setEditable(edit_mode);
         //TODO set update expiry date from admin only
 
-        edit_expiry_date_btn.setDisable(!edit_mode);
 
 
         // edit buttons Hbox
@@ -126,10 +112,7 @@ public class CustomerDataPane {
 
     }
 
-    @FXML
-    void edit_expiry_date(ActionEvent event) {
 
-    }
 
     @FXML
     void open_cus_arch_credit(ActionEvent event) {
@@ -164,8 +147,6 @@ public class CustomerDataPane {
         if(cus_address_tf.getText()!=null && !cus_address_tf.getText().isEmpty())
             main_screen.getCustomer().setAddress(cus_address_tf.getText());
 
-        DateTime new_date = DateTime.getDateTimeFromDatePicker(cus_expiry_date_db, LocalTime.MAX);
-        main_screen.getCustomer().setExpiry_date(new_date);
         main_screen.getDbOperations().add(main_screen.getCustomer(), DBStatement.Type.UPDATE);
         setEditMode(false);
         try {

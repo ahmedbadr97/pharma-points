@@ -9,6 +9,7 @@ public class Home extends WindowAbstract<scenes.controller.Home>{
         load("home",720,430);
         this.getController().init(this);
 
+
     }
 
     public SystemUser getLogged_in_user() {

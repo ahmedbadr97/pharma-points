@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="470.0" prefWidth="860.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scenes.controller.OrderDataPane">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="561.0" prefWidth="860.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scenes.controller.OrderDataPane">
    <children>
       <Label styleClass="primary_labels" text="بيانات الفاتوره" />
       <Separator prefWidth="200.0" styleClass="title_bar">
@@ -24,16 +24,79 @@
             <Insets bottom="10.0" />
          </VBox.margin>
       </Separator>
-      <GridPane hgap="10.0" prefHeight="64.0" prefWidth="855.0" vgap="10.0">
+      <GridPane hgap="10.0" prefHeight="58.0" prefWidth="855.0" vgap="10.0">
         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="424.0" minWidth="10.0" prefWidth="186.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="424.0" minWidth="10.0" prefWidth="175.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="637.0" minWidth="10.0" prefWidth="494.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="424.0" minWidth="10.0" prefWidth="131.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="424.0" minWidth="10.0" prefWidth="193.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="637.0" minWidth="10.0" prefWidth="511.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints maxHeight="24.0" minHeight="9.0" prefHeight="20.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="41.0" minHeight="10.0" prefHeight="38.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="28.0" minHeight="10.0" prefHeight="17.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="44.0" minHeight="10.0" prefHeight="31.0" vgrow="SOMETIMES" />
         </rowConstraints>
+         <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="281.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <children>
+                  <Separator orientation="VERTICAL" prefHeight="200.0" />
+                  <Label fx:id="order_expiry_date_lb" prefHeight="30.0" prefWidth="92.0" styleClass="date_labels" />
+               </children>
+            </HBox>
+            <HBox GridPane.columnIndex="1">
+               <children>
+                  <Separator orientation="VERTICAL" prefHeight="200.0" />
+                  <Label styleClass="secondary_labels" text="تاريخ الفاتوره" />
+               </children>
+            </HBox>
+            <HBox>
+               <children>
+                  <Separator orientation="VERTICAL" prefHeight="200.0" />
+                  <Label styleClass="secondary_labels" text="رقم الفاتوره" />
+               </children>
+            </HBox>
+            <HBox GridPane.columnIndex="2">
+               <children>
+                  <Separator orientation="VERTICAL" prefHeight="200.0" />
+                  <Label styleClass="secondary_labels" text="تاريخ الانتهاء" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" GridPane.rowIndex="1">
+               <children>
+                  <Separator orientation="VERTICAL" prefHeight="200.0" />
+                  <Label fx:id="order_id_lb" prefHeight="29.0" prefWidth="77.0" styleClass="whiteDataLabels" />
+                  <Button fx:id="delete_order_btn" mnemonicParsing="false" onAction="#delete_order" prefHeight="25.0" prefWidth="30.0">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="194.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <children>
+                  <Separator orientation="VERTICAL" prefHeight="200.0" />
+                  <Label fx:id="order_time_lb" prefHeight="30.0" prefWidth="166.0" styleClass="date_labels" />
+               </children>
+            </HBox>
+         </children>
+      </GridPane>
+      <VBox fillWidth="false">
+         <children>
+            <Label styleClass="primary_labels" text="التداولات" />
+            <Separator prefHeight="2.0" prefWidth="77.0" styleClass="title_bar" />
+         </children>
+         <VBox.margin>
+            <Insets bottom="10.0" top="10.0" />
+         </VBox.margin>
+      </VBox>
+      <GridPane hgap="10.0" prefHeight="68.0" prefWidth="855.0" vgap="10.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="424.0" minWidth="10.0" prefWidth="186.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="424.0" minWidth="10.0" prefWidth="175.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="637.0" minWidth="10.0" prefWidth="494.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints maxHeight="24.0" minHeight="9.0" prefHeight="20.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="41.0" minHeight="10.0" prefHeight="38.0" vgrow="SOMETIMES" />
+         </rowConstraints>
          <children>
             <HBox>
                <children>
@@ -62,11 +125,6 @@
             <Button mnemonicParsing="false" onAction="#add_transaction" styleClass="secondary_labels" text="اضافه" GridPane.columnIndex="2" GridPane.rowIndex="1" />
          </children>
       </GridPane>
-      <Separator prefWidth="200.0" styleClass="title_bar">
-         <VBox.margin>
-            <Insets top="10.0" />
-         </VBox.margin>
-      </Separator>
       <HBox alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="855.0">
          <children>
             <TableView fx:id="order_trans_tv" prefHeight="150.0" prefWidth="567.0">
@@ -84,43 +142,54 @@
             <Insets bottom="15.0" />
          </VBox.margin>
       </HBox>
-      <HBox prefHeight="30.0" prefWidth="855.0" spacing="5.0">
+      <HBox alignment="CENTER_LEFT" prefHeight="71.0" prefWidth="855.0" spacing="5.0">
          <children>
-            <Label prefHeight="29.0" prefWidth="76.0" styleClass="secondary_labels" text="وارد الخزينه" />
-            <Label fx:id="money_in_lb" prefHeight="29.0" prefWidth="85.0" styleClass="whiteDataLabels" text="0" />
-            <Label prefHeight="29.0" prefWidth="77.0" styleClass="secondary_labels" text="صادر الخزينه">
+            <VBox prefHeight="60.0" prefWidth="570.0" spacing="10.0">
+               <children>
+                  <HBox prefHeight="30.0" prefWidth="855.0" spacing="5.0">
+                     <children>
+                        <Label prefHeight="29.0" prefWidth="76.0" styleClass="secondary_labels" text="وارد الخزينه" />
+                        <Label fx:id="money_in_lb" prefHeight="29.0" prefWidth="85.0" styleClass="whiteDataLabels" text="0" />
+                        <Label prefHeight="29.0" prefWidth="77.0" styleClass="secondary_labels" text="صادر الخزينه">
+                           <HBox.margin>
+                              <Insets left="25.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label fx:id="money_out_lb" prefHeight="29.0" prefWidth="85.0" styleClass="whiteDataLabels" text="0" />
+                        <Label prefHeight="31.0" prefWidth="85.0" styleClass="secondary_labels" text="اجمالى الخزينه">
+                           <HBox.margin>
+                              <Insets left="25.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label fx:id="total_money_lb" prefHeight="29.0" prefWidth="85.0" styleClass="whiteDataLabels" text="0" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="31.0" prefWidth="855.0" spacing="5.0">
+                     <children>
+                        <Label prefHeight="29.0" prefWidth="74.0" styleClass="secondary_labels" text="وارد النقاط" />
+                        <Label fx:id="total_credit_in_lb" prefHeight="29.0" prefWidth="85.0" styleClass="whiteDataLabels" text="0" />
+                        <Label prefHeight="29.0" prefWidth="78.0" styleClass="secondary_labels" text="صادر النقاط">
+                           <HBox.margin>
+                              <Insets left="25.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label fx:id="total_credit_out_lb" prefHeight="29.0" prefWidth="85.0" styleClass="whiteDataLabels" text="0" />
+                        <Label prefHeight="31.0" prefWidth="85.0" styleClass="secondary_labels" text="اجمالى النقاط">
+                           <HBox.margin>
+                              <Insets left="25.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label fx:id="total_credit_lb" prefHeight="29.0" prefWidth="85.0" styleClass="whiteDataLabels" text="0" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <Label prefHeight="31.0" prefWidth="107.0" styleClass="secondary_labels" text=" اجمالى المطلوب">
                <HBox.margin>
-                  <Insets left="25.0" />
+                  <Insets left="20.0" />
                </HBox.margin>
             </Label>
-            <Label fx:id="money_out_lb" prefHeight="29.0" prefWidth="85.0" styleClass="whiteDataLabels" text="0" />
-            <Label prefHeight="31.0" prefWidth="85.0" styleClass="secondary_labels" text="اجمالى الخزينه">
-               <HBox.margin>
-                  <Insets left="25.0" />
-               </HBox.margin>
-            </Label>
-            <Label fx:id="total_money_lb" prefHeight="29.0" prefWidth="85.0" styleClass="whiteDataLabels" text="0" />
-         </children>
-         <VBox.margin>
-            <Insets bottom="10.0" />
-         </VBox.margin>
-      </HBox>
-      <HBox prefHeight="31.0" prefWidth="855.0" spacing="5.0">
-         <children>
-            <Label prefHeight="29.0" prefWidth="74.0" styleClass="secondary_labels" text="وارد النقاط" />
-            <Label fx:id="total_credit_in_lb" prefHeight="29.0" prefWidth="85.0" styleClass="whiteDataLabels" text="0" />
-            <Label prefHeight="29.0" prefWidth="78.0" styleClass="secondary_labels" text="صادر النقاط">
-               <HBox.margin>
-                  <Insets left="25.0" />
-               </HBox.margin>
-            </Label>
-            <Label fx:id="total_credit_out_lb" prefHeight="29.0" prefWidth="85.0" styleClass="whiteDataLabels" text="0" />
-            <Label prefHeight="31.0" prefWidth="85.0" styleClass="secondary_labels" text="اجمالى النقاط">
-               <HBox.margin>
-                  <Insets left="25.0" />
-               </HBox.margin>
-            </Label>
-            <Label fx:id="total_credit_lb" prefHeight="29.0" prefWidth="85.0" styleClass="whiteDataLabels" text="0" />
+            <Label fx:id="amount_needed_lb" prefHeight="29.0" prefWidth="85.0" styleClass="whiteDataLabels" text="0" />
          </children>
       </HBox>
       <HBox alignment="CENTER_LEFT" prefHeight="62.0" prefWidth="855.0" spacing="20.0">
@@ -135,7 +204,7 @@
       <HBox fx:id="edit_data_hbox" alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="500000.0" spacing="8.0">
          <children>
             <Button fx:id="cancel_edit_btn" graphicTextGap="0.0" mnemonicParsing="false" onAction="#cancel_edit" prefHeight="30.0" prefWidth="60.0" styleClass="secondary_labels" text="الغاء" />
-            <Button fx:id="edit_cus_data_btn" graphicTextGap="0.0" minWidth="-Infinity" mnemonicParsing="false" onAction="#edit_order" prefHeight="30.0" prefWidth="120.0" styleClass="secondary_labels" text="تعديل البياتات" />
+            <Button fx:id="edit_order_data_btn" graphicTextGap="0.0" minWidth="-Infinity" mnemonicParsing="false" onAction="#edit_order" prefHeight="30.0" prefWidth="120.0" styleClass="secondary_labels" text="تعديل البياتات" />
             <Button fx:id="save_data_btn" graphicTextGap="0.0" mnemonicParsing="false" onAction="#save_order_Data" prefWidth="60.0" styleClass="secondary_labels" text="حفظ" />
          </children>
       </HBox>

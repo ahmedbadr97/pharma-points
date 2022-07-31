@@ -19,6 +19,20 @@ public class Home {
     public void init(scenes.main.Home main_screen){
         this.main_screen=main_screen;
         system_user_t.setText(main_screen.getLogged_in_user().getUsername());
+        main_screen.getScene().setOnKeyPressed(event -> {
+            if(event.getText().equals("1"))
+            {
+                new_operation_btn_action(null);
+            }
+            else if(event.getText().equals("2"))
+            {
+                customer_data_btn_action(null);
+            }
+            else if(event.getText().equals("3"))
+            {
+                transactions_log_btn_action(null);
+            }
+        });
 
     }
 

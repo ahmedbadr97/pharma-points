@@ -45,9 +45,11 @@ public class CustomerData {
 
     @FXML
     private TableColumn<OrdersTableRows, Label> total_Credit_Col;
-
     @FXML
-    private TableColumn<Order, Float> order_time_col;
+    private TableColumn<OrdersTableRows, String> order_exp_col;
+    @FXML
+    private TableColumn<Order, DateTime> order_time_col;
+
     private scenes.main.CustomerData main_screen;
     private scenes.abstracts.CustomerDataPane customerDataPane;
     private ObservableList<OrdersTableRows> orders_tv_list;
@@ -106,6 +108,7 @@ public class CustomerData {
         total_credit_out_col.setCellValueFactory((new PropertyValueFactory<>("total_credit_out")));
         total_Credit_Col.setCellValueFactory((new PropertyValueFactory<>("total_credit_lb")));
         order_time_col.setCellValueFactory((new PropertyValueFactory<>("order_time")));
+        order_exp_col.setCellValueFactory((new PropertyValueFactory<>("expiry_date")));
 
         orders_tv.setRowFactory(tv->
         {
@@ -138,6 +141,7 @@ public class CustomerData {
         Order order;
         OrderData orderDataScreen;
 
+
         public OrdersTableRows(Order order) {
             this.order=order;
             orderDataScreen=null;
@@ -167,6 +171,7 @@ public class CustomerData {
         }
 
 
+
         public int getOrder_id() {
             return order.getOrder_id();
         }
@@ -191,6 +196,10 @@ public class CustomerData {
             return order.getOrder_time();
         }
 
+        public String getExpiry_date() {
+            return order.getExpiry_date().get_Date();
+        }
+
         public Label getTotal_money_lb() {
             return total_money_lb;
         }
@@ -198,6 +207,7 @@ public class CustomerData {
         public Label getTotal_credit_lb() {
             return total_credit_lb;
         }
+
 
         public Order getOrder() {
             return order;

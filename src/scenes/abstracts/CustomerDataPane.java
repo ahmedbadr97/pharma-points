@@ -12,7 +12,7 @@ public class CustomerDataPane  extends WindowAbstract<scenes.controller.Customer
     public CustomerDataPane( boolean mutable) {
         this.mutable=mutable;
         this.dbOperations=new DBOperations();
-        load("CustomerDataPane",880,290);
+        loadFxmlOnly("CustomerDataPane",880,190);
         getController().ini(this);
     }
 

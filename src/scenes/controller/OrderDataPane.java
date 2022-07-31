@@ -16,6 +16,8 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import main.AppSettings;
+import main.Main;
 import scenes.abstracts.OrderDataPane.OrderSettings;
 import database.entities.OrderTransaction.TransactionType;
 import scenes.images.ImageLoader;
@@ -26,6 +28,10 @@ import java.sql.SQLException;
 
 public class OrderDataPane {
 
+    @FXML
+    private Label order_id_lb,order_time_lb,order_expiry_date_lb;
+    @FXML
+    private Button delete_order_btn;
     @FXML
     private ComboBox<OrderTransaction.TransactionType> trans_type_cb;
 
@@ -101,11 +107,14 @@ public class OrderDataPane {
         this.main_screen = main_screen;
         initializeAction=null;
         OrderSettings orderSettings = main_screen.getOrderSettings();
+        ImageLoader.icoButton(delete_order_btn,"deleteButton.png",10);
+
         edit_data_hbox.setVisible(orderSettings == OrderSettings.viewAndEdit);
         if (orderSettings == OrderSettings.newOrder)
         {
             mutable=true;
             trans_type_cb.getItems().addAll(TransactionType.money_in, TransactionType.credit_out);
+            delete_order_btn.setDisable(true);
 
         }
         else {
@@ -131,6 +140,9 @@ public class OrderDataPane {
         money_in_lb.setText(Integer.toString(0));
         money_out_lb.setText(Integer.toString(0));
         total_money_lb.setText(Integer.toString(0));
+        order_time_lb.setText("");
+        order_expiry_date_lb.setText("");
+        order_id_lb.setText("");
 
         total_credit_in_lb.setText(Integer.toString(0));
         total_credit_out_lb.setText(Integer.toString(0));
@@ -159,10 +171,21 @@ public class OrderDataPane {
 
             }
             float total_money = (main_screen.getOrder().getTotal_money_in() - main_screen.getOrder().getTotal_money_out());
-
+            order_id_lb.setText(Integer.toString(main_screen.getOrder().getOrder_id()));
             amount_needed_before_edit = total_money - main_screen.getOrder().getTotal_credit_out();
+            order_time_lb.setText(main_screen.getOrder().getOrder_time().toString());
+            order_expiry_date_lb.setText(main_screen.getOrder().getExpiry_date().get_Date());
             updateOrderSummaryFields();
             setMutable(false);
+        }else {
+            order_id_lb.setText("0");
+            order_time_lb.setText(new DateTime().toString());
+            DateTime expected_expiry=new DateTime();
+            int years=Main.appSettings.getCreditExpirySettings().getYears();
+            int months=Main.appSettings.getCreditExpirySettings().getMonths();
+            int days=Main.appSettings.getCreditExpirySettings().getDays();
+            expected_expiry.add_to_date(years,months,days);
+            order_expiry_date_lb.setText(expected_expiry.get_Date());
         }
         if(initializeAction!=null)
             initializeAction.action();
@@ -182,7 +205,6 @@ public class OrderDataPane {
         }
 
     }
-
     public void updateOrderSummaryFields() {
         String greenTextStyle = "green_summary_field";
         String redTextStyle = "red_summary_field";
@@ -249,6 +271,7 @@ public class OrderDataPane {
         this.mutable = mutable;
         save_data_btn.setVisible(mutable);
         cancel_edit_btn.setVisible(mutable);
+        delete_order_btn.setDisable(!mutable);
         edit_order_data_btn.setVisible(!mutable);
         if(mutable)
         {
@@ -261,6 +284,12 @@ public class OrderDataPane {
             edit_order_data_btn.setPrefWidth(120);
         }
     }
+    @FXML
+    void delete_order(ActionEvent event)
+    {
+
+    }
+
 
     @FXML
     void add_transaction(ActionEvent event) {

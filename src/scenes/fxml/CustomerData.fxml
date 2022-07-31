@@ -43,7 +43,7 @@
             </Separator>
             <HBox>
                <children>
-                  <TableView fx:id="orders_tv" prefHeight="236.0" prefWidth="681.0" tableMenuButtonVisible="true">
+                  <TableView fx:id="orders_tv" prefHeight="236.0" prefWidth="815.0" tableMenuButtonVisible="true">
                     <columns>
                       <TableColumn fx:id="order_id_col" prefWidth="75.0" text="رقم الفاتوره" />
                         <TableColumn fx:id="total_money_out_col" prefWidth="75.0" text="وارد الخزينه" />
@@ -53,6 +53,7 @@
                         <TableColumn fx:id="total_credit_out_col" prefWidth="75.0" text="صادر النقاط" />
                         <TableColumn fx:id="total_Credit_Col" prefWidth="75.0" text="اجمالى النقاط" />
                         <TableColumn fx:id="order_time_col" prefWidth="145.0" text="الوقت / التاريخ" />
+                        <TableColumn fx:id="order_exp_col" prefWidth="75.0" text="تاريخ الانتهاء" />
                     </columns>
                   </TableView>
                   <VBox alignment="TOP_RIGHT" prefHeight="200.0" prefWidth="100.0" spacing="15.0">
