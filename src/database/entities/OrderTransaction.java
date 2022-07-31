@@ -37,6 +37,10 @@ public class OrderTransaction implements TablesOperations<OrderTransaction> {
         this.order_id = order.getOrder_id();
     }
 
+    public void setMoney_amount(float money_amount) {
+        this.money_amount = money_amount;
+    }
+
     public int getTrans_id() {
         return trans_id;
     }
@@ -115,7 +119,20 @@ public class OrderTransaction implements TablesOperations<OrderTransaction> {
 
     @Override
     public DBStatement<OrderTransaction> update() {
-        return null;
+        // TRANS_ID ORDER_ID TRANS_TYPE MONEY_AMOUNT TRANS_TIME
+
+        String sql_statement="UPDATE ORDER_TRANSACTION set MONEY_AMOUNT=?  where TRANS_ID=?";
+        DBStatement<OrderTransaction> dbStatement=new DBStatement<OrderTransaction>(sql_statement,this,DBStatement.Type.UPDATE) {
+            @Override
+            public void statement_initialization() throws SQLException {
+                this.getPreparedStatement().setFloat(1,getStatement_table().getMoney_amount());
+                this.getPreparedStatement().setInt(2,getStatement_table().getTrans_id());
+            }
+            @Override
+            public void after_execution_action() {
+            }
+        };
+        return dbStatement;
     }
 
     public static ArrayList<OrderTransaction> getOrderTransactions(Order order) throws SQLException, DataNotFound {

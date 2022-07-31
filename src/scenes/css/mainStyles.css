@@ -24,6 +24,7 @@
 .table-column
 {
     -fx-alignment: center;
+    -fx-font-size: 12px;
 }
 .greyLabel{
     -fx-background-color: gray;

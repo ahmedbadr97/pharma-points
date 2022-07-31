@@ -45,9 +45,18 @@ public class OrderDataPane extends WindowAbstract<scenes.controller.OrderDataPan
         this.customer = customer;
         this.order = new Order(customer, Main.appSettings.getCurrent_sale());
         this.dbOperations.add(order, DBStatement.Type.ADD);
+        dbOperations.add(customer, DBStatement.Type.UPDATE);
+
         getController().initializeOrder();
     }
 
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
 
     public Customer getCustomer() {
         return customer;

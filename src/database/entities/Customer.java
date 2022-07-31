@@ -21,6 +21,11 @@ public class Customer implements TablesOperations<Customer>{
     private String name,phone,barcode,address;
     private float active_credit,archived_credit;
     DateTime expiry_date;
+    public interface OnCreditChange {
+        public void changeAction();
+    }
+    ArrayList<OnCreditChange> onActiveCreditChangeActions;
+    ArrayList<OnCreditChange> onArchivedChangeCreditActions;
 
     public Customer(int id, String name, String phone, String barcode, String address, float active_credit,float archived_credit, DateTime expiry_date) {
         this.id = id;
@@ -31,10 +36,38 @@ public class Customer implements TablesOperations<Customer>{
         this.archived_credit=archived_credit;
         this.address=address;
         this.expiry_date=expiry_date;
+        onArchivedChangeCreditActions=new ArrayList<>();
+        onActiveCreditChangeActions=new ArrayList<>();
     }
     public Customer(String name,String phone,String barcode,String address){
         this(0,name,phone,barcode,address,0,0,null);
     }
+    public void addActiveCreditChangeAction(OnCreditChange onCreditChangeAction)
+    {
+     onActiveCreditChangeActions.add(onCreditChangeAction);
+    }
+    public void clearListeners()
+    {
+        onActiveCreditChangeActions.clear();
+        onArchivedChangeCreditActions.clear();
+    }
+    public void addArchivedCreditChangeAction(OnCreditChange onCreditChangeAction)
+    {
+        onArchivedChangeCreditActions.add(onCreditChangeAction);
+    }
+    private void executeArchivedCreditChangeActions()
+    {
+        for (OnCreditChange action:onArchivedChangeCreditActions) {
+            action.changeAction();
+        }
+    }
+    private void executeActiveCreditChangeActions()
+    {
+        for (OnCreditChange action:onActiveCreditChangeActions) {
+            action.changeAction();
+        }
+    }
+
     public int getId() {
         return id;
     }
@@ -89,6 +122,33 @@ public class Customer implements TablesOperations<Customer>{
     public float getArchived_credit() {
         return archived_credit;
     }
+    public void fromActiveToArchive(float amount)
+    {
+        // TODO validate and throw exceptions
+        if(active_credit-amount>=0)
+        {
+            active_credit-=amount;
+            archived_credit+=amount;
+        }
+
+        executeActiveCreditChangeActions();
+        executeArchivedCreditChangeActions();
+
+    }
+    public void fromArchiveToActive(float amount)
+    {
+        // TODO validate and throw exceptions
+
+        if(archived_credit-amount>=0)
+        {
+            archived_credit-=amount;
+            active_credit+=amount;
+        }
+        executeActiveCreditChangeActions();
+        executeArchivedCreditChangeActions();
+
+
+    }
 
     public static Customer getCustomer(String value,QueryFilter filter) throws SQLException, DataNotFound {
         String sql_statement="SELECT *  FROM CUSTOMER WHERE ";
@@ -108,7 +168,7 @@ public class Customer implements TablesOperations<Customer>{
         PreparedStatement p=Main.dBconnection.getConnection().prepareStatement(sql_statement);
         if (filter==QueryFilter.ID)
         {
-            int id=Integer.getInteger(value);
+            int id=Integer.parseInt(value);
             p.setInt(1,id);
         }
         else
@@ -295,26 +355,26 @@ public class Customer implements TablesOperations<Customer>{
         };
         return dbStatement;
     }
-    public void updateCustomerCredit() throws SQLException{
-        // CUS_ID CUS_NAME CUS_PHONE CUS_BARCODE, CUS_ADDRESS ,CUS_ACTIVE_CREDIT,CUS_ARCHIVED_CREDIT , EXPIRY_DATE <-- 8 cols
-        String sql_statement="UPDATE CUSTOMER set CUS_ACTIVE_CREDIT=?,CUS_ARCHIVED_CREDIT=? where CUS_ID=?";
-        PreparedStatement p=Main.dBconnection.getConnection().prepareStatement(sql_statement);
-        p.setFloat(1,getActive_credit());
-        p.setFloat(2,getArchived_credit());
-        p.setInt(3,getId());
-        p.execute();
-        p.close();
-    }
+
     public void addToActiveCredit(float value)throws InvalidTransaction
     {
         if(this.active_credit+value<0)
             throw new InvalidTransaction(InvalidTransaction.ErrorType.noEnoughCusCredit);
         this.active_credit+=value;
-
+        executeActiveCreditChangeActions();
     }
+    public void addToArchivedCredit(float value)throws InvalidTransaction
+    {
+        if(this.archived_credit+value<0)
+            throw new InvalidTransaction(InvalidTransaction.ErrorType.noEnoughCusCredit);
+        this.archived_credit+=value;
+        executeArchivedCreditChangeActions();
+    }
+
 
     @Override
     public String toString() {
         return String.format("Customer (ID= %d , Name= %s , Phone= %s , Barcode= %s ,Address= %s ,active_credit= %f ,archived_credit= %f, Expiry Date= %s)", id,name,phone,barcode,address, active_credit,archived_credit,expiry_date==null ? "":expiry_date.get_Date());
     }
+
 }

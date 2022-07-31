@@ -9,10 +9,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 
 public class CreditArchiveTransaction implements TablesOperations<CreditArchiveTransaction>{
-    enum TransactionType{
+    public  enum TransactionType{
         activeToArchive(1,"من ساريه الى متجمده"),archiveToActive(2,"من متجكده الى ساريه");
       private   final int databaseCode;
         private final String description;
@@ -38,6 +37,11 @@ public class CreditArchiveTransaction implements TablesOperations<CreditArchiveT
 
         }
     }
+
+    public void setTransactionType(TransactionType transactionType) {
+        this.transactionType = transactionType;
+    }
+
     private int trans_id,cus_id;
     private TransactionType transactionType;
     private int system_trans;
@@ -54,9 +58,9 @@ public class CreditArchiveTransaction implements TablesOperations<CreditArchiveT
         this.trans_date = trans_date;
     }
 
-    public CreditArchiveTransaction( Customer customer) {
+    public CreditArchiveTransaction( Customer customer,float amount) {
         // auto transfer all credit from system
-        this(0, customer.getId(), TransactionType.activeToArchive,1,customer.getActive_credit(),new DateTime());
+        this(0, customer.getId(), TransactionType.activeToArchive,1,amount,new DateTime());
         this.customer = customer;
     }
 
@@ -110,7 +114,7 @@ public class CreditArchiveTransaction implements TablesOperations<CreditArchiveT
             @Override
             public void statement_initialization() throws SQLException {
                 Statement s = Main.dBconnection.getConnection().createStatement();
-                ResultSet r = s.executeQuery(" SELECT CREDIT_ARCHIVE_TRANSACTION_TRG.NEXTVAL from DUAL");
+                ResultSet r = s.executeQuery(" SELECT CREDIT_ARCHIVE_TRANSACTION_SEQ.NEXTVAL from DUAL");
                 while (r.next())
                     this.getStatement_table().setTrans_id(r.getInt(1));
                 r.close();
@@ -123,11 +127,7 @@ public class CreditArchiveTransaction implements TablesOperations<CreditArchiveT
             }
             @Override
             public void after_execution_action() throws SQLException {
-                if(getStatement_table().getTransactionType()==TransactionType.activeToArchive)
-                    customer.fromActiveToArchive(getStatement_table().getCredit());
-                else
-                    customer.fromActiveToArchive(getStatement_table().getCredit());
-                customer.updateCustomerCredit();
+
             }
         };
         return dbStatement;

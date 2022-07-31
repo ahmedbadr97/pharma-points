@@ -61,6 +61,9 @@ public class CustomerDataPane {
 
     public void loadCustomerData() {
         Customer customer = main_screen.getCustomer();
+        customer.addActiveCreditChangeAction(()->{
+            cus_active_credit_lb.setText(Float.toString(customer.getActive_credit()));
+        });
         if (customer.getName() != null)
             cus_name_tf.setText(customer.getName());
         if (customer.getPhone() != null)
@@ -84,6 +87,7 @@ public class CustomerDataPane {
         edit_data_hbox.setVisible(main_screen.isMutable());
         setEditMode(false);
         cus_expiry_date_db.setValue(null);
+        cus_active_credit_lb.setText(Float.toString(0));
 
     }
 

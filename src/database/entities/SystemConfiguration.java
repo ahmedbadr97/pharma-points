@@ -2,11 +2,11 @@ package database.entities;
 
 import database.DBStatement;
 import exceptions.DataNotFound;
-import main.AppSettings;
 import main.AppSettings.CreditExpirySettings;
 import main.Main;
 import utils.DateTime;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -112,5 +112,30 @@ public class SystemConfiguration implements TablesOperations<SystemConfiguration
         int days = Integer.parseInt(data[2]);
 
         return new CreditExpirySettings(years, months, days);
+    }
+    public static DateTime getExpiredOrdersLastCheck()throws SQLException
+    {
+        String sql_statement = "SELECT ATTRIB_VALUE  FROM SYSTEM_CONFIGURATION WHERE ATTRIB_NAME='EXPIRED_ORDERS_LAST_CHECK'";
+        Statement p = Main.dBconnection.getConnection().createStatement();
+        ResultSet r = p.executeQuery(sql_statement);
+        DateTime expiredOrdersLastUpdate=null;
+        while (r.next())
+        {
+            String date=r.getString(1);
+            expiredOrdersLastUpdate=DateTime.fromDate(date);
+        }
+        r.close();
+        p.close();
+        return expiredOrdersLastUpdate;
+    }
+    public static void updateExpiredOrdersLastCheck(DateTime dateTime)throws SQLException
+    {
+        String sql_statement = "UPDATE SYSTEM_CONFIGURATION set ATTRIB_VALUE=?  WHERE ATTRIB_NAME='EXPIRED_ORDERS_LAST_CHECK'";
+        PreparedStatement p = Main.dBconnection.getConnection().prepareStatement(sql_statement);
+        p.setString(1,dateTime.get_Date());
+        p.execute();
+        p.close();
+        Main.dBconnection.getConnection().commit();
+
     }
 }

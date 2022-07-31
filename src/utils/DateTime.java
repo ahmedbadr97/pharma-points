@@ -28,9 +28,6 @@ public class DateTime implements Comparable<DateTime> {
         this.localDateTime=this.localDateTime.plusYears(years);
         this.localDateTime=this.localDateTime.plusMonths(months);
         this.localDateTime=this.localDateTime.plusDays(days);
-
-
-
     }
 
 
@@ -38,12 +35,25 @@ public class DateTime implements Comparable<DateTime> {
 
         return new DateTime(LocalDateTime.of(datePicker.getValue(), time));
     }
+    public static DateTime fromDate(String date)
+    {
+        return new DateTime(LocalDateTime.of(LocalDate.parse(date,normalDateFormat),LocalTime.MIN));
+    }
     public LocalDate getLocalDate() {
         return localDateTime.toLocalDate();
     }
 
     public DateTime(LocalDateTime localDateTime) {
         this.localDateTime = localDateTime;
+    }
+    public void toMinTime()
+    {
+        this.localDateTime=LocalDateTime.of(this.localDateTime.toLocalDate(),LocalTime.MIN);
+
+    }
+    public void toMaxTime()
+    {
+        this.localDateTime=LocalDateTime.of(this.localDateTime.toLocalDate(),LocalTime.MAX);
     }
 
     public String datetime_12h() {

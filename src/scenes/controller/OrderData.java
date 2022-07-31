@@ -1,6 +1,7 @@
 package scenes.controller;
 
 import database.DBOperations;
+import database.entities.Customer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -34,7 +35,10 @@ public class OrderData {
         dbOperations=new DBOperations();
         this.orderDataPane=new OrderDataPane(dbOperations,main_screen.getOrder());
         main_Vbox.getChildren().add(  orderDataPane.getParent());
-        main_screen.getOrder().addOnAddAction(()->cus_active_credit_lb.setText(Float.toString(main_screen.getOrder().getCustomer().getActive_credit())));
+        Customer customer=    main_screen.getOrder().getCustomer();
+        customer.addActiveCreditChangeAction(()->cus_active_credit_lb.setText(Float.toString(customer.getActive_credit())));
+        orderDataPane.getController().setInitializeAction(()->orderDataPane.getCustomer().addActiveCreditChangeAction(()->cus_active_credit_lb.setText(Float.toString(orderDataPane.getCustomer().getActive_credit()))));
+
 
     }
 

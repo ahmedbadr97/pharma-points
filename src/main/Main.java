@@ -18,7 +18,10 @@ import scenes.main.NewCustomer;
 import scenes.main.NewOrder;
 import utils.DateTime;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -54,6 +57,8 @@ public class Main extends Application {
 //        DBOperations dbOperations=new DBOperations();
 //        NewOrder newOrder=new NewOrder();
 //        newOrder.showStage();
+
+
 
     }
     public static void shutdownSystem()

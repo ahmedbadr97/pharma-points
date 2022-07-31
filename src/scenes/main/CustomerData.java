@@ -4,7 +4,7 @@ import database.DBOperations;
 import database.entities.Customer;
 
 public class CustomerData extends WindowAbstract<scenes.controller.CustomerData> {
-    private final Customer customer;
+    private  Customer customer;
     private final DBOperations dbOperations;
 
     public CustomerData(Customer customer) {
@@ -12,6 +12,10 @@ public class CustomerData extends WindowAbstract<scenes.controller.CustomerData>
         this.dbOperations=new DBOperations();
         load("CustomerData",860,600);
         getController().ini(this);
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public Customer getCustomer() {

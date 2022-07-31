@@ -71,7 +71,7 @@ public class Alerts {
         alert.setOnCloseRequest( event -> alertOnClose());
         alert.showAndWait();
     }
-    public static abstract class ConfBtnAction
+    public static interface  ConfBtnAction
     {
         public abstract void yesAction();
         public abstract void noAction();

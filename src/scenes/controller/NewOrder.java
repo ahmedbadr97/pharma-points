@@ -40,9 +40,6 @@ public class NewOrder {
             customerDataPane.getController().loadCustomerData();
             orderDataPane.initialize_order(customer);
             order=orderDataPane.getOrder();
-            orderDataPane.getOrder().addOnAddAction(()->{
-                customerDataPane.getController().loadCustomerData();
-            });
 
         });
         getCustomerBar.setSearchWithNameAction(()->{
@@ -54,10 +51,6 @@ public class NewOrder {
                 orderDataPane.initialize_order(customer);
                 order=orderDataPane.getOrder();
 
-                orderDataPane.getOrder().addOnAddAction(()->{
-                customerDataPane.getController().loadCustomerData();
-
-                });
                 customerSearch.closeStage();
 
 

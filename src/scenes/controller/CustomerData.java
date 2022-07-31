@@ -7,10 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
 import scenes.abstracts.CustomerDataPane;
@@ -75,6 +72,7 @@ public class CustomerData {
         customerDataPane.getController().loadCustomerData();
         try {
             ArrayList<Order> orders=Order.getCustomerOrders(main_screen.getCustomer());
+            orders_tv_list.clear();
             for (Order order:orders)
                 orders_tv_list.add(new OrdersTableRows(order));
         }
@@ -86,6 +84,16 @@ public class CustomerData {
         {
             //Do nothing
         }
+    }
+    public void reloadCustomer(){
+        try {
+            main_screen.setCustomer(Customer.getCustomer(Integer.toString(main_screen.getCustomer().getId()), Customer.QueryFilter.ID));
+        } catch (SQLException e) {
+            new Alerts(e);
+        } catch (DataNotFound e) {
+            new Alerts(e);
+        }
+
     }
     public void ordersTableIni()
     {
@@ -110,9 +118,12 @@ public class CustomerData {
 
                     selectedRow.orderDataScreen=new OrderData(roww.getItem().getOrder());
                     selectedRow.orderDataScreen.addOnCloseAction(()->{
+                        reloadCustomer();
                         loadData();
                         selectedRow.orderDataScreen=null;
-
+                        //TODO clear listeners
+//                        roww.getItem().order.clearListeners();
+//                        main_screen.getCustomer().clearListeners();
                     });
                     selectedRow.orderDataScreen.showStage();
                 }
