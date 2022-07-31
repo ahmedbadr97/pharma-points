@@ -65,6 +65,7 @@ public class AppSettings {
             float amount_to_transfer=Math.max(order.getTotal_credit(),0.0f);
             if(amount_to_transfer!=0)
             {
+                amount_to_transfer=Math.min(amount_to_transfer,customer.getActive_credit());
                 customer.fromActiveToArchive(amount_to_transfer);
                 dbOperations.add(new CreditArchiveTransaction(customer,amount_to_transfer), DBStatement.Type.ADD);
             }

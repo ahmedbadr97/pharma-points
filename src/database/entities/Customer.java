@@ -246,7 +246,7 @@ public class Customer implements TablesOperations<Customer>{
     @Override
     public DBStatement<Customer> addRow()  {
         // CUS_ID CUS_NAME CUS_PHONE CUS_BARCODE, CUS_ADDRESS ,CUS_ACTIVE_CREDIT,CUS_ARCHIVED_CREDIT  <-- 7 cols
-        String sql_statement="INSERT INTO CUSTOMER VALUES(?,?,?,?,?,?,?)";
+        String sql_statement="INSERT INTO CUSTOMER  (CUS_ID ,CUS_NAME, CUS_PHONE, CUS_BARCODE, CUS_ADDRESS ,CUS_ACTIVE_CREDIT,CUS_ARCHIVED_CREDIT) VALUES(?,?,?,?,?,?,?)";
         DBStatement<Customer> dbStatement=new DBStatement<Customer>(sql_statement,this,DBStatement.Type.ADD) {
             @Override
             public void statement_initialization() throws SQLException {
