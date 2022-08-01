@@ -185,11 +185,11 @@ public class CustomerData {
         }
 
         public float getTotal_credit_in() {
-            return order.getTotal_credit_in();
+            return order.getTotalSystemCreditIn();
         }
 
         public float getTotal_credit_out() {
-            return order.getTotal_credit_out();
+            return order.getTotalOrderCreditOut();
         }
 
         public DateTime getOrder_time() {

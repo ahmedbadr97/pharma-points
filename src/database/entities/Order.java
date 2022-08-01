@@ -1,6 +1,5 @@
 package database.entities;
 
-import database.DBOperations;
 import database.DBStatement;
 import exceptions.DataNotFound;
 import exceptions.InvalidTransaction;
@@ -18,7 +17,7 @@ import java.util.ArrayList;
 public class Order implements TablesOperations<Order> {
     private int order_id, cus_id, sale_id;
     private DateTime order_time;
-    private float total_money_in, total_money_out, total_credit_in, total_credit_out, returned_credit;
+    private float total_money_in, total_money_out, totalSystemCreditIn,totalSystemCreditOut, totalOrderCreditOut, totalOrderCreditIn;
     private String notes;
     private DateTime expiry_date;
     private boolean order_archived;
@@ -38,7 +37,7 @@ public class Order implements TablesOperations<Order> {
         this.cus_id = cus_id;
         this.sale_id = sale_id;
         this.order_time = order_time;
-        this.total_money_in = total_money_out = total_credit_in = total_credit_out = returned_credit = 0;
+        this.total_money_in = total_money_out = totalSystemCreditIn = totalOrderCreditOut = totalOrderCreditIn = 0;
         this.notes = notes;
         orderTransactions = new ArrayList<>();
         onAddTransactionsListener = new ArrayList<>();
@@ -73,7 +72,16 @@ public class Order implements TablesOperations<Order> {
     }
 
     public float getTotal_credit() {
-        return total_credit_in - total_credit_out;
+        return totalSystemCreditIn - totalOrderCreditOut;
+
+    }
+
+    public float getTotalSystemCreditOut() {
+        return totalSystemCreditOut;
+    }
+
+    public float getTotalOrderCreditIn() {
+        return totalOrderCreditIn;
     }
 
     public void addOnAddAction(OnAddTransactionsAction onAddTransactionsAction) {
@@ -118,8 +126,8 @@ public class Order implements TablesOperations<Order> {
                 customer_credit = trans_amount * getOrderSale().getMoney_to_credit();
                 break;
             case credit_out:
-                // produces error no enough balance in customer balance , or remove credit greater than put credit
-                if (total_credit_out + trans_amount < 0)
+                // produces error no enough balance in customer balance , or edit , delete error remove credit greater than put credit
+                if (totalOrderCreditOut + trans_amount < 0)
                     throw new InvalidTransaction(InvalidTransaction.ErrorType.inValidCreditOut);
                 customer_credit = -trans_amount;
                 break;
@@ -127,11 +135,11 @@ public class Order implements TablesOperations<Order> {
                 // return given credit ,
                 // may throw error returned credit greater than given credit
                 // may throw error remove from credit in greater than given
-                float new_returned_value = returned_credit + trans_amount;
-                float new_c_in_value = total_credit_in + trans_amount;
+                float new_returned_value = totalOrderCreditIn + trans_amount;
+                float new_c_in_value = totalSystemCreditIn + trans_amount;
                 if (new_c_in_value < 0)
                     throw new InvalidTransaction(InvalidTransaction.ErrorType.invalidCreditIn);
-                if (new_returned_value > total_credit_out)
+                if (new_returned_value > totalOrderCreditOut)
                     throw new InvalidTransaction(InvalidTransaction.ErrorType.returnGreaterThanIn);
                 customer_credit = trans_amount;
                 break;
@@ -144,6 +152,9 @@ public class Order implements TablesOperations<Order> {
                 customer_credit = -trans_amount * getOrderSale().getMoney_to_credit();
                 break;
             case money_in_settlement:
+                // may throw no enough customer credit if you remove the transaction or edit it
+                if (total_money_in + trans_amount < 0)
+                    throw new InvalidTransaction(InvalidTransaction.ErrorType.invalidMoneyIn);
                 customer_credit = trans_amount;
 
         }
@@ -177,21 +188,23 @@ public class Order implements TablesOperations<Order> {
         switch (transactionType) {
             case money_in:
                 total_money_in += trans_amount;
-                total_credit_in += trans_amount*orderSale.getMoney_to_credit();
+                totalSystemCreditIn += trans_amount*orderSale.getMoney_to_credit();
                 break;
             case credit_out:
-                total_credit_out += trans_amount;
+                totalOrderCreditOut += trans_amount;
+                totalSystemCreditOut+=trans_amount;
                 break;
             case credit_in:
-                total_credit_in += trans_amount;
-                returned_credit += trans_amount;
+                totalSystemCreditIn += trans_amount;
+                totalOrderCreditIn += trans_amount;
                 break;
             case money_out:
                 total_money_out += trans_amount;
-                total_credit_in += -trans_amount*orderSale.getMoney_to_credit();
+                totalSystemCreditOut+=trans_amount*orderSale.getMoney_to_credit();
                 break;
             case money_in_settlement:
                 total_money_in += trans_amount;
+                totalSystemCreditIn += trans_amount;
         }
     }
 
@@ -231,26 +244,29 @@ public class Order implements TablesOperations<Order> {
 
     public void setOrderTransactions(ArrayList<OrderTransaction> orderTransactions) {
         this.orderTransactions = orderTransactions;
-        for (OrderTransaction transaction : orderTransactions) {
 
+        for (OrderTransaction transaction : orderTransactions) {
+            float trans_amount=transaction.getMoney_amount();
             switch (transaction.getTrans_type()) {
                 case money_in:
-                    total_money_in += transaction.getMoney_amount();
-                    total_credit_in += transaction.getMoney_amount() * getOrderSale().getMoney_to_credit();
+                    total_money_in += trans_amount;
+                    totalSystemCreditIn += trans_amount * getOrderSale().getMoney_to_credit();
                     break;
                 case credit_out:
-                    total_credit_out += transaction.getMoney_amount();
+                    totalOrderCreditOut += trans_amount;
+                    totalSystemCreditOut+=trans_amount;
                     break;
                 case credit_in:
-                    total_credit_in += transaction.getMoney_amount();
+                    totalOrderCreditIn+=trans_amount;
+                    totalSystemCreditIn += trans_amount;
                     break;
                 case money_out:
-                    total_money_out += transaction.getMoney_amount();
-                    total_credit_in -= transaction.getMoney_amount() * getOrderSale().getMoney_to_credit();
+                    total_money_out += trans_amount;
+                    totalSystemCreditOut+=trans_amount*orderSale.getMoney_to_credit();
                     break;
                 case money_in_settlement:
-                    total_money_in += transaction.getMoney_amount();
-                    break;
+                    total_money_in += trans_amount;
+                    totalSystemCreditIn += trans_amount;
             }
 
         }
@@ -314,12 +330,12 @@ public class Order implements TablesOperations<Order> {
         return total_money_out;
     }
 
-    public float getTotal_credit_in() {
-        return total_credit_in;
+    public float getTotalSystemCreditIn() {
+        return totalSystemCreditIn;
     }
 
-    public float getTotal_credit_out() {
-        return total_credit_out;
+    public float getTotalOrderCreditOut() {
+        return totalOrderCreditOut;
     }
 
     public ArrayList<OrderTransaction> getOrderTransactions() {

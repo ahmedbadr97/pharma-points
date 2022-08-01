@@ -171,7 +171,7 @@ public class OrderDataPane {
             }
             float total_money = (main_screen.getOrder().getTotal_money_in() - main_screen.getOrder().getTotal_money_out());
             order_id_lb.setText(Integer.toString(main_screen.getOrder().getOrder_id()));
-            amount_needed_before_edit = total_money - main_screen.getOrder().getTotal_credit_out();
+            amount_needed_before_edit = total_money - main_screen.getOrder().getTotalOrderCreditOut();
             order_time_lb.setText(main_screen.getOrder().getOrder_time().toString());
             order_expiry_date_lb.setText(main_screen.getOrder().getExpiry_date().get_Date());
             updateOrderSummaryFields();
@@ -208,9 +208,9 @@ public class OrderDataPane {
         String greenTextStyle = "green_summary_field";
         String redTextStyle = "red_summary_field";
         Order current_order = main_screen.getOrder();
-        total_credit_in_lb.setText(Float.toString(current_order.getTotal_credit_in()));
-        total_credit_out_lb.setText(Float.toString(current_order.getTotal_credit_out()));
-        float total_credit = (current_order.getTotal_credit_in() - current_order.getTotal_credit_out());
+        total_credit_in_lb.setText(Float.toString(current_order.getTotalOrderCreditIn()));
+        total_credit_out_lb.setText(Float.toString(current_order.getTotalOrderCreditOut()));
+        float total_credit = (current_order.getTotalOrderCreditIn() - current_order.getTotalOrderCreditOut());
         if (total_credit < 0) {
             total_credit_lb.getStyleClass().clear();
             total_credit_lb.getStyleClass().add(redTextStyle);
@@ -227,11 +227,11 @@ public class OrderDataPane {
         float total_money = (current_order.getTotal_money_in() - current_order.getTotal_money_out());
 
         // --------------------------Amount needed text field--------------------------------------//
-        float amount_needed = Math.max(total_money - current_order.getTotal_credit_out(), 0.0f);
+        float amount_needed = Math.max(total_money - current_order.getTotalOrderCreditOut(), 0.0f);
         amount_needed_lb.getStyleClass().clear();
         amount_needed_lb.getStyleClass().add(greenTextStyle);
         if (main_screen.getOrderSettings() == OrderSettings.viewAndEdit) {
-            amount_needed = total_money - current_order.getTotal_credit_out() - amount_needed_before_edit;
+            amount_needed = total_money - current_order.getTotalOrderCreditOut() - amount_needed_before_edit;
             if (amount_needed < 0) {
                 amount_needed*=-1;
                 amount_needed_lb.getStyleClass().clear();
