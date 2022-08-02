@@ -193,7 +193,7 @@ public class OrderDataPane {
     {
         try {
             main_screen.setCustomer(Customer.getCustomer(Integer.toString(main_screen.getCustomer().getId()), Customer.QueryFilter.ID));
-            main_screen.setOrder(Order.getOrderByID(main_screen.getOrder().getOrder_id()));
+            main_screen.setOrder(Order.getOrderByID(main_screen.getOrder().getOrder_id(),true));
             main_screen.getOrder().setCustomer(main_screen.getCustomer());
 
         } catch (SQLException e) {

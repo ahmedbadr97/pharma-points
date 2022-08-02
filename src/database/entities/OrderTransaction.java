@@ -2,6 +2,7 @@ package database.entities;
 
 import database.DBStatement;
 import exceptions.DataNotFound;
+import javafx.util.Pair;
 import main.Main;
 import utils.DateTime;
 
@@ -10,6 +11,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class OrderTransaction implements TablesOperations<OrderTransaction> {
 
@@ -191,6 +194,28 @@ public class OrderTransaction implements TablesOperations<OrderTransaction> {
                     return TransactionType.money_in;
             }
         }
+    }
+    public static ArrayList<OrderTransaction> getTransactionsByDate(DateTime from ,DateTime to)throws SQLException ,DataNotFound
+    {
+
+        ArrayList<OrderTransaction> orderTransactions = new ArrayList<>();
+        Map<Integer,Order> orderMap=new HashMap<>();
+        String sql_statement = "SELECT *  FROM ORDER_TRANSACTION WHERE TRANS_TIME BETWEEN TO_TIMESTAMP(?,'YYYY-MM-DD HH24:MI:SS') AND TO_TIMESTAMP(?,'YYYY-MM-DD HH24:MI:SS')";
+        PreparedStatement p = Main.dBconnection.getConnection().prepareStatement(sql_statement);
+        p.setString(1, from.getTimeStamp());
+        p.setString(2, to.getTimeStamp());
+        ResultSet r = p.executeQuery();
+        while (r.next()) {
+            OrderTransaction orderTransaction = fetch_resultSet(r);
+            Order order=orderMap.get(orderTransaction.getOrder_id());
+            if(order==null)
+                order=Order.getOrderByID(orderTransaction.getOrder_id(),false);
+            orderTransaction.setOrder(order);
+            orderTransactions.add(orderTransaction);
+        }
+        if (orderTransactions.isEmpty())
+            throw new DataNotFound("no order transactions found in this interval from " + from + " to " +to);
+        return orderTransactions;
     }
 
 }

@@ -8,6 +8,7 @@ import javafx.scene.text.Text;
 import scenes.main.CustomerData;
 import scenes.main.CustomerSearch;
 import scenes.main.NewOrder;
+import scenes.main.TransactionsLog;
 
 public class Home {
     @FXML
@@ -16,6 +17,7 @@ public class Home {
     private Circle connection_circle;
     private scenes.main.Home main_screen;
     private scenes.main.CustomerSearch customerSearchScene;
+    private scenes.main.TransactionsLog transactionsLogScene;
     public void init(scenes.main.Home main_screen){
         this.main_screen=main_screen;
         system_user_t.setText(main_screen.getLogged_in_user().getUsername());
@@ -75,6 +77,8 @@ public class Home {
 
     @FXML
     void transactions_log_btn_action(ActionEvent event) {
+        transactionsLogScene=new TransactionsLog();
+        transactionsLogScene.showStage();
 
     }
 

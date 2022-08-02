@@ -37,7 +37,7 @@ public class Order implements TablesOperations<Order> {
         this.cus_id = cus_id;
         this.sale_id = sale_id;
         this.order_time = order_time;
-        this.total_money_in = total_money_out = totalSystemCreditIn = totalOrderCreditOut = totalOrderCreditIn = 0;
+        this.total_money_in = total_money_out = totalSystemCreditIn = totalOrderCreditOut = totalOrderCreditIn =totalSystemCreditOut= 0;
         this.notes = notes;
         orderTransactions = new ArrayList<>();
         onAddTransactionsListener = new ArrayList<>();
@@ -240,6 +240,7 @@ public class Order implements TablesOperations<Order> {
         }
         return customer_credit;
     }
+
 
 
     public void setOrderTransactions(ArrayList<OrderTransaction> orderTransactions) {
@@ -453,7 +454,7 @@ public class Order implements TablesOperations<Order> {
             throw new DataNotFound("no orders found for this customer " + customer.getName());
         return orders;
     }
-    public static Order getOrderByID(int id)throws SQLException,DataNotFound
+    public static Order getOrderByID(int id,boolean withTransactions)throws SQLException,DataNotFound
     {
         Order order = null;
         String sql_statement = "SELECT *  FROM CUS_ORDER WHERE ORDER_ID= ?";
@@ -463,7 +464,8 @@ public class Order implements TablesOperations<Order> {
         while (r.next()) {
              order = fetch_resultSet(r);
             order.orderSale = SaleHistory.getSaleBy_id(order.getSale_id());
-            order.setOrderTransactions(OrderTransaction.getOrderTransactions(order));
+            if (withTransactions)
+                order.setOrderTransactions(OrderTransaction.getOrderTransactions(order));
 
         }
         if (order==null)
