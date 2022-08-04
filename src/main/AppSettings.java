@@ -4,6 +4,7 @@ import database.DBOperations;
 import database.DBStatement;
 import database.entities.*;
 import exceptions.DataNotFound;
+import exceptions.InvalidTransaction;
 import exceptions.SystemError;
 import utils.DateTime;
 
@@ -94,9 +95,18 @@ public class AppSettings {
             float amount_to_transfer=Math.max(order.getTotal_credit(),0.0f);
             if(amount_to_transfer!=0)
             {
+
                 amount_to_transfer=Math.min(amount_to_transfer,customer.getActive_credit());
-                customer.fromActiveToArchive(amount_to_transfer);
-                dbOperations.add(new CreditArchiveTransaction(customer,amount_to_transfer), DBStatement.Type.ADD);
+                try {
+                    customer.fromActiveToArchive(amount_to_transfer);
+                    dbOperations.add(new CreditArchiveTransaction(customer,amount_to_transfer), DBStatement.Type.ADD);
+
+                }
+                catch (InvalidTransaction i)
+                {
+                    //TO DO throw invalid trans
+                }
+
             }
             order.setOrder_archived(true);
             dbOperations.add(order, DBStatement.Type.UPDATE);

@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import scenes.abstracts.OrderSettings;
@@ -54,6 +55,7 @@ public class Settings {
         serverSetAction(null);
 
     }
+
     @FXML
     void printerSetAction(ActionEvent event)
     {

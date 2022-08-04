@@ -9,10 +9,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class CreditArchiveTransaction implements TablesOperations<CreditArchiveTransaction>{
     public  enum TransactionType{
-        activeToArchive(1,"من ساريه الى متجمده"),archiveToActive(2,"من متجكده الى ساريه");
+        activeToArchive(1,"تجميد نقاط"),archiveToActive(2,"فك نقاط");
       private   final int databaseCode;
         private final String description;
         TransactionType(int databaseCode, String description) {
@@ -67,6 +68,11 @@ public class CreditArchiveTransaction implements TablesOperations<CreditArchiveT
     public CreditArchiveTransaction(TransactionType transactionType, int system_trans, float credit, Customer customer) {
       this(0, customer.getId(), transactionType,system_trans,credit,new DateTime());
       this.customer=customer;
+    }
+    public String getIsManualTransaction()
+    {
+        return  system_trans==0 ? "نعم":"لا";
+
     }
 
 
@@ -151,10 +157,11 @@ public class CreditArchiveTransaction implements TablesOperations<CreditArchiveT
         return new CreditArchiveTransaction(r.getInt(1),r.getInt(2),TransactionType.fromDatabaseCode(r.getInt(3)),r.getInt(4),r.getFloat(5),trans_date);
     }
 
-    public static CreditArchiveTransaction getLastArchivedBySystem(Customer customer)throws SQLException ,DataNotFound
+    public static ArrayList<CreditArchiveTransaction> getArchiveTransactions(Customer customer)throws SQLException ,DataNotFound
     {
         CreditArchiveTransaction creditArchiveTransaction=null;
-        String sql_statement="SELECT * FROM (SELECT *  FROM CREDIT_ARCHIVE_TRANSACTION WHERE CUS_ID= ? AND SYSTEM_TRANS=1 AND TRANS_TYPE=1 ORDER BY TRANS_DATE DESC) WHERE ROWNUM=1";
+        ArrayList<CreditArchiveTransaction> creditArchiveTransactions=new ArrayList<>();
+        String sql_statement="SELECT *  FROM CREDIT_ARCHIVE_TRANSACTION WHERE CUS_ID= ?";
         PreparedStatement p=Main.dBconnection.getConnection().prepareStatement(sql_statement);
         p.setInt(1,customer.getId());
         ResultSet r=p.executeQuery();
@@ -162,10 +169,11 @@ public class CreditArchiveTransaction implements TablesOperations<CreditArchiveT
         {
             creditArchiveTransaction=fetch_resultSet(r);
             creditArchiveTransaction.setCustomer(customer);
+            creditArchiveTransactions.add(creditArchiveTransaction);
 
         }
-        if (creditArchiveTransaction==null)
-            throw new DataNotFound("no Archived credit from this customer name="+ customer.getName()+" ID="+customer.getId());
-        return creditArchiveTransaction;
+        if (creditArchiveTransactions.isEmpty())
+            throw new DataNotFound("no Archived credit for this customer name="+ customer.getName()+" ID="+customer.getId());
+        return creditArchiveTransactions;
     }
 }

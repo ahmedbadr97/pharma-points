@@ -376,7 +376,7 @@ public class OrderDataPane {
             main_screen.getDbOperations().add(transaction, DBStatement.Type.ADD);
 
         } catch (InvalidTransaction inv) {
-            if (inv.getErrorType() == InvalidTransaction.ErrorType.noEnoughCusCredit) {
+            if (inv.getErrorType() == InvalidTransaction.ErrorType.noEnoughActiveCusCredit) {
                 // if the problem that there is no enough credit in customer account
 //                boolean noEnoughCusCredit = true;
 //                if (order.isOrder_archived()) {
@@ -637,7 +637,8 @@ public class OrderDataPane {
         }
 
         public void removeBtnAction() {
-            OrderSettings orderSettings = main_screen.getOrderSettings();
+            if(!mutable)return;
+
 
             try {
                 main_screen.getOrder().removeTransaction(transaction);

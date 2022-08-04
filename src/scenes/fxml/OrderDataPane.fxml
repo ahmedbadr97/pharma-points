@@ -130,14 +130,14 @@
       </GridPane>
       <HBox alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="855.0">
          <children>
-            <TableView fx:id="order_trans_tv" prefHeight="150.0" prefWidth="567.0">
+            <TableView fx:id="order_trans_tv" prefHeight="150.0" prefWidth="603.0">
               <columns>
                 <TableColumn fx:id="trans_id_col" prefWidth="69.0" text="رقم العماليه" />
                 <TableColumn fx:id="trans_type_col" prefWidth="135.0" text="نوع العماليه" />
                   <TableColumn fx:id="money_amount_col" prefWidth="82.0" text="الرصيد" />
                   <TableColumn fx:id="trans_time_col" minWidth="4.0" prefWidth="169.0" text="الوقت / التاريخ" />
                   <TableColumn fx:id="edit_save_btn_col" />
-                  <TableColumn fx:id="remove_btn_col" minWidth="0.0" prefWidth="31.0" />
+                  <TableColumn fx:id="remove_btn_col" minWidth="0.0" prefWidth="67.0" />
               </columns>
             </TableView>
          </children>

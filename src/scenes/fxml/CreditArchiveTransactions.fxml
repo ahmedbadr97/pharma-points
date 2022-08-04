@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="525.0" prefWidth="578.0" stylesheets="@../css/mainStyles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scenes.controller.CreditArchiveTransactions">
+   <top>
+      <HBox alignment="CENTER" prefHeight="36.0" prefWidth="600.0" styleClass="title_bar" BorderPane.alignment="CENTER">
+         <children>
+            <Label styleClass="title_labels" text="النقاط المجمده" />
+         </children>
+      </HBox>
+   </top>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="46.0" prefWidth="600.0" spacing="8.0">
+               <children>
+                  <Label styleClass="secondary_labels" text="النقاط المجمده:" />
+                  <Label fx:id="archived_credit_lb" prefHeight="32.0" prefWidth="90.0" styleClass="whiteDataLabels" text="0" />
+                  <Label styleClass="secondary_labels" text="النقاط الحاليه:">
+                     <HBox.margin>
+                        <Insets left="25.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="active_credit_lb" prefHeight="32.0" prefWidth="90.0" styleClass="whiteDataLabels" text="0" />
+               </children>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </HBox>
+            <Label styleClass="secondary_labels" text="تحويلات النقاط">
+               <VBox.margin>
+                  <Insets bottom="5.0" top="20.0" />
+               </VBox.margin>
+            </Label>
+            <Separator prefHeight="0.0" prefWidth="710.0" styleClass="title_bar">
+               <VBox.margin>
+                  <Insets bottom="20.0" />
+               </VBox.margin>
+            </Separator>
+            <TableView fx:id="creditTransactions_tv" prefHeight="232.0" prefWidth="538.0" tableMenuButtonVisible="true">
+              <columns>
+                <TableColumn fx:id="creditTrans_id" prefWidth="75.0" text="رقم العمليه" />
+                <TableColumn fx:id="creditTransType_col" prefWidth="137.0" text="نوع العماليه" />
+                  <TableColumn fx:id="creditTrans_amount" prefWidth="97.0" text="القيمه" />
+                  <TableColumn fx:id="manual_op_col" prefWidth="73.0" text="عمليه يدوية" />
+                  <TableColumn fx:id="dateTime_col" prefWidth="193.0" text="الوقت / التاريخ" />
+              </columns>
+            </TableView>
+            <HBox alignment="CENTER_LEFT" prefHeight="41.0" prefWidth="538.0" spacing="5.0">
+               <VBox.margin>
+                  <Insets top="25.0" />
+               </VBox.margin>
+               <children>
+                  <Label styleClass="secondary_labels" text="تحويل نقاط:" />
+                  <ComboBox fx:id="creditTransType_cb" prefHeight="30.0" prefWidth="131.0" styleClass="secondary_labels" />
+                  <Label styleClass="secondary_labels" text="القيمة:">
+                     <HBox.margin>
+                        <Insets left="25.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="creditTransAmount_tf" onAction="#transCredit" prefHeight="32.0" prefWidth="118.0" styleClass="purple_border" />
+                  <Button mnemonicParsing="false" onAction="#transCredit" prefHeight="29.0" prefWidth="68.0" text="تحويل">
+                     <HBox.margin>
+                        <Insets left="50.0" />
+                     </HBox.margin>
+                     <styleClass>
+                        <String fx:value="text_field" />
+                        <String fx:value="secondary_labels" />
+                     </styleClass>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+         <padding>
+            <Insets left="10.0" right="10.0" />
+         </padding>
+      </VBox>
+   </center>
+   <bottom>
+      <HBox alignment="CENTER" prefHeight="39.0" prefWidth="558.0" spacing="50.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#cancel" prefHeight="25.0" prefWidth="70.0" styleClass="secondary_labels" text="الغاء" />
+            <Button mnemonicParsing="false" onAction="#save" prefHeight="25.0" prefWidth="70.0" styleClass="secondary_labels" text="حفظ" />
+         </children>
+      </HBox>
+   </bottom>
+</BorderPane>

@@ -159,7 +159,7 @@ public class Order implements TablesOperations<Order> {
 
         }
         if (customer.getActive_credit() + customer_credit < 0)
-            throw new InvalidTransaction(InvalidTransaction.ErrorType.noEnoughCusCredit);
+            throw new InvalidTransaction(InvalidTransaction.ErrorType.noEnoughActiveCusCredit);
     }
     public static ArrayList<Order> getExpiredOrders(DateTime current_time)throws SQLException,DataNotFound
     {

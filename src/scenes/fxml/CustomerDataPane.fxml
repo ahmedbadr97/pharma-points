@@ -101,7 +101,7 @@
             <HBox GridPane.columnIndex="1" GridPane.rowIndex="3">
                <children>
                   <Separator orientation="VERTICAL" prefHeight="200.0" />
-                  <Button disable="true" mnemonicParsing="false" onAction="#open_cus_arch_credit" styleClass="secondary_labels" text="النقاط المجمده">
+                  <Button mnemonicParsing="false" onAction="#open_cus_arch_credit" styleClass="secondary_labels" text="النقاط المجمده">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>

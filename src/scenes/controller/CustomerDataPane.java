@@ -7,6 +7,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import scenes.main.Alerts;
+import scenes.main.CreditArchiveTransactions;
+
 import java.sql.SQLException;
 
 public class CustomerDataPane {
@@ -40,18 +42,20 @@ public class CustomerDataPane {
     @FXML
     private Button save_data_btn;
     private scenes.abstracts.CustomerDataPane main_screen;
+    private scenes.main.CreditArchiveTransactions creditArchiveTransactions;
 
     public void ini(scenes.abstracts.CustomerDataPane main_screen) {
         this.main_screen = main_screen;
         edit_data_hbox.setVisible(main_screen.isMutable());
         setEditMode(false);
+        creditArchiveTransactions = null;
 
 
     }
 
     public void loadCustomerData() {
         Customer customer = main_screen.getCustomer();
-        customer.addActiveCreditChangeAction(()->{
+        customer.addActiveCreditChangeAction(() -> {
             cus_active_credit_lb.setText(Float.toString(customer.getActive_credit()));
         });
         if (customer.getName() != null)
@@ -66,8 +70,8 @@ public class CustomerDataPane {
         cus_active_credit_lb.setText(Float.toString(customer.getActive_credit()));
 
     }
-    public void clearData()
-    {
+
+    public void clearData() {
         cus_name_tf.clear();
         cus_phone_tf.clear();
         cus_barcode_tf.clear();
@@ -85,7 +89,6 @@ public class CustomerDataPane {
         cus_address_tf.setEditable(edit_mode);
         cus_barcode_tf.setEditable(edit_mode);
         //TODO set update expiry date from admin only
-
 
 
         // edit buttons Hbox
@@ -113,9 +116,15 @@ public class CustomerDataPane {
     }
 
 
-
     @FXML
     void open_cus_arch_credit(ActionEvent event) {
+        if (creditArchiveTransactions != null)
+            return;
+        creditArchiveTransactions = new CreditArchiveTransactions(main_screen.getCustomer());
+        creditArchiveTransactions.addOnCloseAction(()->{
+            creditArchiveTransactions=null;
+        });
+        creditArchiveTransactions.showStage();
 
     }
 
@@ -142,9 +151,9 @@ public class CustomerDataPane {
         }
         main_screen.getCustomer().setName(cus_name);
         main_screen.getCustomer().setPhone(cus_phone_tf.getText());
-        if(cus_barcode_tf.getText()!=null && !cus_barcode_tf.getText().isEmpty())
+        if (cus_barcode_tf.getText() != null && !cus_barcode_tf.getText().isEmpty())
             main_screen.getCustomer().setBarcode(cus_barcode_tf.getText());
-        if(cus_address_tf.getText()!=null && !cus_address_tf.getText().isEmpty())
+        if (cus_address_tf.getText() != null && !cus_address_tf.getText().isEmpty())
             main_screen.getCustomer().setAddress(cus_address_tf.getText());
 
         main_screen.getDbOperations().add(main_screen.getCustomer(), DBStatement.Type.UPDATE);
