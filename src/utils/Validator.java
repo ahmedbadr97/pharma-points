@@ -2,7 +2,9 @@ package utils;
 
 import exceptions.DataEntryError;
 import javafx.application.Platform;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import scenes.main.Alerts;
 
 public class Validator {
 
@@ -45,6 +47,16 @@ public class Validator {
 
         }
         return value;
+
+    }
+    public  static String getText(TextField textField,String fieldName)throws DataEntryError
+    {
+        if(textField.getText()==null||textField.getText().isEmpty()){
+            Platform.runLater(textField::requestFocus);
+            throw  new DataEntryError( "يجب كتابه "+fieldName);
+
+        }
+        return textField.getText();
 
     }
 }

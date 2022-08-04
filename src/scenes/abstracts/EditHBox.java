@@ -35,6 +35,10 @@ public class EditHBox {
         button.setPrefHeight(0);
         return button;
     }
+    public void editableMod()
+    {
+        setMutability(true);
+    }
 
     private void setMutability(boolean mutable)
  {
@@ -64,22 +68,25 @@ public class EditHBox {
     public void setEditAction(EventHandler<ActionEvent> event)
     {
         editButton.setOnAction((actionEvent)->{
-            event.handle(actionEvent);
             setMutability(true);
+            event.handle(actionEvent);
+
         });
     }
     public void setCancelAction(EventHandler<ActionEvent> event)
     {
         cancelButton.setOnAction((actionEvent)->{
-            event.handle(actionEvent);
             setMutability(false);
+            event.handle(actionEvent);
+
         });
     }
     public void setSaveAction(EventHandler<ActionEvent> event)
     {
         saveButton.setOnAction((actionEvent)->{
-            event.handle(actionEvent);
             setMutability(false);
+            event.handle(actionEvent);
+
         });
     }
 }

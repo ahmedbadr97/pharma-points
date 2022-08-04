@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import scenes.abstracts.OrderSettings;
+import scenes.abstracts.SystemUsers;
 import scenes.main.Alerts;
 
 import java.sql.SQLException;
@@ -32,10 +33,11 @@ public class Settings {
     private Button printerSetBtn;
 
     @FXML
-    private Button usersSetAction;
+    private Button usersSetBtn;
     Button selectedButton;
     scenes.abstracts.DataBaseSettings dataBaseSettingsScene;
     scenes.abstracts.OrderSettings orderSettings;
+    scenes.abstracts.SystemUsers systemUsers;
 //    PrinterSettings printerSettingsGui;
     scenes.main.Settings main_scene;
 
@@ -45,6 +47,8 @@ public class Settings {
         dataBaseSettingsScene =new scenes.abstracts.DataBaseSettings();
         orderSettings=new OrderSettings();
         selectedButton=null;
+        systemUsers=new SystemUsers();
+
 
 
         serverSetAction(null);
@@ -74,6 +78,11 @@ public class Settings {
 
     @FXML
     void userSetAction(ActionEvent event) {
+        mainSpane.getChildren().clear();
+        mainSpane.getChildren().add(systemUsers.getParent());
+        setSelectedButton(usersSetBtn);
+        topBarText.setText("المستخدمين");
+
 
     }
     @FXML
