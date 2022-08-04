@@ -1,6 +1,7 @@
 package scenes.main;
 
 import javafx.scene.control.Alert;
+import javafx.stage.Screen;
 import scenes.fxml.FMXLResourcesLoader;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,7 +18,8 @@ public abstract class WindowAbstract<windowController> {
     private FXMLLoader loader;
     private Parent parent;
     private windowController controller;
-
+    private static final double screenHeight= Screen.getScreens().get(0).getBounds().getHeight();
+    private static final double screenWidth= Screen.getScreens().get(0).getBounds().getWidth();
     public interface OnCloseAction {
         public void closeAction();
     }
@@ -30,11 +32,11 @@ public abstract class WindowAbstract<windowController> {
         onCloseActions = new ArrayList<>();
     }
 
-    public void load(String fxmlfileName, int width, int hight) {
+    public void load(String fxmlfileName, double width, double hight) {
         try {
             loader = FMXLResourcesLoader.FXML(fxmlfileName + ".fxml");
             parent = loader.load();
-            scene = new Scene(parent, width, hight);
+            scene = new Scene(parent, Math.min(width,screenWidth-20), Math.min(hight,screenHeight-80));
             //          stage.getIcons().add(ImageLoader.LoadImage("exeicon.ico"));
             stage.setScene(scene);
             stage.setOnCloseRequest(event -> {
@@ -81,6 +83,10 @@ public abstract class WindowAbstract<windowController> {
 
 
         }
+    }
+    public void setMaxHeight(float height)
+    {
+        stage.setMaxHeight(height);
     }
 
     public void showStage() {

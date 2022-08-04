@@ -12,8 +12,10 @@ package scenes.controller;
         import javafx.fxml.FXML;
         import javafx.scene.control.*;
         import javafx.scene.control.cell.PropertyValueFactory;
+        import javafx.scene.layout.GridPane;
         import main.AppSettings;
         import main.Main;
+        import scenes.abstracts.EditHBox;
         import scenes.images.ImageLoader;
         import scenes.main.Alerts;
         import utils.DateTime;
@@ -32,29 +34,18 @@ public class OrderSettings {
     @FXML
     private TextField o_days_tf;
 
-    @FXML
-    private Button o_expiry_cancel_btn;
 
-    @FXML
-    private Button o_expiry_edit_btn;
-
-    @FXML
-    private Button o_expiry_save_btn;
 
     @FXML
     private TextField money_tf;
 
     @FXML
     private TextField credit_tf;
+    @FXML
+    private GridPane order_expiry_gp;
 
     @FXML
-    private Button cancel_sale_btn;
-
-    @FXML
-    private Button edit_sale_btn;
-
-    @FXML
-    private Button save_sale_btn;
+    private GridPane sale_settings_gp;
 
     @FXML
     private TableView<SaleHistory> saleHistoryTv;
@@ -69,6 +60,9 @@ public class OrderSettings {
     private SaleHistory newSaleHistory;
     private DBOperations dbOperations;
     ObservableList<SaleHistory> saleHistoryObservableList;
+    private EditHBox editOrderExpiryHBox;
+    private EditHBox editSaleSettingsHBox;
+
 
 
     public void ini()
@@ -78,6 +72,13 @@ public class OrderSettings {
         newCreditExpirySettings=null;
         setExpiryDataMutability(false);
         updateExpiryDataFields();
+        editOrderExpiryHBox=new EditHBox();
+        order_expiry_gp.add(editOrderExpiryHBox.getButtonsHBox(),3,0);
+        setOrderExpiryHBoxActions();
+
+        editSaleSettingsHBox=new EditHBox();
+        sale_settings_gp.add(editSaleSettingsHBox.getButtonsHBox(),2,0);
+        setSaleSettingsHBoxActions();
 
         updateCurrentSaleFields();
         setCurrentSaleMutability(false);
@@ -99,34 +100,12 @@ public class OrderSettings {
         sale_credit_money_col.setCellValueFactory((new PropertyValueFactory<>("creditToMoney")));
         saleHistoryTv.setItems(saleHistoryObservableList);
     }
-    public void buttonDisappear(Button button)
-    {
-        button.setVisible(false);
-        button.setGraphic(null);
-        button.setPrefWidth(0);
-    }
+
     public void setExpiryDataMutability(boolean mutable)
     {
         o_years_tf.setEditable(mutable);
         o_months_tf.setEditable(mutable);
         o_days_tf.setEditable(mutable);
-        if(mutable)
-        {
-            buttonDisappear(o_expiry_edit_btn);
-            o_expiry_save_btn.setVisible(true);
-            ImageLoader.icoButton(o_expiry_save_btn,"saveButton.png",10);
-            o_expiry_cancel_btn.setVisible(true);
-            ImageLoader.icoButton(o_expiry_cancel_btn,"cancel.png",10);
-
-        }
-        else {
-            buttonDisappear(o_expiry_save_btn);
-            o_expiry_edit_btn.setVisible(true);
-            buttonDisappear(o_expiry_cancel_btn);
-
-            ImageLoader.icoButton(o_expiry_edit_btn,"editButton.png",10);
-
-        }
     }
     public void updateExpiryDataFields()
     {
@@ -144,95 +123,69 @@ public class OrderSettings {
     {
         money_tf.setEditable(mutable);
         credit_tf.setEditable(mutable);
-        if(mutable)
-        {
-            buttonDisappear(edit_sale_btn);
-            save_sale_btn.setVisible(true);
-            ImageLoader.icoButton(save_sale_btn,"saveButton.png",10);
-            cancel_sale_btn.setVisible(true);
-            ImageLoader.icoButton(cancel_sale_btn,"cancel.png",10);
-        }
-        else {
-            buttonDisappear(save_sale_btn);
-            edit_sale_btn.setVisible(true);
-            buttonDisappear(cancel_sale_btn);
-            ImageLoader.icoButton(edit_sale_btn,"editButton.png",10);
-        }
     }
+    void setOrderExpiryHBoxActions()
+    {
 
-
-    @FXML
-    void oExpiryCancelEdit(ActionEvent event) {
-        setExpiryDataMutability(false);
-        updateExpiryDataFields();
-
-    }
-
-    @FXML
-    void oExpiryDataEdit(ActionEvent event) {
-        setExpiryDataMutability(true);
-
-    }
-
-    @FXML
-    void oExpirySaveData(ActionEvent event) {
-        int years=0,months=0,days=0;
-        try {
-            years = Validator.getInteger(o_years_tf,"السنين ",0,100);
-            months= Validator.getInteger(o_months_tf,"الشهور ",0,12);
-            days=Validator.getInteger(o_days_tf," الايام",0,Integer.MAX_VALUE);
-            if(years+months+days==0)
-            {
-                new Alerts("جميع الخانات تحتوى على اصفار", Alert.AlertType.ERROR);
-                return;
-            }
+        editOrderExpiryHBox.setCancelAction((actionEvent)->{
             setExpiryDataMutability(false);
-            newCreditExpirySettings=new AppSettings.CreditExpirySettings(years,months,days);
-            dbOperations.add(SystemConfiguration.fromCreditExpirySettings(newCreditExpirySettings), DBStatement.Type.UPDATE);
-        }
-        catch (DataEntryError n)
-        {
-            new Alerts(n);
+            updateExpiryDataFields();
+        });
+        editOrderExpiryHBox.setEditAction((actionEvent)->{
+            setExpiryDataMutability(true);
+        });
+        editOrderExpiryHBox.setSaveAction((actionEvent)->{
+            int years=0,months=0,days=0;
+            try {
+                years = Validator.getInteger(o_years_tf,"السنين ",0,100);
+                months= Validator.getInteger(o_months_tf,"الشهور ",0,12);
+                days=Validator.getInteger(o_days_tf," الايام",0,Integer.MAX_VALUE);
+                if(years+months+days==0)
+                {
+                    new Alerts("جميع الخانات تحتوى على اصفار", Alert.AlertType.ERROR);
+                    return;
+                }
+                setExpiryDataMutability(false);
+                newCreditExpirySettings=new AppSettings.CreditExpirySettings(years,months,days);
+                dbOperations.add(SystemConfiguration.fromCreditExpirySettings(newCreditExpirySettings), DBStatement.Type.UPDATE);
+            }
+            catch (DataEntryError n)
+            {
+                new Alerts(n);
 
-        }
-
+            }
+        });
 
     }
-
-    @FXML
-    void cancelSaleEdit(ActionEvent event) {
-        setCurrentSaleMutability(false);
-        updateCurrentSaleFields();
-
-    }
-
-    @FXML
-    void editSaleData(ActionEvent event) {
-        setCurrentSaleMutability(true);
-
-    }
-    @FXML
-    void saveSaleData(ActionEvent event) {
-
-        try {
-            float no_pts=Validator.getInteger(credit_tf,"عدد النقاط",1,(int)1e5);
-            float money_amount=Validator.getInteger(money_tf,"عدد الجنيهات",1,(int)1e5);
-            float sale_value=no_pts/money_amount;
-            newSaleHistory=new SaleHistory(sale_value);
-            dbOperations.add(newSaleHistory, DBStatement.Type.ADD);
-            SystemConfiguration currentSaleConfig=new SystemConfiguration(SystemConfiguration.SystemAttribute.CURRENT_SALE,()-> Integer.toString(newSaleHistory.getSale_id()));
-            dbOperations.add(currentSaleConfig, DBStatement.Type.UPDATE);
-            currentSaleHistory=newSaleHistory;
-            saleHistoryObservableList.add(currentSaleHistory);
+    void setSaleSettingsHBoxActions()
+    {
+        editSaleSettingsHBox.setCancelAction((event)->{
             setCurrentSaleMutability(false);
-        }
-        catch (DataEntryError d)
-        {
-            new Alerts(d);
-        }
-
-
+            updateCurrentSaleFields();
+        });
+        editSaleSettingsHBox.setEditAction((event)->{
+            setCurrentSaleMutability(true);
+        });
+        editSaleSettingsHBox.setSaveAction((event)->{
+            try {
+                float no_pts=Validator.getInteger(credit_tf,"عدد النقاط",1,(int)1e5);
+                float money_amount=Validator.getInteger(money_tf,"عدد الجنيهات",1,(int)1e5);
+                float sale_value=no_pts/money_amount;
+                newSaleHistory=new SaleHistory(sale_value);
+                dbOperations.add(newSaleHistory, DBStatement.Type.ADD);
+                SystemConfiguration currentSaleConfig=new SystemConfiguration(SystemConfiguration.SystemAttribute.CURRENT_SALE,()-> Integer.toString(newSaleHistory.getSale_id()));
+                dbOperations.add(currentSaleConfig, DBStatement.Type.UPDATE);
+                currentSaleHistory=newSaleHistory;
+                saleHistoryObservableList.add(currentSaleHistory);
+                setCurrentSaleMutability(false);
+            }
+            catch (DataEntryError d)
+            {
+                new Alerts(d);
+            }
+        });
     }
+
 
     @FXML
     void cancelChanges(ActionEvent event) {

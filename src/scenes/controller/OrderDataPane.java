@@ -505,6 +505,7 @@ public class OrderDataPane {
         float amount_backup;
 
         public OrderDataTableRow(OrderTransaction transaction) {
+            //TODO use EditHbox instead of manual way
 
             this.transaction = transaction;
             this.money_amount_tf = new TextField();
@@ -543,7 +544,10 @@ public class OrderDataPane {
                 cancelButtonAction();
             });
             if (transaction.getTrans_type() == TransactionType.money_in_settlement)
+            {
                 editButton.setDisable(true);
+
+            }
 
 
             edit_HBox = new HBox(cancelButton, editButton, saveButton);

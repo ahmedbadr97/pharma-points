@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="870.0" stylesheets="@../css/mainStyles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scenes.controller.NewOrder">
    <center>
       <ScrollPane minHeight="637.0" prefHeight="635.0" prefWidth="870.0" BorderPane.alignment="CENTER">
@@ -29,7 +28,7 @@
       </HBox>
    </top>
    <bottom>
-      <HBox alignment="CENTER" prefHeight="35.0" prefWidth="870.0" spacing="50.0" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER" minHeight="-Infinity" prefHeight="42.0" prefWidth="870.0" spacing="50.0" BorderPane.alignment="CENTER">
          <children>
             <Button mnemonicParsing="false" onAction="#saveNewOrder" prefWidth="80.0" styleClass="secondary_labels" text="حفظ" />
             <Button mnemonicParsing="false" onAction="#cancelNewOrder" prefHeight="30.0" prefWidth="80.0" styleClass="secondary_labels" text="الغاء" />
