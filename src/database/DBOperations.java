@@ -26,18 +26,16 @@ public class DBOperations {
         this.operations_queue = new LinkedHashMap<>();
     }
     public <T> void add(TablesOperations<T> table,DBStatement.Type statement_type){
-        if (statement_type == DBStatement.Type.DELETE)
+        // if ket is already existed in a map ,and you put it again it replaces the old value with the new value
+        if (this.operations_queue.containsKey(table))
         {
-            if (this.operations_queue.containsKey(table))
+            if (statement_type == DBStatement.Type.DELETE)
             {
-
                 if (operations_queue.get(table).getStatement_type()== DBStatement.Type.ADD)
                     operations_queue.remove(table);
-                else
+                else // replace the update with delete
                     operations_queue.put(table,get_DBStatement(table,statement_type));
             }
-            else
-                operations_queue.put(table,get_DBStatement(table,statement_type));
         }
         else
             operations_queue.put(table,get_DBStatement(table,statement_type));
