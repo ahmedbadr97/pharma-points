@@ -1,0 +1,65 @@
+.mainNavBar{
+    -fx-background-color: #480462;
+}
+.navButtons{
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10;
+    -fx-background-radius: 6px;
+}
+.navButtons_default{
+    -fx-background-color: #5c047e;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-border-color: #5c047e;
+    -fx-border-width: 1;
+    -fx-padding: 10;
+    -fx-background-radius: 6px;
+
+}
+.navButtons_selected{
+    -fx-background-color: #720994;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-border-color: #5c047e;
+    -fx-border-width: 1;
+
+    -fx-padding: 10;
+    -fx-background-radius: 6px;
+}
+.navButtons:hover{
+    -fx-background-color: #8b08b9;
+}
+
+.navLables{
+    -fx-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 16
+;
+}
+.text-field{
+    -fx-border-color: #5c047e;
+    -fx-border-width: 1;
+    -fx-font-size: 13;
+    -fx-alignment: center;
+    -fx-border-radius: 6px;
+
+}
+.purple_button{
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 5;
+    -fx-background-color: #5c047e;
+    -fx-font-size: 14;
+    -fx-background-radius: 7px;
+
+
+}
+.purple_button:hover{
+    -fx-background-color: #8805b9;
+
+}
+.purple_button:selected{
+    -fx-background-color: #ac08ec;
+
+}

@@ -12,16 +12,51 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class SystemConfiguration implements TablesOperations<SystemConfiguration> {
+    public enum SystemAttribute {
+
+        CURRENT_SALE("اعدادات  تحويل النقاط"),CREDIT_EXPIRY_SETTINGS("اعدادات مده انتهاء الفاتوره"),EXPIRED_ORDERS_LAST_CHECK("اعدادات حفظ الفواتير المنتهيه");
+        String description;
+
+        SystemAttribute(String description) {
+            this.description = description;
+        }
+
+        @Override
+        public String toString() {
+            return description;
+        }
+    }
 
     private int attrib_id;
-    private String attrib_name;
+    private SystemAttribute attrib_name;
     private String attrib_value;
+    public interface CustomGetAttribValue{
+        public String getAttrib_value();
+    }
+    CustomGetAttribValue customGetAttribValue;
 
-    public SystemConfiguration(int attrib_id, String attrib_name, String attrib_value) {
+    public SystemConfiguration(int attrib_id, SystemAttribute attrib_name, String attrib_value) {
         this.attrib_id = attrib_id;
         this.attrib_name = attrib_name;
         this.attrib_value = attrib_value;
     }
+    public SystemConfiguration(SystemAttribute attrib_name,String attrib_value)
+    {
+        this.attrib_name=attrib_name;
+        this.attrib_value=attrib_value;
+    }
+    public SystemConfiguration(SystemAttribute attrib_name,CustomGetAttribValue customGetAttribValue)
+    {
+        this.attrib_name=attrib_name;
+        this.customGetAttribValue=customGetAttribValue;
+    }
+    public static SystemConfiguration fromCreditExpirySettings(CreditExpirySettings creditExpirySettings)
+    {
+        SystemAttribute attribute=SystemAttribute.CREDIT_EXPIRY_SETTINGS;
+        String attribute_value=String.format("%d,%d,%d",creditExpirySettings.getYears(),creditExpirySettings.getMonths(),creditExpirySettings.getDays());
+        return new SystemConfiguration(attribute,attribute_value);
+    }
+
 
     public int getAttrib_id() {
         return attrib_id;
@@ -31,11 +66,11 @@ public class SystemConfiguration implements TablesOperations<SystemConfiguration
         this.attrib_id = attrib_id;
     }
 
-    public String getAttrib_name() {
+    public SystemAttribute getAttrib_name() {
         return attrib_name;
     }
 
-    public void setAttrib_name(String attrib_name) {
+    public void setAttrib_name(SystemAttribute attrib_name) {
         this.attrib_name = attrib_name;
     }
 
@@ -46,6 +81,7 @@ public class SystemConfiguration implements TablesOperations<SystemConfiguration
     public void setAttrib_value(String attrib_value) {
         this.attrib_value = attrib_value;
     }
+
 
     @Override
     public DBStatement<SystemConfiguration> addRow() {
@@ -59,16 +95,19 @@ public class SystemConfiguration implements TablesOperations<SystemConfiguration
 
     @Override
     public DBStatement<SystemConfiguration> update() {
-        String sql = "UPDATE SYSTEM_CONFIGURATION set attrib_value=? where attrib_id=?";
+        String sql = "UPDATE SYSTEM_CONFIGURATION set attrib_value=? where ATTRIB_NAME=?";
         DBStatement<SystemConfiguration> dbStatement = new DBStatement<SystemConfiguration>(sql, this, DBStatement.Type.UPDATE) {
             @Override
             public void statement_initialization() throws SQLException {
-                this.getPreparedStatement().setString(1, getAttrib_value());
-                this.getPreparedStatement().setInt(2, getAttrib_id());
+                if(customGetAttribValue!=null)
+                    this.getPreparedStatement().setString(1, customGetAttribValue.getAttrib_value());
+                else
+                    this.getPreparedStatement().setString(1, getAttrib_value());
+                this.getPreparedStatement().setString(2, getAttrib_name().name());
             }
-
             @Override
             public void after_execution_action() throws SQLException {
+
 
             }
         };
@@ -76,20 +115,30 @@ public class SystemConfiguration implements TablesOperations<SystemConfiguration
     }
 
     private static SystemConfiguration fetch_resultSet(ResultSet r) throws SQLException {
-        return new SystemConfiguration(r.getInt(1), r.getString(2), r.getString(3));
+        return new SystemConfiguration(r.getInt(1), SystemAttribute.valueOf( r.getString(2)), r.getString(3));
     }
+    public static void updateCurrentSale(SaleHistory saleHistory)throws SQLException
+    {
+        String sql_statement = "UPDATE  SYSTEM_CONFIGURATION ATTRIB_VALUE =? SET WHERE ATTRIB_NAME='CURRENT_SALE'";
+        PreparedStatement p = Main.dBconnection.getConnection().prepareStatement(sql_statement);
+        p.setString(1,Integer.toString(saleHistory.getSale_id()));
+         p.execute();
+        p.close();
 
-    public static SaleHistory getCurrentSale() throws SQLException, DataNotFound {
-        String sql_statement = "SELECT *  FROM SYSTEM_CONFIGURATION WHERE ATTRIB_NAME='CURRENT_SALE'";
+
+    }
+    public static SystemConfiguration getSystemConfiguration(SystemAttribute systemAttribute)throws SQLException ,DataNotFound
+    {
+
+        String sql_statement = String.format("SELECT *  FROM SYSTEM_CONFIGURATION WHERE ATTRIB_NAME='%s'",systemAttribute.name());
         Statement s = Main.dBconnection.getConnection().createStatement();
         ResultSet r = s.executeQuery(sql_statement);
-        SaleHistory current_sale_history = null;
         SystemConfiguration sale_history_config = null;
         while (r.next())
             sale_history_config = fetch_resultSet(r);
-        if (sale_history_config != null)
-            current_sale_history = SaleHistory.getSaleBy_id(Integer.parseInt(sale_history_config.getAttrib_value()));
-        return current_sale_history;
+        if(sale_history_config==null)
+            throw new DataNotFound("خطء في ايجاد "+systemAttribute);
+        return sale_history_config;
     }
 
     public static CreditExpirySettings get_CreditExpirySettings() throws SQLException {
@@ -112,30 +161,5 @@ public class SystemConfiguration implements TablesOperations<SystemConfiguration
         int days = Integer.parseInt(data[2]);
 
         return new CreditExpirySettings(years, months, days);
-    }
-    public static DateTime getExpiredOrdersLastCheck()throws SQLException
-    {
-        String sql_statement = "SELECT ATTRIB_VALUE  FROM SYSTEM_CONFIGURATION WHERE ATTRIB_NAME='EXPIRED_ORDERS_LAST_CHECK'";
-        Statement p = Main.dBconnection.getConnection().createStatement();
-        ResultSet r = p.executeQuery(sql_statement);
-        DateTime expiredOrdersLastUpdate=null;
-        while (r.next())
-        {
-            String date=r.getString(1);
-            expiredOrdersLastUpdate=DateTime.fromDate(date);
-        }
-        r.close();
-        p.close();
-        return expiredOrdersLastUpdate;
-    }
-    public static void updateExpiredOrdersLastCheck(DateTime dateTime)throws SQLException
-    {
-        String sql_statement = "UPDATE SYSTEM_CONFIGURATION set ATTRIB_VALUE=?  WHERE ATTRIB_NAME='EXPIRED_ORDERS_LAST_CHECK'";
-        PreparedStatement p = Main.dBconnection.getConnection().prepareStatement(sql_statement);
-        p.setString(1,dateTime.get_Date());
-        p.execute();
-        p.close();
-        Main.dBconnection.getConnection().commit();
-
     }
 }

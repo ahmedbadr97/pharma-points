@@ -6,21 +6,28 @@ import exceptions.DataNotFound;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import main.AppSettings;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import main.Main;
 import scenes.main.Alerts;
+import scenes.abstracts.DataBaseSettings;
 import scenes.main.Home;
 
 import java.sql.SQLException;
 
 public class Login {
     scenes.main.Login scene_main;
+    VBox loginVbox;
+    DataBaseSettings dataBaseSettings;
     public void init(scenes.main.Login scene_main){
         this.scene_main=scene_main;
+        dataBaseSettings=null;
     }
+    @FXML
+    private StackPane main_Spane;
+
     @FXML
     private TextField login_user_tf;
 
@@ -60,6 +67,17 @@ public class Login {
 
     @FXML
     void open_database_settings(ActionEvent event) {
+        if (dataBaseSettings==null)
+        {
+            dataBaseSettings=new DataBaseSettings();
+            loginVbox=(VBox) main_Spane.getChildren().get(0);
+            main_Spane.getChildren().set(0,dataBaseSettings.getParent());
+            dataBaseSettings.addOnCloseAction(()->{
+                dataBaseSettings=null;
+                main_Spane.getChildren().set(0,loginVbox);
+            });
+        }
+
 
     }
 

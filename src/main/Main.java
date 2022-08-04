@@ -8,14 +8,13 @@ import database.entities.ClientComputer;
 import database.entities.Customer;
 import database.entities.SystemUser;
 import exceptions.DataNotFound;
+import exceptions.SystemError;
 import javafx.application.Application;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import scenes.abstracts.CustomerDataPane;
 import scenes.abstracts.OrderDataPane;
-import scenes.main.CustomerData;
-import scenes.main.Login;
-import scenes.main.NewCustomer;
-import scenes.main.NewOrder;
+import scenes.main.*;
 import utils.DateTime;
 
 import java.sql.PreparedStatement;
@@ -42,21 +41,18 @@ public class Main extends Application {
         Main.mainStage=primaryStage;
         primaryStage.setTitle("Fayed Pharmacy");
         mainThreadsPool= Executors.newCachedThreadPool();
-        appSettings=new AppSettings();
-        //TODO get saved server ip , pass it to db connection or make db connection use it directly
-        dBconnection=new DBconnection("127.0.0.1");
-        dBconnection.Connect();
-        Login login=new Login();
-        login.showStage();
-//        SystemUser user=SystemUser.get_user("1","1");
-//        appSettings.loadAppSettings(user);
-//        Customer customer=Customer.getCustomer("01114242654", Customer.QueryFilter.PHONE);
-//        CustomerData customerData=new CustomerData(customer);
-//        customerData.showStage();
-
-//        DBOperations dbOperations=new DBOperations();
-//        NewOrder newOrder=new NewOrder();
-//        newOrder.showStage();
+        try {
+            appSettings=new AppSettings();
+            dBconnection=new DBconnection(appSettings.getServer_ip());
+            dBconnection.Connect();
+            Login login=new Login();
+            login.showStage();
+        }
+        catch (SystemError s)
+        {
+            new Alerts(s.getMessage(), Alert.AlertType.ERROR);
+            System.exit(-1);
+        }
 
 
 

@@ -5,6 +5,7 @@ import database.entities.Customer;
 import database.entities.Order;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.VBox;
 import scenes.abstracts.CustomerDataPane;
 import scenes.abstracts.GetCustomerBar;
@@ -35,6 +36,7 @@ public class NewOrder {
         //---------------------------- add search HBox -------------------------------//
         getCustomerBar=new GetCustomerBar();
         getCustomerBar.setSearchWithIdAction(()->{
+            dbOperations.clear();
             customer=getCustomerBar.getController().getSearchCustomer();
             customerDataPane.setCustomer(customer);
             customerDataPane.getController().loadCustomerData();
@@ -43,6 +45,7 @@ public class NewOrder {
 
         });
         getCustomerBar.setSearchWithNameAction(()->{
+            dbOperations.clear();
             customerSearch.getController().update_cusTv_data(getCustomerBar.getController().getSearchCustomers());
             customerSearch.setOnCustomerSelection(()->{
                 customer=customerSearch.getController().getSelectedCustomer();
@@ -50,9 +53,7 @@ public class NewOrder {
                 customerDataPane.getController().loadCustomerData();
                 orderDataPane.initialize_order(customer);
                 order=orderDataPane.getOrder();
-
                 customerSearch.closeStage();
-
 
             });
             customerSearch.showStage();
@@ -92,7 +93,12 @@ public class NewOrder {
     void saveNewOrder(ActionEvent event) {
         try {
             order.setNotes(orderDataPane.getController().getOrderNotes());
-            dbOperations.execute();
+            if(order.getOrderTransactions().size()!=0)
+                dbOperations.execute();
+            else {
+                new Alerts("لا يوجد بيانات في الفاتوره لم يتم حفظ الفاتوره", Alert.AlertType.INFORMATION);
+                dbOperations.clear();
+            }
             clearData();
         }
         catch (SQLException s)

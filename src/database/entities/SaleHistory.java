@@ -8,14 +8,16 @@ import utils.DateTime;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 
 public class SaleHistory implements TablesOperations<SaleHistory>{
     int sale_id;
     float money_to_credit;
     DateTime creation_time;
 
-    public SaleHistory(int sale_id, float money_to_credit) {
-       this(sale_id,money_to_credit,null);
+    public SaleHistory( float money_to_credit) {
+       this(0,money_to_credit,new DateTime());
     }
     public SaleHistory(int sale_id, float money_to_credit,DateTime creation_time) {
         this.sale_id = sale_id;
@@ -25,8 +27,20 @@ public class SaleHistory implements TablesOperations<SaleHistory>{
 
 
 
+
+    public float getCreditToMoney() {
+        return 1.0f/money_to_credit;
+    }
     public int getSale_id() {
         return sale_id;
+    }
+
+    public DateTime getCreation_time() {
+        return creation_time;
+    }
+
+    public void setSale_id(int sale_id) {
+        this.sale_id = sale_id;
     }
 
     public float getMoney_to_credit() {
@@ -43,11 +57,17 @@ public class SaleHistory implements TablesOperations<SaleHistory>{
     }
     @Override
     public DBStatement<SaleHistory> addRow() {
-        String sql="INSERT INTO SALE_HISTORY (MONEY_TO_CREDIT) values (?)";
+        String sql="INSERT INTO SALE_HISTORY (SALE_ID,MONEY_TO_CREDIT) values (?,?)";
         DBStatement<SaleHistory> dbStatement=new DBStatement<SaleHistory>(sql,this,DBStatement.Type.ADD) {
             @Override
             public void statement_initialization() throws SQLException {
-                this.getPreparedStatement().setFloat(1,getStatement_table().getMoney_to_credit());
+                Statement s= Main.dBconnection.getConnection().createStatement();
+                ResultSet r=s.executeQuery(" SELECT SALE_HISTORY_SEQ.NEXTVAL from DUAL");
+                while (r.next())
+                    this.getStatement_table().setSale_id(r.getInt(1));
+                r.close();s.close();
+                this.getPreparedStatement().setFloat(1,getStatement_table().getSale_id());
+                this.getPreparedStatement().setFloat(2,getStatement_table().getMoney_to_credit());
             }
 
             @Override
@@ -71,6 +91,22 @@ public class SaleHistory implements TablesOperations<SaleHistory>{
             throw new DataNotFound("no saleHistory found with this id "+ id);
         return saleHistory;
     }
+    public static ArrayList<SaleHistory> getSaleHistory() throws SQLException , DataNotFound{
+        ArrayList<SaleHistory>saleHistoryList=new ArrayList<>();
+
+        SaleHistory saleHistory=null;
+        String sql_statement="SELECT *  FROM SALE_HISTORY ";
+        Statement s= Main.dBconnection.getConnection().createStatement();
+        ResultSet r=s.executeQuery(sql_statement);
+        while (r.next())
+        {
+            saleHistory=fetch_resultSet(r);
+            saleHistoryList.add(saleHistory);
+        }
+        if (saleHistoryList.isEmpty())
+            throw new DataNotFound("no saleHistory ");
+        return saleHistoryList;
+    }
 
     @Override
     public DBStatement<SaleHistory> DeleteRow() {
@@ -81,4 +117,5 @@ public class SaleHistory implements TablesOperations<SaleHistory>{
     public DBStatement<SaleHistory> update() {
         return null;
     }
+
 }

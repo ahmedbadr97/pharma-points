@@ -1,6 +1,7 @@
 package scenes.controller;
 
 import database.entities.Customer;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.shape.Circle;
@@ -8,6 +9,7 @@ import javafx.scene.text.Text;
 import scenes.main.CustomerData;
 import scenes.main.CustomerSearch;
 import scenes.main.NewOrder;
+import scenes.main.Settings;
 import scenes.main.TransactionsLog;
 
 public class Home {
@@ -18,6 +20,7 @@ public class Home {
     private scenes.main.Home main_screen;
     private scenes.main.CustomerSearch customerSearchScene;
     private scenes.main.TransactionsLog transactionsLogScene;
+    private scenes.main.Settings settings;
     public void init(scenes.main.Home main_screen){
         this.main_screen=main_screen;
         system_user_t.setText(main_screen.getLogged_in_user().getUsername());
@@ -72,6 +75,14 @@ public class Home {
 
     @FXML
     void settings_btn_action(ActionEvent event) {
+        if(this.settings==null)
+        {
+            this.settings=new Settings();
+            this.settings.addOnCloseAction(()->{this.settings=null;});
+            this.settings.showStage();
+        }
+        else
+            Platform.runLater(()->this.settings.getStage().requestFocus());
 
     }
 

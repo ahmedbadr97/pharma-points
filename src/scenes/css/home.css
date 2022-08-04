@@ -17,3 +17,11 @@
 
 
 }
+.home_buttons:hover{
+    -fx-background-color: #8f0cb9;
+
+}
+.home_buttons:selected{
+    -fx-background-color: #b30dec;
+
+}

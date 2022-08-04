@@ -4,6 +4,7 @@ import database.DBOperations;
 import database.DBStatement;
 import database.entities.*;
 import exceptions.DataNotFound;
+import exceptions.SystemError;
 import utils.DateTime;
 
 import java.sql.ResultSet;
@@ -11,28 +12,55 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
-
+import database.entities.SystemConfiguration.SystemAttribute;
 public class AppSettings {
 
     private SystemUser logged_in_user;
     private String server_ip;
     private CreditExpirySettings creditExpirySettings;
     private SaleHistory current_sale;
+    private ConfigurationFile configurationFile;
 
-    public AppSettings() {
-        //TODO load server ip from config file
+    public AppSettings() throws SystemError {
+        configurationFile=new ConfigurationFile("config");
+        configurationFile.openSettingsFile();
+        server_ip=configurationFile.getValue("serverip");
+        configurationFile.closeSettingsFile();
     }
+    public void setServer_ip(String server_ip)throws SystemError
+    {
+        configurationFile.openSettingsFile();
+        configurationFile.addValue("serverip",server_ip);
+        configurationFile.saveData();
+        this.server_ip=server_ip;
+    }
+    private void getCurrentSaleSettings()throws SQLException,DataNotFound
+    {
+       SystemConfiguration currentSaleConfig=SystemConfiguration.getSystemConfiguration(SystemAttribute.CURRENT_SALE);
+       current_sale=SaleHistory.getSaleBy_id(Integer.parseInt(currentSaleConfig.getAttrib_value()));
+
+    }
+
+
     public void loadAppSettings(SystemUser logged_in_user)throws SQLException,DataNotFound
     {
         this.logged_in_user=logged_in_user;
-        this.current_sale= SystemConfiguration.getCurrentSale();
+        getCurrentSaleSettings();
         this.creditExpirySettings=SystemConfiguration.get_CreditExpirySettings();
         update_expired_orders();
 
 
     }
+
+    public void setCreditExpirySettings(CreditExpirySettings creditExpirySettings) {
+        this.creditExpirySettings = creditExpirySettings;
+    }
+
     public void update_expired_orders()throws SQLException,DataNotFound
     {
+        DBOperations dbOperations=new DBOperations();
+        SystemConfiguration updateExpiredOrdersConf=SystemConfiguration.getSystemConfiguration(SystemAttribute.EXPIRED_ORDERS_LAST_CHECK);
+        dbOperations.add(updateExpiredOrdersConf, DBStatement.Type.UPDATE);
         Statement s = Main.dBconnection.getConnection().createStatement();
         ResultSet r = s.executeQuery("SELECT TO_CHAR(SYSDATE,'DD-MM-YYYY') FROM dual");
         DateTime current_time=null;
@@ -42,7 +70,7 @@ public class AppSettings {
         }
         if (current_time==null)
             throw new DataNotFound("can't bring database date");
-        DateTime last_check=SystemConfiguration.getExpiredOrdersLastCheck();
+        DateTime last_check=DateTime.fromDate(updateExpiredOrdersConf.getAttrib_value());
         if(last_check.getLocalDate().isEqual(current_time.getLocalDate()))
             return;
         ArrayList<Order> expiredOrders=null;
@@ -50,11 +78,12 @@ public class AppSettings {
              expiredOrders=Order.getExpiredOrders(current_time);
         }
         catch (DataNotFound d){
-            SystemConfiguration.updateExpiredOrdersLastCheck(current_time);
+            // update updateExpiredOrdersConf date
+            dbOperations.execute();
             return;}
 
         HashMap<Integer,Customer> processedCustomers=new HashMap<>();
-        DBOperations dbOperations=new DBOperations();
+
         for (Order order:expiredOrders) {
             Customer customer=processedCustomers.get(order.getCus_id());
             if(customer==null)
@@ -76,9 +105,12 @@ public class AppSettings {
             dbOperations.add(cus, DBStatement.Type.UPDATE);
         }
         dbOperations.execute();
-        SystemConfiguration.updateExpiredOrdersLastCheck(current_time);
 
 
+    }
+
+    public void setCurrent_sale(SaleHistory current_sale) {
+        this.current_sale = current_sale;
     }
 
     public SystemUser getLogged_in_user() {

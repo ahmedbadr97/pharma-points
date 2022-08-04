@@ -10,8 +10,6 @@ import exceptions.DataNotFound;
 import main.Main;
 import scenes.main.WindowAbstract;
 
-import java.sql.SQLException;
-
 public class OrderDataPane extends WindowAbstract<scenes.controller.OrderDataPane> {
     private Customer customer;
     private DBOperations dbOperations;

@@ -135,9 +135,9 @@
                 <TableColumn fx:id="trans_id_col" prefWidth="69.0" text="رقم العماليه" />
                 <TableColumn fx:id="trans_type_col" prefWidth="135.0" text="نوع العماليه" />
                   <TableColumn fx:id="money_amount_col" prefWidth="82.0" text="الرصيد" />
-                  <TableColumn fx:id="trans_time_col" minWidth="4.0" prefWidth="146.0" text="الوقت / التاريخ" />
-                  <TableColumn fx:id="edit_save_btn_col" prefWidth="98.0" />
-                  <TableColumn fx:id="remove_btn_col" minWidth="1.0" prefWidth="35.0" />
+                  <TableColumn fx:id="trans_time_col" minWidth="4.0" prefWidth="169.0" text="الوقت / التاريخ" />
+                  <TableColumn fx:id="edit_save_btn_col" />
+                  <TableColumn fx:id="remove_btn_col" minWidth="0.0" prefWidth="31.0" />
               </columns>
             </TableView>
          </children>
@@ -167,12 +167,12 @@
                   <Label prefHeight="29.0" prefWidth="90.0" styleClass="secondary_labels" text="مرتجعات النقاط" GridPane.rowIndex="1" />
                   <Label prefHeight="29.0" prefWidth="78.0" styleClass="secondary_labels" text="صرف النقاط" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                   <Label prefHeight="31.0" prefWidth="85.0" styleClass="secondary_labels" text="اجمالى النقاط" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-                  <Label fx:id="money_out_lb" prefHeight="29.0" prefWidth="85.0" styleClass="whiteDataLabels" text="0" GridPane.columnIndex="1" />
+                  <Label fx:id="money_out_lb" prefHeight="29.0" prefWidth="85.0" styleClass="whiteDataLabels" text="0" GridPane.columnIndex="3" />
                   <Label fx:id="total_credit_in_lb" prefHeight="29.0" prefWidth="85.0" styleClass="whiteDataLabels" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Label fx:id="money_in_lb" prefHeight="29.0" prefWidth="85.0" styleClass="whiteDataLabels" text="0" GridPane.columnIndex="3" />
                   <Label fx:id="total_credit_out_lb" prefHeight="29.0" prefWidth="85.0" styleClass="whiteDataLabels" text="0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
                   <Label fx:id="total_money_lb" prefHeight="29.0" prefWidth="85.0" styleClass="whiteDataLabels" text="0" GridPane.columnIndex="5" />
                   <Label fx:id="total_credit_lb" prefHeight="29.0" prefWidth="85.0" styleClass="whiteDataLabels" text="0" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                  <Label fx:id="money_in_lb" prefHeight="29.0" prefWidth="85.0" styleClass="whiteDataLabels" text="0" GridPane.columnIndex="1" />
                </children>
             </GridPane>
             <Label prefHeight="31.0" prefWidth="107.0" styleClass="secondary_labels" text=" اجمالى المطلوب" visible="false">

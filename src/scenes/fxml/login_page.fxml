@@ -15,6 +15,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -34,62 +35,66 @@
       <Insets bottom="5.0" top="5.0" />
    </padding>
    <center>
-      <VBox alignment="TOP_CENTER" fillWidth="false" prefHeight="296.0" prefWidth="515.0" style="-fx-background-color: white;" stylesheets="@../css/login_page.css" BorderPane.alignment="CENTER">
+      <StackPane fx:id="main_Spane" BorderPane.alignment="CENTER">
          <children>
-            <MenuBar maxWidth="1.7976931348623157E308" prefHeight="12.0" prefWidth="50000.0" stylesheets="@../css/login_page.css">
-              <menus>
-                <Menu mnemonicParsing="false" text="الاعدادات">
-                  <items>
-                    <MenuItem mnemonicParsing="false" onAction="#open_database_settings" style="-fx-font-weight: bold; fx-font-family: sans-serif;" text="قاعده البايانات" />
-                  </items>
-                </Menu>
-              </menus>
-               <VBox.margin>
-                  <Insets bottom="3.0" />
-               </VBox.margin>
-            </MenuBar>
-            <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="85.0" prefWidth="10000.0">
+            <VBox alignment="TOP_CENTER" fillWidth="false" prefHeight="296.0" prefWidth="515.0" style="-fx-background-color: white;" stylesheets="@../css/login_page.css">
                <children>
-                  <ImageView fitHeight="82.0" fitWidth="85.0" pickOnBounds="true">
-                     <image>
-                        <Image url="@../images/fayed_logo.png" />
-                     </image>
-                     <HBox.margin>
-                        <Insets right="15.0" />
-                     </HBox.margin>
-                  </ImageView>
-               </children>
-            </HBox>
-            <GridPane prefHeight="167.0" prefWidth="307.0">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="508.0" minWidth="10.0" prefWidth="68.0" />
-                <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="533.0" minWidth="10.0" prefWidth="239.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints maxHeight="58.0" minHeight="10.0" prefHeight="47.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="55.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <Label styleClass="labels" text="المستخدم:" />
-                  <Label styleClass="labels" text="كلمه السر:" GridPane.rowIndex="1" />
-                  <TextField fx:id="login_user_tf" prefHeight="33.0" prefWidth="183.0" styleClass="text_fields" GridPane.columnIndex="1" />
-                  <PasswordField fx:id="login_password_pf" onAction="#login_btn_action" prefHeight="36.0" prefWidth="185.0" styleClass="text_fields" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <MenuBar maxWidth="1.7976931348623157E308" prefHeight="12.0" prefWidth="50000.0" stylesheets="@../css/login_page.css">
+                    <menus>
+                      <Menu mnemonicParsing="false" text="الاعدادات">
+                        <items>
+                          <MenuItem mnemonicParsing="false" onAction="#open_database_settings" style="-fx-font-weight: bold; fx-font-family: sans-serif;" text="قاعده البايانات" />
+                        </items>
+                      </Menu>
+                    </menus>
+                     <VBox.margin>
+                        <Insets bottom="3.0" />
+                     </VBox.margin>
+                  </MenuBar>
+                  <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="85.0" prefWidth="10000.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#login_btn_action" styleClass="buttons" text="تسجيل دخول">
-                           <font>
-                              <Font name="System Bold" size="13.0" />
-                           </font>
-                        </Button>
+                        <ImageView fitHeight="82.0" fitWidth="85.0" pickOnBounds="true">
+                           <image>
+                              <Image url="@../images/fayed_logo.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets right="15.0" />
+                           </HBox.margin>
+                        </ImageView>
                      </children>
                   </HBox>
+                  <GridPane prefHeight="167.0" prefWidth="307.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="508.0" minWidth="10.0" prefWidth="68.0" />
+                      <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="533.0" minWidth="10.0" prefWidth="239.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints maxHeight="58.0" minHeight="10.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="55.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label styleClass="labels" text="المستخدم:" />
+                        <Label styleClass="labels" text="كلمه السر:" GridPane.rowIndex="1" />
+                        <TextField fx:id="login_user_tf" prefHeight="33.0" prefWidth="183.0" styleClass="text_fields" GridPane.columnIndex="1" />
+                        <PasswordField fx:id="login_password_pf" onAction="#login_btn_action" prefHeight="36.0" prefWidth="185.0" styleClass="text_fields" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#login_btn_action" styleClass="buttons" text="تسجيل دخول">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </HBox>
+                     </children>
+                     <VBox.margin>
+                        <Insets right="25.0" />
+                     </VBox.margin>
+                  </GridPane>
                </children>
-               <VBox.margin>
-                  <Insets right="25.0" />
-               </VBox.margin>
-            </GridPane>
+            </VBox>
          </children>
-      </VBox>
+      </StackPane>
    </center>
 </BorderPane>
