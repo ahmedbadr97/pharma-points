@@ -6,7 +6,7 @@ public class OrderData extends WindowAbstract<scenes.controller.OrderData>{
     private final Order order;
     public OrderData(Order order) {
         this.order=order;
-        load("OrderData",880,725);
+        load("OrderData",880,730);
         getController().ini(this);
     }
     public Order getOrder() {

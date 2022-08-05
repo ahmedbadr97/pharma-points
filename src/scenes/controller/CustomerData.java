@@ -70,11 +70,11 @@ public class CustomerData {
     }
     public void loadData()
     {
+        orders_tv_list.clear();
         customerDataPane.setCustomer(main_screen.getCustomer());
         customerDataPane.getController().loadCustomerData();
         try {
             ArrayList<Order> orders=Order.getCustomerOrders(main_screen.getCustomer());
-            orders_tv_list.clear();
             for (Order order:orders)
                 orders_tv_list.add(new OrdersTableRows(order));
         }

@@ -16,13 +16,14 @@ public class OrderDataPane extends WindowAbstract<scenes.controller.OrderDataPan
     private Order order;
     OrderSettings orderSettings;
 
+
     public enum OrderSettings {
         newOrder, returnOrder, viewAndEdit
     }
 
     public OrderDataPane(DBOperations dbOperations) {
         //new order
-        loadFxmlOnly("OrderDataPane", 860, 560);
+        loadFxmlOnly("OrderDataPane", 860, 543);
         this.dbOperations = dbOperations;
         this.orderSettings = OrderSettings.newOrder;
         getController().ini(this);
@@ -33,7 +34,7 @@ public class OrderDataPane extends WindowAbstract<scenes.controller.OrderDataPan
         this.dbOperations = dbOperations;
         this.order = order;
         this.customer=order.getCustomer();
-        loadFxmlOnly("OrderDataPane", 860, 560);
+        loadFxmlOnly("OrderDataPane", 860, 543);
         orderSettings=OrderSettings.viewAndEdit;
         getController().ini(this);
         getController().initializeOrder();

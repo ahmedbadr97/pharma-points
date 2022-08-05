@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="750.0" prefWidth="880.0" stylesheets="@../css/mainStyles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scenes.controller.OrderData">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="720.0" prefWidth="880.0" stylesheets="@../css/mainStyles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scenes.controller.OrderData">
    <top>
       <HBox alignment="CENTER" prefHeight="37.0" prefWidth="756.0" styleClass="title_bar" BorderPane.alignment="CENTER">
          <children>
@@ -20,7 +20,7 @@
       </HBox>
    </top>
    <center>
-      <VBox fx:id="main_Vbox" prefHeight="551.0" prefWidth="880.0" BorderPane.alignment="CENTER">
+      <VBox fx:id="main_Vbox" prefHeight="651.0" prefWidth="880.0" BorderPane.alignment="CENTER">
          <children>
             <VBox fillWidth="false">
                <children>
@@ -28,7 +28,7 @@
                   <Separator prefHeight="3.0" prefWidth="83.0" styleClass="title_bar" />
                </children>
                <VBox.margin>
-                  <Insets bottom="20.0" />
+                  <Insets bottom="15.0" />
                </VBox.margin>
             </VBox>
             <GridPane>
@@ -44,11 +44,6 @@
                      <children>
                         <Separator orientation="VERTICAL" prefHeight="200.0" />
                         <Label fx:id="cus_active_credit_lb" prefHeight="29.0" prefWidth="106.0" styleClass="greyLabel" text="0" />
-                        <Button disable="true" mnemonicParsing="false" onAction="#open_cus_arch_credit" styleClass="secondary_labels" text="النقاط المجمده">
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                        </Button>
                      </children>
                   </HBox>
                   <HBox>
@@ -68,4 +63,14 @@
          </padding>
       </VBox>
    </center>
+   <bottom>
+      <HBox alignment="CENTER_RIGHT" minHeight="-Infinity" minWidth="-Infinity" prefHeight="42.0" prefWidth="880.0" spacing="8.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="cancel_edit_btn" graphicTextGap="0.0" mnemonicParsing="false" onAction="#cancel_edit" prefHeight="30.0" prefWidth="60.0" styleClass="secondary_labels" text="الغاء" />
+            <Button fx:id="edit_order_data_btn" graphicTextGap="0.0" minWidth="-Infinity" mnemonicParsing="false" onAction="#edit_order" prefHeight="30.0" prefWidth="120.0" styleClass="secondary_labels" text="تعديل البياتات" />
+            <Button fx:id="deleteOrder_btn" mnemonicParsing="false" onAction="#delete_order" prefWidth="60.0" styleClass="secondary_labels" text="حذف" />
+            <Button fx:id="save_data_btn" graphicTextGap="0.0" mnemonicParsing="false" onAction="#save_order_Data" prefWidth="60.0" styleClass="secondary_labels" text="حفظ" />
+         </children>
+      </HBox>
+   </bottom>
 </BorderPane>

@@ -30,8 +30,6 @@ public class OrderDataPane {
     @FXML
     private Label order_id_lb,order_time_lb,order_expiry_date_lb;
     @FXML
-    private Button delete_order_btn;
-    @FXML
     private ComboBox<OrderTransaction.TransactionType> trans_type_cb;
 
     @FXML
@@ -80,18 +78,6 @@ public class OrderDataPane {
 
     @FXML
     private TextArea order_notes_ta;
-
-    @FXML
-    private HBox edit_data_hbox;
-
-    @FXML
-    private Button cancel_edit_btn;
-
-    @FXML
-    private Button edit_order_data_btn;
-
-    @FXML
-    private Button save_data_btn;
     private scenes.abstracts.OrderDataPane main_screen;
     private ObservableList<OrderDataTableRow> transactions_tv_list;
     private float amount_needed_before_edit = 0;
@@ -106,19 +92,15 @@ public class OrderDataPane {
         this.main_screen = main_screen;
         initializeAction=null;
         OrderSettings orderSettings = main_screen.getOrderSettings();
-        ImageLoader.icoButton(delete_order_btn,"deleteButton.png",10);
 
-        edit_data_hbox.setVisible(orderSettings == OrderSettings.viewAndEdit);
         if (orderSettings == OrderSettings.newOrder)
         {
             mutable=true;
             trans_type_cb.getItems().addAll(TransactionType.money_in, TransactionType.credit_out);
-            delete_order_btn.setDisable(true);
 
         }
         else {
             trans_type_cb.getItems().addAll(TransactionType.money_in, TransactionType.credit_out, TransactionType.money_out, TransactionType.credit_in);
-            edit_data_hbox.setVisible(true);
 
         }
         trans_type_cb.getSelectionModel().select(0);
@@ -163,7 +145,6 @@ public class OrderDataPane {
             trans_amount_tf.requestFocus();
         });
         if (main_screen.getOrderSettings() == OrderSettings.viewAndEdit) {
-
             transactions_tv_list.clear();
             for (OrderTransaction transaction : main_screen.getOrder().getOrderTransactions()) {
                 transactions_tv_list.add(new OrderDataTableRow(transaction));
@@ -268,24 +249,22 @@ public class OrderDataPane {
     public void setMutable(boolean mutable) {
         trans_amount_tf.setEditable(mutable);
         this.mutable = mutable;
-        save_data_btn.setVisible(mutable);
-        cancel_edit_btn.setVisible(mutable);
-        delete_order_btn.setDisable(!mutable);
-        edit_order_data_btn.setVisible(!mutable);
-        if(mutable)
-        {
-            edit_order_data_btn.setMaxWidth(0);
-            edit_order_data_btn.setPrefWidth(0);
-        }
-        else
-        {
-            edit_order_data_btn.setMaxWidth(120);
-            edit_order_data_btn.setPrefWidth(120);
-        }
     }
-    @FXML
-    void delete_order(ActionEvent event)
+    public void deleteOrder()throws InvalidTransaction
     {
+        //TODO delete the order in more efficent way
+
+        Order order=main_screen.getOrder();
+        int orderTransSize=transactions_tv_list.size();
+        for(int i =orderTransSize-1;i>=0;i--)
+        {
+            order.removeTransaction(transactions_tv_list.get(i).getTransaction());
+            main_screen.getDbOperations().add(transactions_tv_list.get(i).getTransaction(), DBStatement.Type.DELETE);
+            main_screen.getCustomer().addToActiveCredit(main_screen.getOrder().getCustomerBalanceChange(transactions_tv_list.get(i).getTransaction(), true));
+            transactions_tv_list.remove(transactions_tv_list.get(i));
+        }
+        main_screen.getDbOperations().add(main_screen.getCustomer(), DBStatement.Type.UPDATE);
+        main_screen.getDbOperations().add(order, DBStatement.Type.DELETE);
 
     }
 
@@ -455,35 +434,7 @@ public class OrderDataPane {
         main_screen.getDbOperations().add(transaction, DBStatement.Type.ADD);
     }
 
-    @FXML
-    void cancel_edit(ActionEvent event) {
-        main_screen.getDbOperations().clear();
-        reloadFromDatabase();
-        initializeOrder();
-        setMutable(false);
 
-
-    }
-
-    @FXML
-    void edit_order(ActionEvent event) {
-        setMutable(true);
-        main_screen.getDbOperations().add(main_screen.getCustomer(), DBStatement.Type.UPDATE);
-
-
-    }
-
-    @FXML
-    void save_order_Data(ActionEvent event) {
-        try {
-            main_screen.getDbOperations().execute();
-            setMutable(false);
-
-        } catch (SQLException e) {
-            new Alerts(e);
-        }
-
-    }
 
     public String getOrderNotes() {
         if (order_notes_ta.getText() != null || !order_notes_ta.getText().isEmpty())
@@ -491,6 +442,7 @@ public class OrderDataPane {
         else
             return null;
     }
+
 
     public class OrderDataTableRow {
         OrderTransaction transaction;
