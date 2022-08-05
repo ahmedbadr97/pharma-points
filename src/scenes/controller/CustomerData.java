@@ -48,7 +48,7 @@ public class CustomerData {
     @FXML
     private TableColumn<OrdersTableRows, String> order_exp_col;
     @FXML
-    private TableColumn<Order, DateTime> order_time_col;
+    private TableColumn<OrdersTableRows, DateTime> order_time_col;
 
     private scenes.main.CustomerData main_screen;
     private scenes.abstracts.CustomerDataPane customerDataPane;
@@ -77,6 +77,7 @@ public class CustomerData {
             ArrayList<Order> orders=Order.getCustomerOrders(main_screen.getCustomer());
             for (Order order:orders)
                 orders_tv_list.add(new OrdersTableRows(order));
+            orders_tv.sort();
         }
         catch (SQLException s)
         {
@@ -109,6 +110,9 @@ public class CustomerData {
         total_Credit_Col.setCellValueFactory((new PropertyValueFactory<>("total_credit_lb")));
         order_time_col.setCellValueFactory((new PropertyValueFactory<>("order_time")));
         order_exp_col.setCellValueFactory((new PropertyValueFactory<>("expiry_date")));
+
+        order_time_col.setSortType(TableColumn.SortType.DESCENDING);
+        orders_tv.getSortOrder().add(order_time_col);
 
         orders_tv.setRowFactory(tv->
         {

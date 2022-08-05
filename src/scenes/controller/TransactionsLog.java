@@ -96,6 +96,7 @@ public class TransactionsLog {
             ArrayList<OrderTransaction> orderTransactions = OrderTransaction.getTransactionsByDate(fromDateTime.getDateTime(), toDateTime.getDateTime());
             ordersTvList.addAll(orderTransactions);
             setSummaryLabels(orderTransactions);
+            transactions_tv.sort();
         } catch (SQLException e) {
             new Alerts(e);
         } catch (DataNotFound e) {
@@ -111,6 +112,8 @@ public class TransactionsLog {
         trans_type_col.setCellValueFactory((new PropertyValueFactory<>("trans_type")));
         amount_col.setCellValueFactory((new PropertyValueFactory<>("money_amount")));
         date_time_col.setCellValueFactory((new PropertyValueFactory<>("trans_time")));
+        date_time_col.setSortType(TableColumn.SortType.ASCENDING);
+        transactions_tv.getSortOrder().add(date_time_col);
     }
     public void clearData()
     {
