@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import main.Main;
 import scenes.abstracts.OrderSettings;
 import scenes.abstracts.SystemUsers;
 import scenes.main.Alerts;
@@ -46,9 +47,17 @@ public class Settings {
     {
         this.main_scene =main_scene;
         dataBaseSettingsScene =new scenes.abstracts.DataBaseSettings();
-        orderSettings=new OrderSettings();
         selectedButton=null;
-        systemUsers=new SystemUsers();
+        if(Main.appSettings.getLogged_in_user().getAdmin()==1)
+        {
+            orderSettings=new OrderSettings();
+            systemUsers=new SystemUsers();
+
+        }
+        else{
+            orderSetBtn.setDisable(true);
+            usersSetBtn.setDisable(true);
+        }
 
 
 

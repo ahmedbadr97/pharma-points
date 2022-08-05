@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="303.0" prefWidth="695.0" stylesheets="@../css/mainStyles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scenes.controller.NewCustomer">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="303.0" prefWidth="695.0" stylesheets="@../css/mainStyles.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scenes.controller.NewCustomer">
    <top>
       <HBox alignment="CENTER" prefHeight="31.0" prefWidth="695.0" styleClass="title_bar" stylesheets="@../css/mainStyles.css" BorderPane.alignment="CENTER">
          <children>

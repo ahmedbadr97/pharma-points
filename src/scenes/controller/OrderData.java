@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import main.Main;
 import scenes.abstracts.OrderDataPane;
 import scenes.main.Alerts;
 
@@ -42,6 +43,8 @@ public class OrderData {
     private scenes.main.OrderData main_screen;
     public void ini(scenes.main.OrderData main_screen){
         this.main_screen=main_screen;
+
+
         cus_active_credit_lb.setText(Float.toString(main_screen.getOrder().getCustomer().getActive_credit()));
         dbOperations=new DBOperations();
         this.orderDataPane=new OrderDataPane(dbOperations,main_screen.getOrder());
@@ -50,11 +53,19 @@ public class OrderData {
         customer.addActiveCreditChangeAction(()->cus_active_credit_lb.setText(Float.toString(customer.getActive_credit())));
         orderDataPane.getController().setInitializeAction(()->orderDataPane.getCustomer().addActiveCreditChangeAction(()->cus_active_credit_lb.setText(Float.toString(orderDataPane.getCustomer().getActive_credit()))));
         setMutable(false);
+        if(main_screen.getOrder().isOrder_archived())
+            new Alerts("هذه الفاتوره منتهية", Alert.AlertType.INFORMATION);
     }
 
     @FXML
     void delete_order(ActionEvent event)
     {
+        if(main_screen.getOrder().isOrder_archived()&& Main.appSettings.getLogged_in_user().getAdmin()==0)
+        {
+            new Alerts("لا يمكنك حذف فاتوره منتهية يجب الرجوع الى المسئول", Alert.AlertType.ERROR);
+            return;
+        }
+
         //TODO delete the order in more efficent way
 
         try {
@@ -93,6 +104,11 @@ public class OrderData {
 
     @FXML
     void edit_order(ActionEvent event) {
+        if(main_screen.getOrder().isOrder_archived()&& Main.appSettings.getLogged_in_user().getAdmin()==0)
+        {
+            new Alerts("لا يمكنك تعديل فاتوره منتهية يجب الرجوع الى المسئول", Alert.AlertType.ERROR);
+            return;
+        }
         setMutable(true);
         dbOperations.add(main_screen.getOrder().getCustomer(), DBStatement.Type.UPDATE);
 

@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import main.Main;
 import scenes.main.Alerts;
 import scenes.main.CreditArchiveTransactions;
 
@@ -41,14 +42,20 @@ public class CustomerDataPane {
 
     @FXML
     private Button save_data_btn;
+    @FXML
+    private Button cus_arch_credit_btn;
     private scenes.abstracts.CustomerDataPane main_screen;
     private scenes.main.CreditArchiveTransactions creditArchiveTransactions;
 
     public void ini(scenes.abstracts.CustomerDataPane main_screen) {
         this.main_screen = main_screen;
         edit_data_hbox.setVisible(main_screen.isMutable());
+        cus_arch_credit_btn.setVisible(main_screen.isMutable());
         setEditMode(false);
         creditArchiveTransactions = null;
+        if(Main.appSettings.getLogged_in_user().getAdmin()==0)
+            cus_arch_credit_btn.setDisable(true);
+
 
 
     }
@@ -88,7 +95,6 @@ public class CustomerDataPane {
         cus_phone_tf.setEditable(edit_mode);
         cus_address_tf.setEditable(edit_mode);
         cus_barcode_tf.setEditable(edit_mode);
-        //TODO set update expiry date from admin only
 
 
         // edit buttons Hbox

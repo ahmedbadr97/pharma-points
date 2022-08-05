@@ -21,13 +21,20 @@ public class AppSettings {
     private CreditExpirySettings creditExpirySettings;
     private SaleHistory current_sale;
     private ConfigurationFile configurationFile;
+    private String lastLoginName;
 
     public AppSettings() throws SystemError {
         configurationFile=new ConfigurationFile("config");
         configurationFile.openSettingsFile();
         server_ip=configurationFile.getValue("serverip");
+        lastLoginName=configurationFile.getValue("last_login_name");
         configurationFile.closeSettingsFile();
     }
+
+    public String getLastLoginName() {
+        return lastLoginName;
+    }
+
     public void setServer_ip(String server_ip)throws SystemError
     {
         configurationFile.openSettingsFile();
@@ -35,6 +42,14 @@ public class AppSettings {
         configurationFile.saveData();
         this.server_ip=server_ip;
     }
+
+    public void setLastLoginName(String lastLoginName) throws SystemError{
+        configurationFile.openSettingsFile();
+        configurationFile.addValue("last_login_name",lastLoginName);
+        configurationFile.saveData();
+        this.lastLoginName = lastLoginName;
+    }
+
     private void getCurrentSaleSettings()throws SQLException,DataNotFound
     {
        SystemConfiguration currentSaleConfig=SystemConfiguration.getSystemConfiguration(SystemAttribute.CURRENT_SALE);
@@ -74,6 +89,7 @@ public class AppSettings {
         DateTime last_check=DateTime.fromDate(updateExpiredOrdersConf.getAttrib_value());
         if(last_check.getLocalDate().isEqual(current_time.getLocalDate()))
             return;
+        updateExpiredOrdersConf.setAttrib_value(current_time.get_Date());
         ArrayList<Order> expiredOrders=null;
         try {
              expiredOrders=Order.getExpiredOrders(current_time);
@@ -92,7 +108,7 @@ public class AppSettings {
                 customer=Customer.getCustomer(Integer.toString(order.getCus_id()), Customer.QueryFilter.ID);
                 processedCustomers.put(customer.getId(),customer);
             }
-            float amount_to_transfer=Math.max(order.getTotal_credit(),0.0f);
+            float amount_to_transfer=Math.max(order.getTotalSystemCreditIn()-order.getTotalSystemCreditOut(),0.0f);
             if(amount_to_transfer!=0)
             {
 

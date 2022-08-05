@@ -2,6 +2,7 @@ package scenes.main;
 
 import database.entities.Order;
 
+
 public class OrderData extends WindowAbstract<scenes.controller.OrderData>{
     private final Order order;
     public OrderData(Order order) {

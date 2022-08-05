@@ -72,7 +72,7 @@ public class Order implements TablesOperations<Order> {
     }
 
     public float getTotal_credit() {
-        return totalSystemCreditIn - totalOrderCreditOut;
+        return totalOrderCreditIn - totalOrderCreditOut;
 
     }
 

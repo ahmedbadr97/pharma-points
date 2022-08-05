@@ -6,7 +6,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 
-<HBox fx:id="searchHbox" alignment="CENTER_LEFT" nodeOrientation="RIGHT_TO_LEFT" prefHeight="45.0" prefWidth="460.0" spacing="10.0" stylesheets="@../css/mainStyles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scenes.controller.GetCustomerBar">
+<HBox fx:id="searchHbox" alignment="CENTER_LEFT" nodeOrientation="RIGHT_TO_LEFT" prefHeight="45.0" prefWidth="460.0" spacing="10.0" stylesheets="@../css/mainStyles.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scenes.controller.GetCustomerBar">
    <children>
       <Label styleClass="secondary_labels" text="بحث ب" />
       <ComboBox fx:id="cus_search_cb" prefWidth="150.0" styleClass="secondary_labels" />

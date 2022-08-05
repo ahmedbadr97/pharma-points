@@ -185,7 +185,7 @@ public class CustomerData {
         }
 
         public float getTotal_credit_in() {
-            return order.getTotalSystemCreditIn();
+            return order.getTotalOrderCreditIn();
         }
 
         public float getTotal_credit_out() {

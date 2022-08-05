@@ -3,6 +3,7 @@ package scenes.controller;
 
 import database.entities.SystemUser;
 import exceptions.DataNotFound;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -21,9 +22,18 @@ public class Login {
     scenes.main.Login scene_main;
     VBox loginVbox;
     DataBaseSettings dataBaseSettings;
+
     public void init(scenes.main.Login scene_main){
         this.scene_main=scene_main;
         dataBaseSettings=null;
+        String lastLoginName=Main.appSettings.getLastLoginName();
+        if(lastLoginName!=null)
+        {
+            login_user_tf.setText(lastLoginName);
+            Platform.runLater(()->{
+                login_password_pf.requestFocus();
+            });
+        }
     }
     @FXML
     private StackPane main_Spane;
@@ -58,6 +68,7 @@ public class Login {
         }
         try {
             Main.appSettings.loadAppSettings(scene_main.getLogged_in_user());
+            Main.appSettings.setLastLoginName(login_user);
         } catch (Exception e) {
             new Alerts(e.getMessage()+" unable to load app settings .. app will shutdown", Alert.AlertType.ERROR);
             Main.shutdownSystem();

@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="525.0" prefWidth="578.0" stylesheets="@../css/mainStyles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scenes.controller.CreditArchiveTransactions">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="525.0" prefWidth="578.0" stylesheets="@../css/mainStyles.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scenes.controller.CreditArchiveTransactions">
    <top>
       <HBox alignment="CENTER" prefHeight="36.0" prefWidth="600.0" styleClass="title_bar" BorderPane.alignment="CENTER">
          <children>

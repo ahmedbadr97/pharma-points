@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Text?>
 
-<HBox fx:id="DeadLineHB" alignment="CENTER_LEFT" nodeOrientation="RIGHT_TO_LEFT" prefHeight="30.0" prefWidth="345.0" spacing="10.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scenes.controller.DateTimePicker">
+<HBox fx:id="DeadLineHB" alignment="CENTER_LEFT" nodeOrientation="RIGHT_TO_LEFT" prefHeight="30.0" prefWidth="345.0" spacing="10.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scenes.controller.DateTimePicker">
    <children>
       <Text strokeType="OUTSIDE" strokeWidth="0.0" />
       <DatePicker fx:id="datePicker" editable="false" prefHeight="25.0" prefWidth="110.0" promptText="التاريخ" />
