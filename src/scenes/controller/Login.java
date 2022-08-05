@@ -45,6 +45,7 @@ public class Login {
            Home home= new Home(logged_in_user);
            home.showStage();
 
+
         }
         catch (SQLException s)
         {
@@ -62,6 +63,7 @@ public class Login {
             Main.shutdownSystem();
 
         }
+        scene_main.closeStage();
 
     }
 
