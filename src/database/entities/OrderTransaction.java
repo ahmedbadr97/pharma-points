@@ -184,12 +184,15 @@ public class OrderTransaction implements TablesOperations<OrderTransaction> {
 
         public static TransactionType fromDatabaseValue(int trans_type) {
             switch (trans_type) {
+
                 case 1:
                     return TransactionType.credit_out;
                 case 2:
                     return TransactionType.money_out;
-                case 4:
+                case 3:
                     return TransactionType.credit_in;
+                case 4:
+                    return TransactionType.money_in_settlement;
                 default:
                     return TransactionType.money_in;
             }

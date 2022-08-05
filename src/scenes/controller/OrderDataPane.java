@@ -384,8 +384,8 @@ public class OrderDataPane {
                         try {
                             main_screen.getOrder().addTransaction(settlementTransaction);
                             main_screen.getCustomer().addToActiveCredit(main_screen.getOrder().getCustomerBalanceChange(settlementTransaction));
-
                             main_screen.getDbOperations().add(settlementTransaction, DBStatement.Type.ADD);
+
 
                             main_screen.getOrder().addTransaction(transaction);
                             main_screen.getCustomer().addToActiveCredit(main_screen.getOrder().getCustomerBalanceChange(transaction));
