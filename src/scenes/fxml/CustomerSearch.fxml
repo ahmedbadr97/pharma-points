@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scenes.controller.CustomerSearch">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scenes.controller.CustomerSearch">
    <top>
       <HBox alignment="CENTER" prefHeight="33.0" prefWidth="707.0" styleClass="title_bar" BorderPane.alignment="CENTER">
          <children>
@@ -109,17 +109,19 @@
             </HBox>
             <GridPane fx:id="cus_edit_admin_panal" prefHeight="91.0" prefWidth="687.0">
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="574.0" minWidth="10.0" prefWidth="564.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints maxHeight="43.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="66.0" minHeight="10.0" prefHeight="66.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <HBox alignment="CENTER_LEFT" prefHeight="58.0" prefWidth="687.0" spacing="10.0" GridPane.rowIndex="1">
+                  <HBox alignment="CENTER_LEFT" prefHeight="65.0" prefWidth="350.0" spacing="10.0" GridPane.rowIndex="1">
                      <children>
-                        <ComboBox fx:id="edit_customers_cb" prefWidth="150.0" styleClass="secondary_labels" />
+                        <Label styleClass="secondary_labels" text="تحويل نقاط:" />
+                        <ComboBox fx:id="edit_customers_cb" prefHeight="30.0" prefWidth="137.0" styleClass="secondary_labels" />
+                        <Label styleClass="secondary_labels" text="القيمة:" />
+                        <TextField fx:id="creditTransAmount_tf" onAction="#edit_cus_btn_action" prefHeight="32.0" prefWidth="98.0" styleClass="purple_border" />
                         <Button mnemonicParsing="false" onAction="#edit_cus_btn_action" prefHeight="30.0" prefWidth="85.0" styleClass="secondary_labels" text="تنفيذ" />
                         <Button mnemonicParsing="false" onAction="#save_cus_edit_action" prefWidth="85.0" styleClass="secondary_labels" text="حفظ" />
                      </children>

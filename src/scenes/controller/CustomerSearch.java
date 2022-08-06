@@ -1,7 +1,12 @@
 package scenes.controller;
 
+import database.DBOperations;
+import database.DBStatement;
+import database.entities.CreditArchiveTransaction;
 import database.entities.Customer;
+import exceptions.DataEntryError;
 import exceptions.DataNotFound;
+import exceptions.InvalidTransaction;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,10 +15,12 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import main.Main;
 import scenes.abstracts.GetCustomerBar;
 import scenes.main.Alerts;
 import scenes.main.NewCustomer;
 import utils.DateTime;
+import utils.Validator;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -28,6 +35,8 @@ public class CustomerSearch {
     private TextField credit_end_tf;
     @FXML
     private TextField credit_start_tf;
+    @FXML
+    private TextField creditTransAmount_tf;
 
     @FXML
     private TableView<Customer> cus_tv;
@@ -46,7 +55,7 @@ public class CustomerSearch {
     private Label tv_cnt_lb;
 
     @FXML
-    private ComboBox<EditCustomer> edit_customers_cb;
+    private ComboBox<CreditArchiveTransaction.TransactionType> edit_customers_cb;
 
     @FXML
     private GridPane cus_edit_admin_panel;
@@ -58,9 +67,11 @@ public class CustomerSearch {
     private ObservableList<Customer> customers_tv_list;
     private scenes.abstracts.GetCustomerBar getCustomerBar;
     private Customer selectedCustomer;
+    private DBOperations dbOperations;
 
     public void init(scenes.main.CustomerSearch main_screen) {
         this.main_screen = main_screen;
+        dbOperations=new DBOperations();
 
         // -------------- Search HBOX initialize---------------//
 
@@ -74,12 +85,11 @@ public class CustomerSearch {
         });
 
 
+        if(Main.appSettings.getLogged_in_user().getAdmin()==0)
+            cus_edit_admin_panel.setVisible(false);
         // --------------initialize combo boxes----------------//
 
-        // Edit Customer combo box
-        List<EditCustomer> editCustomers = Arrays.asList(EditCustomer.values());
-        edit_customers_cb.setItems(FXCollections.observableList(editCustomers));
-        edit_customers_cb.setValue(EditCustomer.EXPIRY_DATE);
+        edit_customers_cb.getItems().addAll(CreditArchiveTransaction.TransactionType.values());
 
 
 
@@ -113,10 +123,7 @@ public class CustomerSearch {
 
     }
 
-    @FXML
-    void edit_cus_btn_action(ActionEvent event) {
 
-    }
 
     @FXML
     void filter_btn_action(ActionEvent event) {
@@ -157,9 +164,53 @@ public class CustomerSearch {
         }
 
     }
+    @FXML
+    void edit_cus_btn_action(ActionEvent event) {
+        float amount=0;
+        try {
+             amount = Validator.getFloat(creditTransAmount_tf, "قيمه النقاط", 0, (int) 1e5);
+
+        }   catch (DataEntryError d)
+        {
+            new Alerts(d);
+            return;
+        }
+
+        for (Customer customer:customers_tv_list) {
+            try {
+
+                CreditArchiveTransaction.TransactionType transactionType = edit_customers_cb.getValue();
+                switch (transactionType) {
+                    case activeToArchive:
+                        customer.fromActiveToArchive(amount);
+                        break;
+                    case archiveToActive:
+                        customer.fromArchiveToActive(amount);
+                        break;
+                }
+                CreditArchiveTransaction archiveTransaction = new CreditArchiveTransaction(transactionType, 0, amount, customer);
+                dbOperations.add(archiveTransaction, DBStatement.Type.ADD);
+                dbOperations.add(customer, DBStatement.Type.UPDATE);
+            }
+            catch (InvalidTransaction inv)
+            {
+                new Alerts(inv.getMessage()+" "+customer.getName(), Alert.AlertType.ERROR);
+            }
+
+        }
+        cus_tv.refresh();
+
+    }
 
     @FXML
     void save_cus_edit_action(ActionEvent event) {
+        try {
+            dbOperations.execute();
+        } catch (SQLException e) {
+            new Alerts(e);
+        }
+        new Alerts("تم حفظ البيانات بنجاح", Alert.AlertType.INFORMATION);
+
 
     }
 
@@ -192,21 +243,8 @@ public class CustomerSearch {
         tv_cnt_lb.setText(Integer.toString(customerArrayList.size()));
     }
 
-    // -------------------------------------choice boxes enums -------------------------------------//
 
-    enum EditCustomer {
-        EXPIRY_DATE("تاريخ الانتهاء"), TRANSFER_POINTS("تحويل نقاط");
-        private final String label;
 
-        EditCustomer(String label) {
-            this.label = label;
-        }
-
-        @Override
-        public String toString() {
-            return label;
-        }
-    }
 
 }
 
