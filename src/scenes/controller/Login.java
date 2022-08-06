@@ -3,6 +3,7 @@ package scenes.controller;
 
 import database.entities.SystemUser;
 import exceptions.DataNotFound;
+import exceptions.SystemError;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,6 +17,7 @@ import scenes.main.Alerts;
 import scenes.abstracts.DataBaseSettings;
 import scenes.main.Home;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 public class Login {
@@ -54,7 +56,9 @@ public class Login {
             System.out.println("Welcome");
            Home home= new Home(logged_in_user);
            home.showStage();
-
+            Main.appSettings.loadAppSettings(scene_main.getLogged_in_user());
+            Main.appSettings.setLastLoginName(login_user);
+            scene_main.closeStage();
 
         }
         catch (SQLException s)
@@ -66,15 +70,13 @@ public class Login {
             new Alerts(d.getMessage(), Alert.AlertType.ERROR);
             login_password_pf.clear();
         }
-        try {
-            Main.appSettings.loadAppSettings(scene_main.getLogged_in_user());
-            Main.appSettings.setLastLoginName(login_user);
-        } catch (Exception e) {
-            new Alerts(e.getMessage()+" unable to load app settings .. app will shutdown", Alert.AlertType.ERROR);
+        catch (SystemError | IOException s)
+        {
+            new Alerts(s.getMessage()+" unable to load app settings .. app will shutdown", Alert.AlertType.ERROR);
             Main.shutdownSystem();
-
         }
-        scene_main.closeStage();
+
+
 
     }
 

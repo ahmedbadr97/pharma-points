@@ -9,15 +9,21 @@ import utils.DateTime;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Enumeration;
 
 public class DBconnection {
-   private Connection connection=null;
+    private Connection connection = null;
     private String serverip;
     private final String username;
-   private final String password;
-   private boolean conntected;
-   private boolean clientSet;
+    private final String password;
+    private boolean connected;
+    private boolean clientSet;
+    public interface ConnectionAction{
+        public void isConnected(boolean connected);
+    }
+    ArrayList<ConnectionAction> connectionActions;
+
     public String getServerip() {
         return serverip;
     }
@@ -26,43 +32,53 @@ public class DBconnection {
         this.serverip = serverip;
     }
 
-    public DBconnection(String serverip)throws SQLException {
-          this.serverip = serverip;
+    public DBconnection(String serverip) throws SQLException {
+        this.serverip = serverip;
         this.username = "fayedpharmacy";
         this.password = "fayed203046";
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
             System.out.println("Driver Class Loaded");
 
-        }
-        catch (ClassNotFoundException e1)
-        {
+        } catch (ClassNotFoundException e1) {
 
-            new Alerts(" Error loading Database drivers (Missing files)",Alert.AlertType.ERROR);
+            new Alerts(" Error loading Database drivers (Missing files)", Alert.AlertType.ERROR);
         }
+        connectionActions=new ArrayList<>();
 
     }
-    public void Connect() throws SQLException
-    {
-            if (connection!=null&&!connection.isClosed())
-                return;
-            connection=DriverManager.getConnection("jdbc:oracl:thin:@"+serverip+":1521:xe",username,password);
-            connection.setAutoCommit(false);
-            conntected=true;
-        if(!clientSet)
-        {
+
+    public void Connect() throws SQLException {
+        if (connection != null && !connection.isClosed())
+            return;
+        connection = DriverManager.getConnection("jdbc:oracl:thin:@" + serverip + ":1521:xe", username, password);
+        connection.setAutoCommit(false);
+        connected = true;
+        if (!clientSet) {
             setClientData();
-            clientSet =true;
+            clientSet = true;
         }
         connectionAction();
     }
-    public void setClientData(){
-        try {
-            boolean valid=false;
-//            String mbSerial=getWindowsMotherboard_SerialNumber();
-            PreparedStatement p=connection.prepareStatement("SELECT * FROM \"FAYEDADMIN\".CLIENTCOMPUTER WHERE  MAC_ADDRESS=?");
+    public void addConnectionAction(ConnectionAction action)
+    {
+        connectionActions.add(action);
+    }
+    public void clearConnectionActions(){
+        connectionActions.clear();
+    }
+    public boolean removeConnectionAction(ConnectionAction action)
+    {
+        return connectionActions.remove(action);
+    }
 
-            clientSet =true;
+    public void setClientData() {
+        try {
+            boolean valid = false;
+//            String mbSerial=getWindowsMotherboard_SerialNumber();
+            PreparedStatement p = connection.prepareStatement("SELECT * FROM \"FAYEDADMIN\".CLIENTCOMPUTER WHERE  MAC_ADDRESS=?");
+
+            clientSet = true;
             Enumeration<NetworkInterface> networkInterface = NetworkInterface.getNetworkInterfaces();
             while (networkInterface.hasMoreElements()) {
                 NetworkInterface network = networkInterface.nextElement();
@@ -72,22 +88,20 @@ public class DBconnection {
                     for (int i = 0; i < macAddressBytes.length; i++) {
                         macAddressStr.append(String.format("%02X", macAddressBytes[i]));
                     }
-                    p.setString(1,macAddressStr.toString());
-                    ResultSet r=p.executeQuery();
-                    while (r.next())
-                    {
-                        Main.connectedComputer=new ClientComputer(r.getInt(1),r.getString(2));
-                        valid=true;
+                    p.setString(1, macAddressStr.toString());
+                    ResultSet r = p.executeQuery();
+                    while (r.next()) {
+                        Main.connectedComputer = new ClientComputer(r.getInt(1), r.getString(2));
+                        valid = true;
                     }
                     r.close();
-                    if(valid)break;
+                    if (valid) break;
                 }
             }
             p.close();
 
-            if(!valid)System.exit(-1);
-        }
-        catch(SocketException e){
+            if (!valid) System.exit(-1);
+        } catch (SocketException e) {
             new Alerts(e.getMessage(), Alert.AlertType.ERROR);
             System.exit(-1);
         } catch (SQLException sqlException) {
@@ -101,38 +115,34 @@ public class DBconnection {
         return connection;
     }
 
-    public void DisConnect()
-    {
+    public void DisConnect() {
         try {
-            if (connection.isClosed()||connection==null)
+            if (connection.isClosed() || connection == null)
                 return;
 
             connection.close();
-        }
-        catch (SQLException s)
-        {
+        } catch (SQLException s) {
             new Alerts(s);
         }
-        conntected=false;
+        connected = false;
         connectionAction();
 
     }
 
-    public boolean isConntected() {
-        return conntected;
+    public boolean isConnected() {
+        return connected;
     }
 
-    public void connectionAction()
-    {
+    public void connectionAction() {
 
     }
-    public DateTime getCurrentDatabaseTime()throws SQLException
-    {
+
+    public DateTime getCurrentDatabaseTime() throws SQLException {
         Statement s = getConnection().createStatement();
         ResultSet r = s.executeQuery("SELECT TO_CHAR(SYSDATE,'DD-MM-YYYY') FROM dual");
-        DateTime current_time=null;
+        DateTime current_time = null;
         while (r.next()) {
-            String dateTimeStr = r.getString(1).substring(0,10);
+            String dateTimeStr = r.getString(1).substring(0, 10);
             current_time = DateTime.fromDate(dateTimeStr);
         }
         return current_time;

@@ -4,10 +4,12 @@ import database.entities.Customer;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import scenes.main.CustomerData;
 import scenes.main.CustomerSearch;
+import scenes.main.Login;
 import scenes.main.NewOrder;
 import scenes.main.Settings;
 import scenes.main.TransactionsLog;
@@ -59,6 +61,10 @@ public class Home {
 
     @FXML
     void logout_btn_action(ActionEvent event) {
+        main_screen.closeStage();
+        Login login=new scenes.main.Login();
+        login.showStage();
+
 
     }
 
@@ -90,6 +96,14 @@ public class Home {
     void transactions_log_btn_action(ActionEvent event) {
         transactionsLogScene=new TransactionsLog();
         transactionsLogScene.showStage();
+
+    }
+    public void setConnected(boolean connected)
+    {
+        if(connected)
+            connection_circle.setFill(Color.GREEN);
+        else
+            connection_circle.setFill(Color.GRAY);
 
     }
 

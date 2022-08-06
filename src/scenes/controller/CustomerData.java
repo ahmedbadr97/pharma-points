@@ -1,5 +1,6 @@
 package scenes.controller;
 
+import database.DBStatement;
 import database.entities.Customer;
 import database.entities.Order;
 import exceptions.DataNotFound;
@@ -10,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
+import main.Main;
 import scenes.abstracts.CustomerDataPane;
 import scenes.main.Alerts;
 import scenes.main.OrderData;
@@ -218,6 +220,25 @@ public class CustomerData {
         }
     }
 
+    @FXML
+    void deleteCustomer(ActionEvent event) {
+        if(Main.appSettings.getLogged_in_user().getAdmin()==1)
+        {
+            try {
+                main_screen.getDbOperations().add(main_screen.getCustomer(), DBStatement.Type.DELETE);
+                main_screen.getDbOperations().execute();
+                new Alerts("تم حذف العميل بنجاح", Alert.AlertType.INFORMATION);
+                main_screen.closeStage();
+            } catch (SQLException e) {
+                new Alerts(e);
+            }
+        }
+        else
+        {
+            new Alerts("لا يمكنك حذف بينات العميل يجب الرجوع الى المسئول", Alert.AlertType.ERROR);
+        }
+
+    }
     @FXML
     void close(ActionEvent event) {
         main_screen.closeStage();
