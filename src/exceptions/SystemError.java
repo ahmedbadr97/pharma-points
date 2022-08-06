@@ -2,7 +2,8 @@ package exceptions;
 
 public class SystemError extends Exception{
     public enum ErrorType{
-        configFileError("حدث خطئ فى تحنيل بانات الرنامج" );
+        configFileError("حدث خطئ فى تحنيل بانات الرنامج" ),
+        printerError("برجاء مراجه اعدادات الطبعه");
         String description;
 
         ErrorType(String description) {

@@ -1,22 +1,14 @@
 package scenes.controller;
 
-import database.entities.SaleHistory;
-import exceptions.DataNotFound;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import main.Main;
 import scenes.abstracts.DatabaseRecovery;
 import scenes.abstracts.OrderSettings;
 import scenes.abstracts.SystemUsers;
-import scenes.main.Alerts;
-
-import java.sql.SQLException;
 
 public class Settings {
 
@@ -43,7 +35,7 @@ public class Settings {
     scenes.abstracts.DataBaseSettings dataBaseSettingsScene;
     scenes.abstracts.OrderSettings orderSettings;
     scenes.abstracts.SystemUsers systemUsers;
-//    PrinterSettings printerSettingsGui;
+    scenes.abstracts.PrinterSettings printerSettingsScene;
     scenes.main.Settings main_scene;
     scenes.abstracts.DatabaseRecovery databaseRecovery;
 
@@ -76,13 +68,13 @@ public class Settings {
     @FXML
     void printerSetAction(ActionEvent event)
     {
-//        setSelectedButton(printerSetBtn);
-//        if(printerSettingsGui==null)
-//            printerSettingsGui=new PrinterSettings(invokingClass.getStage());
-//        mainSpane.getChildren().clear();
-//        mainSpane.getChildren().add(printerSettingsGui.getParent());
-//        setSelectedButton(printerSetBtn);
-//        topBarText.setText("اعدادت الطبعه");
+        setSelectedButton(printerSetBtn);
+        if(printerSettingsScene ==null)
+            printerSettingsScene =new scenes.abstracts.PrinterSettings(main_scene.getStage());
+        mainSpane.getChildren().clear();
+        mainSpane.getChildren().add(printerSettingsScene.getParent());
+        setSelectedButton(printerSetBtn);
+        topBarText.setText("اعدادت الطبعه");
     }
 
     @FXML

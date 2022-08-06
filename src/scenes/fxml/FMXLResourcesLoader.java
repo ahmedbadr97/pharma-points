@@ -2,6 +2,9 @@ package scenes.fxml;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
 
 import java.io.FileReader;
@@ -17,6 +20,11 @@ public class FMXLResourcesLoader {
         }
 
         return fxmlLoader;
+
+    }
+    public static JasperDesign getJrxml(String fileName) throws JRException {
+        JasperDesign jasperDesign= JRXmlLoader.load(fileName);
+        return jasperDesign;
 
     }
     public static FileReader ReadFile(String filename)

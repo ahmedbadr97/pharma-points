@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scenes.controller.TransactionsLog">
+   <top>
+      <HBox alignment="CENTER" prefHeight="36.0" prefWidth="804.0" styleClass="title_bar" BorderPane.alignment="CENTER">
+         <children>
+            <Label styleClass="title_labels" text="متابعه التداولات" />
+         </children>
+      </HBox>
+   </top>
+   <center>
+      <VBox nodeOrientation="RIGHT_TO_LEFT" prefHeight="662.0" prefWidth="783.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label styleClass="primary_labels" text="تحديد الفتره" />
+            <Separator prefWidth="200.0" styleClass="title_bar">
+               <VBox.margin>
+                  <Insets bottom="10.0" top="5.0" />
+               </VBox.margin>
+            </Separator>
+            <GridPane hgap="20.0" prefHeight="56.0" prefWidth="743.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="399.0" minWidth="10.0" prefWidth="309.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="671.0" minWidth="10.0" prefWidth="293.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="671.0" minWidth="10.0" prefWidth="109.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="39.0" minHeight="10.0" prefHeight="24.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="50.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label styleClass="secondary_labels" text="من" />
+                  <Label styleClass="secondary_labels" text="الى" GridPane.columnIndex="1" />
+                  <Button mnemonicParsing="false" onAction="#filterTransactions" prefHeight="32.0" prefWidth="99.0" styleClass="secondary_labels" text="تحديد" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <StackPane fx:id="from_spane" prefHeight="150.0" prefWidth="200.0" GridPane.rowIndex="1" />
+                  <StackPane fx:id="to_spane" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </GridPane>
+            <HBox spacing="10.0">
+               <children>
+                  <TableView fx:id="transactions_tv" prefHeight="319.0" prefWidth="670.0">
+                    <columns>
+                      <TableColumn fx:id="order_id_col" prefWidth="75.0" text="رقم الفاتوره" />
+                      <TableColumn fx:id="trans_id_col" prefWidth="75.0" text="رقم العماليه" />
+                        <TableColumn fx:id="trans_type_col" prefWidth="132.0" text="نوع العماليه" />
+                        <TableColumn fx:id="amount_col" prefWidth="100.0" text="الرصيد" />
+                        <TableColumn fx:id="date_time_col" prefWidth="194.0" text="التاريخ/الوقت" />
+                    </columns>
+                  </TableView>
+                  <VBox alignment="TOP_RIGHT" prefHeight="321.0" prefWidth="56.0" spacing="15.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="17.0" prefWidth="90.0" spacing="5.0">
+                           <children>
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#85f505" height="10.0" stroke="BLACK" strokeType="INSIDE" width="10.0" />
+                              <Label styleClass="secondary_labels" text="وارد" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="17.0" prefWidth="90.0" spacing="5.0">
+                           <children>
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f50707" height="10.0" stroke="BLACK" strokeType="INSIDE" width="10.0" />
+                              <Label styleClass="secondary_labels" text="صادر" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <Label styleClass="primary_labels" text="اجمالى الفواتير" />
+            <Separator prefWidth="200.0" styleClass="title_bar" />
+            <HBox prefWidth="767.0">
+               <children>
+                  <GridPane prefHeight="85.0" prefWidth="630.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="253.0" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="307.0" minWidth="10.0" prefWidth="95.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="339.0" minWidth="10.0" prefWidth="99.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="337.0" minWidth="10.0" prefWidth="97.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="243.0" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="243.0" minWidth="10.0" prefWidth="80.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label prefHeight="29.0" prefWidth="96.0" styleClass="secondary_labels" text="عمليات الشراء" />
+                        <Label prefHeight="29.0" prefWidth="95.0" styleClass="secondary_labels" text="مرتجعات الشراء" GridPane.columnIndex="2" />
+                        <Label prefHeight="31.0" prefWidth="85.0" styleClass="secondary_labels" text="اجمالى الخزينه" GridPane.columnIndex="4" />
+                        <Label prefHeight="29.0" prefWidth="90.0" styleClass="secondary_labels" text="مرتجعات النقاط" GridPane.rowIndex="1" />
+                        <Label prefHeight="29.0" prefWidth="78.0" styleClass="secondary_labels" text="صرف النقاط" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <Label prefHeight="31.0" prefWidth="85.0" styleClass="secondary_labels" text="اجمالى النقاط" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                        <Label fx:id="total_credit_in_lb" prefHeight="29.0" prefWidth="85.0" styleClass="whiteDataLabels" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label fx:id="money_in_lb" prefHeight="29.0" prefWidth="85.0" styleClass="whiteDataLabels" text="0" GridPane.columnIndex="1" />
+                        <Label fx:id="total_credit_out_lb" prefHeight="29.0" prefWidth="85.0" styleClass="whiteDataLabels" text="0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                        <Label fx:id="total_money_lb" prefHeight="29.0" prefWidth="85.0" styleClass="whiteDataLabels" text="0" GridPane.columnIndex="5" />
+                        <Label fx:id="total_credit_lb" prefHeight="29.0" prefWidth="85.0" styleClass="whiteDataLabels" text="0" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                        <Label fx:id="money_out_lb" prefHeight="29.0" prefWidth="85.0" styleClass="whiteDataLabels" text="0" GridPane.columnIndex="3" />
+                     </children>
+                  </GridPane>
+               </children>
+            </HBox>
+            <Label styleClass="primary_labels" text="اجمالى نقاط العملاء" />
+            <Separator prefWidth="200.0" styleClass="title_bar" />
+            <HBox prefHeight="49.0" prefWidth="818.0">
+               <children>
+                  <GridPane prefHeight="85.0" prefWidth="630.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="253.0" minWidth="10.0" prefWidth="109.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="307.0" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="339.0" minWidth="10.0" prefWidth="116.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="337.0" minWidth="10.0" prefWidth="105.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="243.0" minWidth="10.0" prefWidth="110.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="243.0" minWidth="10.0" prefWidth="89.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label prefHeight="29.0" prefWidth="90.0" styleClass="secondary_labels" text="وارد النقاط" />
+                        <Label prefHeight="29.0" prefWidth="78.0" styleClass="secondary_labels" text="صادر النقاط" GridPane.columnIndex="2" />
+                        <Label prefHeight="31.0" prefWidth="85.0" styleClass="secondary_labels" text="اجمالى النقاط" GridPane.columnIndex="4" />
+                        <Label fx:id="cus_credit_in_lb" prefHeight="29.0" prefWidth="85.0" styleClass="whiteDataLabels" text="0" GridPane.columnIndex="1" />
+                        <Label fx:id="total_cus_credit_lb" prefHeight="29.0" prefWidth="85.0" styleClass="whiteDataLabels" text="0" GridPane.columnIndex="5" />
+                        <Label fx:id="cus_credit_out_lb" prefHeight="29.0" prefWidth="85.0" styleClass="whiteDataLabels" text="0" GridPane.columnIndex="3" />
+                     </children>
+                  </GridPane>
+               </children>
+            </HBox>
+         </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+         <padding>
+            <Insets left="20.0" right="20.0" top="20.0" />
+         </padding>
+      </VBox>
+   </center>
+   <bottom>
+      <HBox alignment="CENTER" prefHeight="36.0" prefWidth="743.0" spacing="25.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#print" prefHeight="30.0" prefWidth="75.0" styleClass="secondary_labels" text="طباعه" />
+            <Button mnemonicParsing="false" onAction="#close" prefHeight="30.0" prefWidth="75.0" styleClass="secondary_labels" text="غلق" />
+         </children>
+      </HBox>
+   </bottom>
+   <stylesheets>
+      <URL value="@../css/mainStyles.css" />
+      <URL value="@../css/orderDataPane.css" />
+   </stylesheets>
+</BorderPane>

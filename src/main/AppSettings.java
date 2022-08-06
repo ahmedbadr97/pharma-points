@@ -7,6 +7,7 @@ import exceptions.DataNotFound;
 import exceptions.InvalidTransaction;
 import exceptions.SystemError;
 import javafx.application.Platform;
+import javafx.print.Printer;
 import javafx.scene.control.Alert;
 import scenes.abstracts.LoadingWindow;
 import scenes.main.Alerts;
@@ -29,6 +30,7 @@ public class AppSettings {
     private CreditExpirySettings creditExpirySettings;
     private SaleHistory current_sale;
     private ConfigurationFile configurationFile;
+    private String printerName;
     private String lastLoginName;
     private boolean isMainDevice;
     private DataRecoverySettings dataRecoverySettings;
@@ -39,6 +41,7 @@ public class AppSettings {
         server_ip = configurationFile.getValue("serverip");
         lastLoginName = configurationFile.getValue("last_login_name");
         String main_device = configurationFile.getValue("main_device");
+        printerName=configurationFile.getValue("printer_name");
         dataRecoverySettings = null;
         if (main_device != null) {
             isMainDevice = main_device.equals("1");
@@ -48,6 +51,17 @@ public class AppSettings {
         }
 
         configurationFile.closeSettingsFile();
+    }
+
+    public String getPrinterName() {
+        return printerName;
+    }
+
+    public void setPrinterName(String printerName) throws SystemError{
+        configurationFile.openSettingsFile();
+        configurationFile.addValue("printer_name", printerName);
+        configurationFile.saveData();
+        this.printerName = printerName;
     }
 
     public DataRecoverySettings getDataRecoverySettings() {
