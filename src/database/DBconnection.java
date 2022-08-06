@@ -58,7 +58,7 @@ public class DBconnection {
             setClientData();
             clientSet = true;
         }
-        connectionAction();
+        executeConnectionChangeActions();
     }
     public void addConnectionAction(ConnectionAction action)
     {
@@ -109,8 +109,24 @@ public class DBconnection {
             System.exit(-1);
         }
     }
+    public void executeConnectionChangeActions()
+    {
+        for (ConnectionAction action:connectionActions)
+            action.isConnected(connected);
 
-    public Connection getConnection() {
+    }
+
+    public void setConnected(boolean connected) {
+        if(connected!=this.connected)
+        {
+            this.connected = connected;
+            executeConnectionChangeActions();
+        }
+    }
+
+    public Connection getConnection() throws SQLException{
+
+        setConnected(connection.isValid(25));
 
         return connection;
     }
@@ -125,17 +141,13 @@ public class DBconnection {
             new Alerts(s);
         }
         connected = false;
-        connectionAction();
-
+        executeConnectionChangeActions();
     }
 
     public boolean isConnected() {
         return connected;
     }
 
-    public void connectionAction() {
-
-    }
 
     public DateTime getCurrentDatabaseTime() throws SQLException {
         Statement s = getConnection().createStatement();

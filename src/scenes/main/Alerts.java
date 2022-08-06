@@ -18,7 +18,6 @@ public class Alerts {
         this.current_exception = s;
         iniOracleMessage(s.getErrorCode());
         alert=new Alert(Alert.AlertType.ERROR,oracleMessage+" "+s.getMessage());
-
         alert.setOnCloseRequest(event -> alertOnClose());
         alert.showAndWait();
     }

@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import main.Main;
 import scenes.main.CustomerData;
 import scenes.main.CustomerSearch;
 import scenes.main.Login;
@@ -40,6 +41,7 @@ public class Home {
                 transactions_log_btn_action(null);
             }
         });
+        setConnected(Main.dBconnection.isConnected());
 
     }
 

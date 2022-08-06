@@ -1,6 +1,6 @@
 #
-#Sat Aug 06 19:51:47 EET 2022
-serverip=127.0.1.0
+#Sat Aug 06 20:53:31 EET 2022
+serverip=ahmedbadr
 backup_interval=0,0,7
 backup_path=D\:\\PharmaPoints
 last_login_name=1
