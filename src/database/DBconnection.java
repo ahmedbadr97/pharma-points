@@ -4,6 +4,7 @@ import main.Main;
 import scenes.main.Alerts;
 import database.entities.ClientComputer;
 import javafx.scene.control.Alert;
+import utils.DateTime;
 
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -124,5 +125,16 @@ public class DBconnection {
     public void connectionAction()
     {
 
+    }
+    public DateTime getCurrentDatabaseTime()throws SQLException
+    {
+        Statement s = getConnection().createStatement();
+        ResultSet r = s.executeQuery("SELECT TO_CHAR(SYSDATE,'DD-MM-YYYY') FROM dual");
+        DateTime current_time=null;
+        while (r.next()) {
+            String dateTimeStr = r.getString(1).substring(0,10);
+            current_time = DateTime.fromDate(dateTimeStr);
+        }
+        return current_time;
     }
 }

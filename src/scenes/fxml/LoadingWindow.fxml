@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="170.0" prefWidth="380.0" spacing="10.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scenes.controller.LoadingWindow">
+   <children>
+      <Label fx:id="title_lb" styleClass="primary_labels" />
+      <ProgressBar prefHeight="25.0" prefWidth="204.0" style="-fx-accent: #60087e;" />
+   </children>
+   <stylesheets>
+      <URL value="@../css/Settings.css" />
+      <URL value="@../css/mainStyles.css" />
+   </stylesheets>
+</VBox>

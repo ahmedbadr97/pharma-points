@@ -11,6 +11,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import main.Main;
+import scenes.abstracts.DatabaseRecovery;
 import scenes.abstracts.OrderSettings;
 import scenes.abstracts.SystemUsers;
 import scenes.main.Alerts;
@@ -33,6 +34,8 @@ public class Settings {
 
     @FXML
     private Button printerSetBtn;
+    @FXML
+    private Button databaseRecovery_btn;
 
     @FXML
     private Button usersSetBtn;
@@ -42,11 +45,13 @@ public class Settings {
     scenes.abstracts.SystemUsers systemUsers;
 //    PrinterSettings printerSettingsGui;
     scenes.main.Settings main_scene;
+    scenes.abstracts.DatabaseRecovery databaseRecovery;
 
     public void ini(scenes.main.Settings main_scene)
     {
         this.main_scene =main_scene;
         dataBaseSettingsScene =new scenes.abstracts.DataBaseSettings();
+        databaseRecovery=new DatabaseRecovery();
         selectedButton=null;
         if(Main.appSettings.getLogged_in_user().getAdmin()==1)
         {
@@ -57,7 +62,10 @@ public class Settings {
         else{
             orderSetBtn.setDisable(true);
             usersSetBtn.setDisable(true);
+            databaseRecovery_btn.setDisable(true);
         }
+        if(!Main.appSettings.isMainDevice())
+            databaseRecovery_btn.setDisable(true);
 
 
 
@@ -115,6 +123,16 @@ public class Settings {
         selectedButton=newSelectedButton;
         newSelectedButton.getStyleClass().clear();
         selectedButton.getStyleClass().add("navButtons_selected");
+    }
+
+
+    @FXML
+    void databaseRecovery(ActionEvent event) {
+        mainSpane.getChildren().clear();
+        mainSpane.getChildren().add(databaseRecovery.getParent());
+        setSelectedButton(databaseRecovery_btn);
+        topBarText.setText("اعدادت النسخه الاحطياطيه");
+
     }
 
 }

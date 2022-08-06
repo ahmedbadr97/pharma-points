@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="441.0" prefWidth="588.0" spacing="10.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scenes.controller.DatabaseRecovery">
+   <stylesheets>
+      <URL value="@../css/mainStyles.css" />
+      <URL value="@../css/Settings.css" />
+   </stylesheets>
+   <children>
+      <Label prefHeight="25.0" prefWidth="189.0" styleClass="primary_labels" text="النسخه الاحطياطيه التلقائيه" />
+      <Separator prefHeight="0.0" prefWidth="710.0" styleClass="title_bar" />
+      <GridPane hgap="15.0" vgap="15.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="251.0" minWidth="10.0" prefWidth="146.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="462.0" minWidth="10.0" prefWidth="427.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label styleClass="secondary_labels" text="مكان حفظ الملفات:" />
+            <Label styleClass="secondary_labels" text="عمل نسخه احطياطيه كل:" GridPane.rowIndex="1" />
+            <HBox spacing="5.0" GridPane.columnIndex="1">
+               <children>
+                  <TextField fx:id="autoBackupPath_tf" editable="false" prefHeight="31.0" prefWidth="330.0" />
+                  <Button mnemonicParsing="false" onAction="#selectAutoBackupPath" styleClass="secondary_labels" text="اختيار" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="78.0" prefWidth="384.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <children>
+                  <Label styleClass="secondary_labels" text="سنتين" />
+                  <TextField fx:id="every_years_tf" prefHeight="25.0" prefWidth="57.0" />
+                  <Label styleClass="secondary_labels" text="شهور" />
+                  <TextField fx:id="every_months_tf" prefHeight="25.0" prefWidth="57.0" />
+                  <Label styleClass="secondary_labels" text="ايام" />
+                  <TextField fx:id="every_days_tf" prefHeight="25.0" prefWidth="57.0" />
+               </children>
+            </HBox>
+         </children>
+      </GridPane>
+      <Label styleClass="primary_labels" text="انشاء نسخه احطياطيه">
+         <VBox.margin>
+            <Insets top="15.0" />
+         </VBox.margin>
+      </Label>
+      <Separator prefHeight="0.0" prefWidth="710.0" styleClass="title_bar" />
+      <HBox alignment="CENTER_LEFT" prefHeight="43.0" prefWidth="553.0" spacing="10.0">
+         <children>
+            <Label styleClass="secondary_labels" text="مكان حفظ الملفات:" />
+            <TextField fx:id="backupNowPath_tf" editable="false" prefHeight="31.0" prefWidth="330.0" />
+            <Button mnemonicParsing="false" onAction="#selectBackupNowPath" styleClass="secondary_labels" text="اختيار" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="553.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#backupNow" styleClass="secondary_labels" text="عمل نسخه" />
+         </children>
+      </HBox>
+      <Label styleClass="primary_labels" text="تحميل نسخه احطياطيه" />
+      <Separator prefHeight="0.0" prefWidth="710.0" styleClass="title_bar" />
+      <HBox alignment="CENTER_LEFT" prefHeight="43.0" prefWidth="553.0" spacing="10.0">
+         <children>
+            <Label styleClass="secondary_labels" text="مكان الملف:" />
+            <TextField fx:id="oldBackupPath_tf" editable="false" prefHeight="31.0" prefWidth="372.0" />
+            <Button mnemonicParsing="false" onAction="#selectOldBackupPath" styleClass="secondary_labels" text="اختيار" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="553.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#backup" styleClass="secondary_labels" text="تحميل النسخه" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="45.0" prefWidth="597.0" spacing="25.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#cancel" prefWidth="60.0" styleClass="purple_button" text="الغاء" />
+            <Button mnemonicParsing="false" onAction="#save" prefHeight="30.0" prefWidth="60.0" styleClass="purple_button" text="حفظ" />
+         </children>
+      </HBox>
+   </children>
+</VBox>

@@ -8,7 +8,7 @@ import java.time.LocalTime;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 
-public class DateTime implements Comparable<DateTime> {
+public class DateTime implements Comparable<DateTime>,Cloneable {
     String timeStamp;
     LocalDateTime localDateTime;
     public static DateTimeFormatter timeStamp_24_Format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -24,10 +24,23 @@ public class DateTime implements Comparable<DateTime> {
     public DateTime() {
         localDateTime = LocalDateTime.now();
     }
-    public void add_to_date(int years,int months,int days){
+
+    @Override
+    public DateTime clone()  {
+        DateTime dateTime=new DateTime();
+        dateTime.localDateTime=LocalDateTime.from(this.localDateTime);
+        return dateTime;
+    }
+
+    public void add_to_date(int years, int months, int days){
         this.localDateTime=this.localDateTime.plusYears(years);
         this.localDateTime=this.localDateTime.plusMonths(months);
         this.localDateTime=this.localDateTime.plusDays(days);
+    }
+    public String getTime(String format)
+    {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(format);
+        return localDateTime.toLocalTime().format(dateTimeFormatter);
     }
 
 

@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="525.0" prefWidth="780.0" stylesheets="@../css/Settings.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scenes.controller.Settings">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="525.0" prefWidth="780.0" stylesheets="@../css/Settings.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scenes.controller.Settings">
    <center>
       <VBox BorderPane.alignment="CENTER">
          <children>
@@ -125,6 +125,24 @@
                   <ImageView fitHeight="25.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/user.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT">
+               <children>
+                  <Button fx:id="databaseRecovery_btn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#databaseRecovery" prefHeight="35.0" prefWidth="115.0" text="نسخه احطياطيه">
+                     <styleClass>
+                        <String fx:value="navButtons" />
+                        <String fx:value="navButtons_default" />
+                     </styleClass>
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <ImageView fitHeight="25.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/database.png" />
                      </image>
                   </ImageView>
                </children>
