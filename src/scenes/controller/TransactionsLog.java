@@ -15,6 +15,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
 import main.Main;
 import scenes.abstracts.LoadingWindow;
+import scenes.abstracts.PrintSettings;
 import scenes.main.Alerts;
 import utils.DateTime;
 import utils.TreasurySummaryPrint;
@@ -191,36 +192,47 @@ public class TransactionsLog {
 
     @FXML
     void print(ActionEvent event) {
-        try {
-            DateTime currentDate = Main.dBconnection.getCurrentDatabaseTime();
-            TreasurySummaryPrint.TreasurySummary treasurySummary = new TreasurySummaryPrint.TreasurySummary(Main.appSettings.getLogged_in_user().getUsername(),
-                    total_money_in - total_money_out, totalOrderCreditIn - totalOrderCreditOut,
-                    fromDateTime.getDateTime(), toDateTime.getDateTime(), currentDate);
-            TreasurySummaryPrint treasurySummaryPrint=new TreasurySummaryPrint(treasurySummary);
-            LoadingWindow loadingWindow=new LoadingWindow("printing transactions log");
-            loadingWindow.startProcess(()->{
+
+        PrintSettings printSettings =new PrintSettings(){
+
+            @Override
+            public void print() {
                 try {
-                    treasurySummaryPrint.print();
+                    DateTime currentDate = Main.dBconnection.getCurrentDatabaseTime();
+                    TreasurySummaryPrint.TreasurySummary treasurySummary = new TreasurySummaryPrint.TreasurySummary(Main.appSettings.getLogged_in_user().getUsername(),
+                            total_money_in - total_money_out, totalOrderCreditIn - totalOrderCreditOut,
+                            fromDateTime.getDateTime(), toDateTime.getDateTime(), currentDate);
+                    TreasurySummaryPrint treasurySummaryPrint=new TreasurySummaryPrint(treasurySummary);
+                    LoadingWindow loadingWindow=new LoadingWindow("printing transactions log");
+                    loadingWindow.startProcess(()->{
+                        try {
+                            treasurySummaryPrint.print();
+                        }
+                        catch (Exception e)
+                        {
+                            Platform.runLater(()->{new Alerts(e.getMessage(), Alert.AlertType.ERROR);});
+                        }
+                        Platform.runLater(loadingWindow::closeStage);
+
+                    });
+
+                    loadingWindow.showStage();
+
+
+                } catch (SQLException e) {
+                    new Alerts(e);
                 }
-                catch (Exception e)
-                {
-                    Platform.runLater(()->{new Alerts(e.getMessage(), Alert.AlertType.ERROR);});
-                }
-                Platform.runLater(loadingWindow::closeStage);
+                this.closeStage();
+            }
+        };
+        printSettings.setOnTop();
+        printSettings.showStage();
 
-            });
-
-            loadingWindow.showStage();
-
-
-        } catch (SQLException e) {
-            new Alerts(e);
-        }
     }
 
     @FXML
     void close(ActionEvent event) {
-
+        main_screen.closeStage();
 
     }
 

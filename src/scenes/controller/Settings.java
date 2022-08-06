@@ -23,9 +23,6 @@ public class Settings {
 
     @FXML
     private Button orderSetBtn;
-
-    @FXML
-    private Button printerSetBtn;
     @FXML
     private Button databaseRecovery_btn;
 
@@ -35,7 +32,6 @@ public class Settings {
     scenes.abstracts.DataBaseSettings dataBaseSettingsScene;
     scenes.abstracts.OrderSettings orderSettings;
     scenes.abstracts.SystemUsers systemUsers;
-    scenes.abstracts.PrinterSettings printerSettingsScene;
     scenes.main.Settings main_scene;
     scenes.abstracts.DatabaseRecovery databaseRecovery;
 
@@ -65,17 +61,7 @@ public class Settings {
 
     }
 
-    @FXML
-    void printerSetAction(ActionEvent event)
-    {
-        setSelectedButton(printerSetBtn);
-        if(printerSettingsScene ==null)
-            printerSettingsScene =new scenes.abstracts.PrinterSettings(main_scene.getStage());
-        mainSpane.getChildren().clear();
-        mainSpane.getChildren().add(printerSettingsScene.getParent());
-        setSelectedButton(printerSetBtn);
-        topBarText.setText("اعدادت الطبعه");
-    }
+
 
     @FXML
     void serverSetAction(ActionEvent event) {

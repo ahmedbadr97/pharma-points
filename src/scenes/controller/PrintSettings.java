@@ -12,7 +12,7 @@ import main.Main;
 import scenes.images.ImageLoader;
 import scenes.main.Alerts;
 
-public class PrinterSettings {
+public class PrintSettings {
 
     @FXML
     private TextField primaryPrinterTf;
@@ -21,11 +21,11 @@ public class PrinterSettings {
     private Button primPrinterSett_Btn;
 
 
-    scenes.abstracts.PrinterSettings main_scenes;
+    scenes.abstracts.PrintSettings main_scenes;
     PrinterJob primaryPjob;
     PrinterJob secondaryPjob;
     Printer primaryPrinter;
-    public  void ini(scenes.abstracts.PrinterSettings main_scenes)
+    public  void ini(scenes.abstracts.PrintSettings main_scenes)
     {
         this.main_scenes =main_scenes;
         ImageLoader.icoButton(primPrinterSett_Btn,"settings_white.png",15);
@@ -51,6 +51,14 @@ public class PrinterSettings {
         else {
             primaryPrinterTf.setText(primaryPjob.getPrinter().getName());
             primaryPrinter=primaryPjob.getPrinter();
+            if(primaryPrinter!=null)
+            {
+                try {
+                    Main.appSettings.setPrinterName(primaryPrinter.getName());
+                } catch (SystemError e) {
+                    new Alerts(e.getMessage(), Alert.AlertType.ERROR);
+                }
+            }
         }
     }
 
@@ -59,15 +67,9 @@ public class PrinterSettings {
         main_scenes.closeStage();
     }
     @FXML
-    void save(ActionEvent event) {
-        if(primaryPrinter!=null)
-        {
-            try {
-                Main.appSettings.setPrinterName(primaryPrinter.getName());
-            } catch (SystemError e) {
-                new Alerts(e.getMessage(), Alert.AlertType.ERROR);
-            }
-        }
-        new Alerts("تم حفظ البيانات بنجاح", Alert.AlertType.INFORMATION);
+    void print(ActionEvent event) {
+        main_scenes.print();
+
+
     }
 }

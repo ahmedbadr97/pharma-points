@@ -16,9 +16,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="540.0" prefWidth="860.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scenes.controller.OrderDataPane">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="540.0" prefWidth="860.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scenes.controller.OrderDataPane">
    <children>
-      <Label styleClass="primary_labels" text="بيانات الفاتوره" />
+      <Label styleClass="primary_labels" text="بيانات الفاتورة" />
       <Separator prefWidth="200.0" styleClass="title_bar">
          <VBox.margin>
             <Insets bottom="10.0" />
@@ -44,13 +44,13 @@
             <HBox GridPane.columnIndex="1">
                <children>
                   <Separator orientation="VERTICAL" prefHeight="200.0" />
-                  <Label styleClass="secondary_labels" text="تاريخ الفاتوره" />
+                  <Label styleClass="secondary_labels" text="تاريخ الفاتورة" />
                </children>
             </HBox>
             <HBox>
                <children>
                   <Separator orientation="VERTICAL" prefHeight="200.0" />
-                  <Label styleClass="secondary_labels" text="رقم الفاتوره" />
+                  <Label styleClass="secondary_labels" text="رقم الفاتورة" />
                </children>
             </HBox>
             <HBox GridPane.columnIndex="2">
@@ -96,13 +96,13 @@
             <HBox>
                <children>
                   <Separator orientation="VERTICAL" prefHeight="200.0" />
-                  <Label styleClass="secondary_labels" text="نوع العماليه" />
+                  <Label styleClass="secondary_labels" text="نوع العمالية" />
                </children>
             </HBox>
             <HBox GridPane.columnIndex="1">
                <children>
                   <Separator orientation="VERTICAL" prefHeight="200.0" />
-                  <Label styleClass="secondary_labels" text="القيمه" />
+                  <Label styleClass="secondary_labels" text="القيمة" />
                </children>
             </HBox>
             <HBox GridPane.rowIndex="1">
@@ -117,7 +117,7 @@
                   <TextField fx:id="trans_amount_tf" onAction="#add_transaction" prefHeight="32.0" prefWidth="149.0" styleClass="text_field" />
                </children>
             </HBox>
-            <Button mnemonicParsing="false" onAction="#add_transaction" styleClass="secondary_labels" text="اضافه" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Button mnemonicParsing="false" onAction="#add_transaction" styleClass="secondary_labels" text="اضافة" GridPane.columnIndex="2" GridPane.rowIndex="1" />
          </children>
          <VBox.margin>
             <Insets bottom="5.0" />
@@ -127,8 +127,8 @@
          <children>
             <TableView fx:id="order_trans_tv" prefHeight="150.0" prefWidth="603.0">
               <columns>
-                <TableColumn fx:id="trans_id_col" prefWidth="69.0" text="رقم العماليه" />
-                <TableColumn fx:id="trans_type_col" prefWidth="135.0" text="نوع العماليه" />
+                <TableColumn fx:id="trans_id_col" prefWidth="69.0" text="رقم العمالية" />
+                <TableColumn fx:id="trans_type_col" prefWidth="135.0" text="نوع العمالية" />
                   <TableColumn fx:id="money_amount_col" prefWidth="82.0" text="الرصيد" />
                   <TableColumn fx:id="trans_time_col" minWidth="4.0" prefWidth="169.0" text="الوقت / التاريخ" />
                   <TableColumn fx:id="edit_save_btn_col" />
@@ -158,7 +158,7 @@
                <children>
                   <Label prefHeight="29.0" prefWidth="96.0" styleClass="secondary_labels" text="عمليات الشراء" />
                   <Label prefHeight="29.0" prefWidth="95.0" styleClass="secondary_labels" text="مرتجعات الشراء" GridPane.columnIndex="2" />
-                  <Label prefHeight="31.0" prefWidth="85.0" styleClass="secondary_labels" text="اجمالى الخزينه" GridPane.columnIndex="4" />
+                  <Label prefHeight="31.0" prefWidth="85.0" styleClass="secondary_labels" text="اجمالى الخزينة" GridPane.columnIndex="4" />
                   <Label prefHeight="29.0" prefWidth="90.0" styleClass="secondary_labels" text="مرتجعات النقاط" GridPane.rowIndex="1" />
                   <Label prefHeight="29.0" prefWidth="78.0" styleClass="secondary_labels" text="صرف النقاط" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                   <Label prefHeight="31.0" prefWidth="85.0" styleClass="secondary_labels" text="اجمالى النقاط" GridPane.columnIndex="4" GridPane.rowIndex="1" />

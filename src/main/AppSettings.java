@@ -7,7 +7,6 @@ import exceptions.DataNotFound;
 import exceptions.InvalidTransaction;
 import exceptions.SystemError;
 import javafx.application.Platform;
-import javafx.print.Printer;
 import javafx.scene.control.Alert;
 import scenes.abstracts.LoadingWindow;
 import scenes.main.Alerts;
@@ -125,7 +124,7 @@ public class AppSettings {
     }
 
     public void checkForDatabaseUpdate() throws SQLException, IOException {
-        DateTime current_time = Main.dBconnection.getCurrentDatabaseTime();
+        DateTime current_time = Main.dBconnection.getCurrentDatabaseDate();
         DateTime check_time = current_time.clone();
         check_time.add_to_date(dataRecoverySettings.years, dataRecoverySettings.months, dataRecoverySettings.days);
         if (current_time.compareTo(check_time) >= 0) {
@@ -138,7 +137,7 @@ public class AppSettings {
         DBOperations dbOperations = new DBOperations();
         SystemConfiguration updateExpiredOrdersConf = SystemConfiguration.getSystemConfiguration(SystemAttribute.EXPIRED_ORDERS_LAST_CHECK);
         dbOperations.add(updateExpiredOrdersConf, DBStatement.Type.UPDATE);
-        DateTime current_time = Main.dBconnection.getCurrentDatabaseTime();
+        DateTime current_time = Main.dBconnection.getCurrentDatabaseDate();
         if (current_time == null)
             throw new DataNotFound("can't bring database date");
         DateTime last_check = DateTime.fromDate(updateExpiredOrdersConf.getAttrib_value());

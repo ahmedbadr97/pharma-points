@@ -20,14 +20,14 @@
    <top>
       <HBox alignment="CENTER" prefHeight="36.0" prefWidth="804.0" styleClass="title_bar" BorderPane.alignment="CENTER">
          <children>
-            <Label styleClass="title_labels" text="متابعه التداولات" />
+            <Label styleClass="title_labels" text="متابعة التداولات" />
          </children>
       </HBox>
    </top>
    <center>
       <VBox nodeOrientation="RIGHT_TO_LEFT" prefHeight="662.0" prefWidth="783.0" BorderPane.alignment="CENTER">
          <children>
-            <Label styleClass="primary_labels" text="تحديد الفتره" />
+            <Label styleClass="primary_labels" text="تحديد الفترة" />
             <Separator prefWidth="200.0" styleClass="title_bar">
                <VBox.margin>
                   <Insets bottom="10.0" top="5.0" />
@@ -103,7 +103,7 @@
                      <children>
                         <Label prefHeight="29.0" prefWidth="96.0" styleClass="secondary_labels" text="عمليات الشراء" />
                         <Label prefHeight="29.0" prefWidth="95.0" styleClass="secondary_labels" text="مرتجعات الشراء" GridPane.columnIndex="2" />
-                        <Label prefHeight="31.0" prefWidth="85.0" styleClass="secondary_labels" text="اجمالى الخزينه" GridPane.columnIndex="4" />
+                        <Label prefHeight="31.0" prefWidth="85.0" styleClass="secondary_labels" text="اجمالى الخزينة" GridPane.columnIndex="4" />
                         <Label prefHeight="29.0" prefWidth="90.0" styleClass="secondary_labels" text="مرتجعات النقاط" GridPane.rowIndex="1" />
                         <Label prefHeight="29.0" prefWidth="78.0" styleClass="secondary_labels" text="صرف النقاط" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                         <Label prefHeight="31.0" prefWidth="85.0" styleClass="secondary_labels" text="اجمالى النقاط" GridPane.columnIndex="4" GridPane.rowIndex="1" />

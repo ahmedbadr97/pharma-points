@@ -117,6 +117,13 @@ public class OrderData {
     @FXML
     void save_order_Data(ActionEvent event) {
         try {
+            if(main_screen.getOrder().getOrderTransactions().isEmpty())
+            {
+                dbOperations.add(main_screen.getOrder(), DBStatement.Type.DELETE);
+                new Alerts("تم حذف الفاتورة", Alert.AlertType.INFORMATION);
+                main_screen.closeStage();
+
+            }
             dbOperations.execute();
             setMutable(false);
 

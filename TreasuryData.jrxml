@@ -32,7 +32,7 @@
 				<textElement textAlignment="Center">
 					<font fontName="Arial" size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[صيدايه د. رودينا فايد]]></text>
+				<text><![CDATA[صيدلية د. رودينا فايد]]></text>
 			</staticText>
 		</band>
 	</pageHeader>

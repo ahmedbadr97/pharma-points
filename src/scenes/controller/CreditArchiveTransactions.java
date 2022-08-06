@@ -124,7 +124,6 @@ public class CreditArchiveTransactions {
         try {
             float amount= Validator.getFloat(creditTransAmount_tf,"قيمه النقاط",0,(int)1e5);
 
-
             CreditArchiveTransaction.TransactionType transactionType=creditTransType_cb.getValue();
             switch (transactionType){
                 case activeToArchive:

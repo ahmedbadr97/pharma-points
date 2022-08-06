@@ -92,27 +92,6 @@
             </HBox>
             <HBox alignment="CENTER_LEFT">
                <children>
-                  <Button fx:id="printerSetBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#printerSetAction" prefHeight="35.0" prefWidth="115.0" text="الطبعه">
-                     <styleClass>
-                        <String fx:value="navButtons" />
-                        <String fx:value="navButtons_default" />
-                     </styleClass>
-                     <HBox.margin>
-                        <Insets right="5.0" />
-                     </HBox.margin>
-                  </Button>
-                  <ImageView fitHeight="25.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../Images/print-white.png" />
-                     </image>
-                  </ImageView>
-               </children>
-               <VBox.margin>
-                  <Insets bottom="5.0" top="5.0" />
-               </VBox.margin>
-            </HBox>
-            <HBox alignment="CENTER_LEFT">
-               <children>
                   <Button fx:id="usersSetBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#userSetAction" prefHeight="35.0" prefWidth="115.0" text="المستخدمين">
                      <styleClass>
                         <String fx:value="navButtons" />

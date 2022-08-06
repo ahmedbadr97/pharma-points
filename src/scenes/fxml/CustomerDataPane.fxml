@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="190.0" prefWidth="860.0" stylesheets="@../css/mainStyles.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scenes.controller.CustomerDataPane">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="190.0" prefWidth="860.0" stylesheets="@../css/mainStyles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scenes.controller.CustomerDataPane">
    <children>
       <Label styleClass="primary_labels" text="بيانات العميل" />
       <Separator prefWidth="200.0" styleClass="title_bar">
@@ -101,7 +101,7 @@
             <HBox GridPane.columnIndex="1" GridPane.rowIndex="3">
                <children>
                   <Separator orientation="VERTICAL" prefHeight="200.0" />
-                  <Button fx:id="cus_arch_credit_btn" mnemonicParsing="false" onAction="#open_cus_arch_credit" styleClass="secondary_labels" text="النقاط المجمده">
+                  <Button fx:id="cus_arch_credit_btn" mnemonicParsing="false" onAction="#open_cus_arch_credit" styleClass="secondary_labels" text="النقاط المجمدة">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>

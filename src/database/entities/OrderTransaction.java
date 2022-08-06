@@ -164,7 +164,7 @@ public class OrderTransaction implements TablesOperations<OrderTransaction> {
     }
 
     public enum TransactionType {
-        money_in("فاتوره شراء", 0), credit_out("صرف نقاط", 1), money_out("مرتجع شراء", 2), credit_in("مرتجع نقاط", 3), money_in_settlement("تسويه حساب", 4);
+        money_in("فاتورة شراء", 0), credit_out("صرف نقاط", 1), money_out("مرتجع شراء", 2), credit_in("مرتجع نقاط", 3), money_in_settlement("تسويه حساب", 4);
         private final String description;
         private final int databaseValue;
 

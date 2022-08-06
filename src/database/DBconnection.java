@@ -149,13 +149,23 @@ public class DBconnection {
     }
 
 
-    public DateTime getCurrentDatabaseTime() throws SQLException {
+    public DateTime getCurrentDatabaseDate() throws SQLException {
         Statement s = getConnection().createStatement();
         ResultSet r = s.executeQuery("SELECT TO_CHAR(SYSDATE,'DD-MM-YYYY') FROM dual");
         DateTime current_time = null;
         while (r.next()) {
             String dateTimeStr = r.getString(1).substring(0, 10);
             current_time = DateTime.fromDate(dateTimeStr);
+        }
+        return current_time;
+    }
+    public DateTime getCurrentDatabaseTime() throws SQLException {
+        Statement s = getConnection().createStatement();
+        ResultSet r = s.executeQuery("SELECT CURRENT_TIMESTAMP FROM dual");
+        DateTime current_time = null;
+        while (r.next()) {
+            String dateTimeStr = r.getString(1);
+            current_time = DateTime.from_timeStamp(dateTimeStr);
         }
         return current_time;
     }
