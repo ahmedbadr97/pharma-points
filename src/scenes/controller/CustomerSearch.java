@@ -19,15 +19,10 @@ import main.Main;
 import scenes.abstracts.GetCustomerBar;
 import scenes.main.Alerts;
 import scenes.main.NewCustomer;
-import utils.DateTime;
 import utils.Validator;
 
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class CustomerSearch {
 
@@ -58,7 +53,7 @@ public class CustomerSearch {
     private ComboBox<CreditArchiveTransaction.TransactionType> edit_customers_cb;
 
     @FXML
-    private GridPane cus_edit_admin_panel;
+    private GridPane cus_edit_admin_panal;
     @FXML
     private StackPane cus_search_stack;
 
@@ -86,7 +81,7 @@ public class CustomerSearch {
 
 
         if(Main.appSettings.getLogged_in_user().getAdmin()==0)
-            cus_edit_admin_panel.setVisible(false);
+            cus_edit_admin_panal.setVisible(false);
         // --------------initialize combo boxes----------------//
 
         edit_customers_cb.getItems().addAll(CreditArchiveTransaction.TransactionType.values());

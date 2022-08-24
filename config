@@ -1,8 +1,8 @@
 #
-#Sun Aug 07 01:47:16 EET 2022
-serverip=ahmedbadr
+#Sun Aug 21 09:29:21 EET 2022
+serverip=127.0.0.1
 printer_name=Microsoft Print to PDF
-backup_interval=0,0,7
+backup_interval=0,0,3
 backup_path=D\:\\PharmaPoints
 last_login_name=1
 main_device=1

@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="196.0" prefWidth="390.0" style="-fx-background-color: white;" stylesheets="@../css/Settings.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scenes.controller.DataBaseSettings">
+<VBox alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="196.0" prefWidth="390.0" style="-fx-background-color: white;" stylesheets="@../css/Settings.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scenes.controller.DataBaseSettings">
    <children>
       <GridPane alignment="CENTER" hgap="10.0" maxHeight="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="145.0" prefWidth="370.0" stylesheets="@../css/Settings.css">
          <columnConstraints>
@@ -38,9 +38,9 @@
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="." wrappingWidth="1.0" />
                   <TextField fx:id="ip2" prefHeight="25.0" prefWidth="40.0" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="." wrappingWidth="1.0" />
-                  <TextField fx:id="ip4" prefHeight="25.0" prefWidth="40.0" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="." />
                   <TextField fx:id="ip3" prefHeight="25.0" prefWidth="40.0" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="." />
+                  <TextField fx:id="ip4" prefHeight="25.0" prefWidth="40.0" />
                </children>
             </HBox>
             <Label prefHeight="19.0" prefWidth="88.0" text="Server Name :" GridPane.rowIndex="1">

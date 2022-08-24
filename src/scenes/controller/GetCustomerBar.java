@@ -89,11 +89,9 @@ public class GetCustomerBar {
                     break;
                 case CUSTOMER_BARCODE:
                     searchCustomer = Customer.getCustomer(cus_search_value, Customer.QueryFilter.BARCODE);
-                    //TODO add search with phone and with barcode open customer screen
                     break;
                 case CUSTOMER_PHONE:
                     searchCustomer = Customer.getCustomer(cus_search_value, Customer.QueryFilter.PHONE);
-                    //TODO add search with phone and with barcode open customer screen
                     break;
 
             }

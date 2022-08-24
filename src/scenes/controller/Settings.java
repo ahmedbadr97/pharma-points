@@ -39,7 +39,8 @@ public class Settings {
     {
         this.main_scene =main_scene;
         dataBaseSettingsScene =new scenes.abstracts.DataBaseSettings();
-        databaseRecovery=new DatabaseRecovery();
+
+
         selectedButton=null;
         if(Main.appSettings.getLogged_in_user().getAdmin()==1)
         {
@@ -54,6 +55,9 @@ public class Settings {
         }
         if(!Main.appSettings.isMainDevice())
             databaseRecovery_btn.setDisable(true);
+        else{
+            databaseRecovery=new DatabaseRecovery();
+        }
 
 
 

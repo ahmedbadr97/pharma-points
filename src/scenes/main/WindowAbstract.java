@@ -36,7 +36,7 @@ public abstract class WindowAbstract<windowController> {
         try {
             loader = FMXLResourcesLoader.FXML(fxmlfileName + ".fxml");
             parent = loader.load();
-            scene = new Scene(parent, Math.min(width,screenWidth-20), Math.min(hight,screenHeight-80));
+            scene = new Scene(parent, Math.min(width,screenWidth-20), Math.min(hight,screenHeight-70));
             //          stage.getIcons().add(ImageLoader.LoadImage("exeicon.ico"));
             stage.setScene(scene);
             stage.setOnCloseRequest(event -> {

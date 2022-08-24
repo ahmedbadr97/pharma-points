@@ -6,13 +6,16 @@ import database.DBStatement;
 import database.DBconnection;
 import database.entities.ClientComputer;
 import database.entities.Customer;
+import database.entities.Order;
 import database.entities.SystemUser;
 import exceptions.DataNotFound;
 import exceptions.SystemError;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import scenes.abstracts.CustomerDataPane;
+import scenes.abstracts.LoadingWindow;
 import scenes.abstracts.OrderDataPane;
 import scenes.main.*;
 import utils.DateTime;
@@ -37,24 +40,35 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws SQLException, DataNotFound {
+    public void start(Stage primaryStage)  {
         Main.mainStage=primaryStage;
         primaryStage.setTitle("Fayed Pharmacy");
         mainThreadsPool= Executors.newCachedThreadPool();
         try {
             appSettings=new AppSettings();
-            dBconnection=new DBconnection(appSettings.getServer_ip());
-            dBconnection.Connect();
             Login login=new Login();
             login.showStage();
+            dBconnection=new DBconnection(appSettings.getServer_ip());
+            LoadingWindow loadingWindow=new LoadingWindow("connecting to database");
+            loadingWindow.startProcess(()->{
+                try {
+                    dBconnection.Connect();
+                    Platform.runLater(loadingWindow::closeStage);
+                } catch (SQLException e) {
+                    Platform.runLater(()->{
+                        loadingWindow.closeStage();
+                        new Alerts(e);});
+                }
+
+            });
+            loadingWindow.setOnTop();
+            loadingWindow.showStage();
         }
-        catch (SystemError s)
+        catch (Exception s)
         {
             new Alerts(s.getMessage(), Alert.AlertType.ERROR);
             System.exit(-1);
         }
-
-
 
     }
     public static void shutdownSystem()

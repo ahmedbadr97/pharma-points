@@ -356,24 +356,6 @@ public class OrderDataPane {
 
         } catch (InvalidTransaction inv) {
             if (inv.getErrorType() == InvalidTransaction.ErrorType.noEnoughActiveCusCredit) {
-                // if the problem that there is no enough credit in customer account
-//                boolean noEnoughCusCredit = true;
-//                if (order.isOrder_archived()) {
-//                    if (customer.getArchived_credit() > 0) {
-//                        transfer_amount = Math.min(customer.getArchived_credit(), order.getSettlementTransaction(transaction).getMoney_amount());
-//                        CreditArchiveTransaction fromArchivedToActiveTransfer = new CreditArchiveTransaction(CreditArchiveTransaction.TransactionType.archiveToActive, 1, transfer_amount, customer);
-//                        customer.fromArchiveToActive(fromArchivedToActiveTransfer.getCredit());
-//                        main_screen.getDbOperations().add(fromArchivedToActiveTransfer, DBStatement.Type.ADD);
-//                        new Alerts(String.format("تم تحويل نقاط من النقاط المجمده بقيمه %.2f", fromArchivedToActiveTransfer.getCredit()), Alert.AlertType.INFORMATION);
-//                        //TODO update customer credit text filed
-//                    }
-//                    try {
-//                        order.checkTransactionValidation(transaction.getMoney_amount(), transaction.getTrans_type());
-//                        noEnoughCusCredit = false;
-//                    } catch (InvalidTransaction e) {
-//                    }
-//                }
-//                if (noEnoughCusCredit) {
 
                 OrderTransaction settlementTransaction = order.getSettlementTransaction(transaction);
                 // if customer expiry date after order date take from balance the change
@@ -407,17 +389,6 @@ public class OrderDataPane {
                 new Alerts(confBtnAction, "لا يوجد رصيد كافى لاسترجاع القيمه المطلوبه كامله حيث انه تم صرف النقاط المكتسبه من هذه القيمه هل تريد استرجاع الفرق");
                 return;
 
-//                } else {
-//                    try {
-//                        main_screen.getOrder().addTransaction(transaction);
-//                        main_screen.getCustomer().addToActiveCredit(main_screen.getOrder().getCustomerBalanceChange(transaction));
-//                        transactions_tv_list.add(new OrderDataTableRow(transaction));
-//                        main_screen.getDbOperations().add(transaction, DBStatement.Type.ADD);
-//                    } catch (InvalidTransaction e) {
-//                        new Alerts(e.getMessage(), Alert.AlertType.ERROR);
-//
-//                    }
-//                }
             } else {
                 new Alerts(inv.getMessage(), Alert.AlertType.ERROR);
             }

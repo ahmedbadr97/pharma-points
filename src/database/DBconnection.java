@@ -51,6 +51,7 @@ public class DBconnection {
     public void Connect() throws SQLException {
         if (connection != null && !connection.isClosed())
             return;
+
         connection = DriverManager.getConnection("jdbc:oracl:thin:@" + serverip + ":1521:xe", username, password);
         connection.setAutoCommit(false);
         connected = true;
@@ -76,7 +77,7 @@ public class DBconnection {
         try {
             boolean valid = false;
 //            String mbSerial=getWindowsMotherboard_SerialNumber();
-            PreparedStatement p = connection.prepareStatement("SELECT * FROM \"FAYEDADMIN\".CLIENTCOMPUTER WHERE  MAC_ADDRESS=?");
+            PreparedStatement p = connection.prepareStatement("SELECT * FROM \"ADMIN\".CLIENTCOMPUTER WHERE  MAC_ADDRESS=?");
 
             clientSet = true;
             Enumeration<NetworkInterface> networkInterface = NetworkInterface.getNetworkInterfaces();
@@ -125,15 +126,15 @@ public class DBconnection {
     }
 
     public Connection getConnection() throws SQLException{
-
-        setConnected(connection.isValid(25));
+        if(connection!=null)
+            setConnected(connection.isValid(25));
 
         return connection;
     }
 
-    public void DisConnect() {
+    public void disConnect() {
         try {
-            if (connection.isClosed() || connection == null)
+            if (connection == null||connection.isClosed())
                 return;
 
             connection.close();
