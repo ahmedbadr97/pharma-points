@@ -1,5 +1,6 @@
 package database;
 
+import main.AppSettings;
 import main.Main;
 import scenes.main.Alerts;
 import database.entities.ClientComputer;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 
 public class DBconnection {
+    private static DBconnection uniqueInstance;
     private Connection connection = null;
     private String serverip;
     private final String username;
@@ -22,6 +24,7 @@ public class DBconnection {
     public interface ConnectionAction{
         public void isConnected(boolean connected);
     }
+
     ArrayList<ConnectionAction> connectionActions;
 
     public String getServerip() {
@@ -31,9 +34,15 @@ public class DBconnection {
     public void setServerip(String serverip) {
         this.serverip = serverip;
     }
+    public static DBconnection getInstance()
+    {
+        if (uniqueInstance==null)
+            uniqueInstance=new DBconnection();
+        return uniqueInstance;
+    }
 
-    public DBconnection(String serverip) throws SQLException {
-        this.serverip = serverip;
+    private DBconnection()  {
+        this.serverip = AppSettings.getInstance().getServer_ip();
         this.username = "fayedpharmacy";
         this.password = "fayed203046";
         try {

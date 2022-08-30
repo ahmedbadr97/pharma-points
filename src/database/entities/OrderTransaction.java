@@ -1,6 +1,7 @@
 package database.entities;
 
 import database.DBStatement;
+import database.DBconnection;
 import exceptions.DataNotFound;
 import javafx.util.Pair;
 import main.Main;
@@ -83,7 +84,7 @@ public class OrderTransaction implements TablesOperations<OrderTransaction> {
         DBStatement<OrderTransaction> dbStatement = new DBStatement<OrderTransaction>(sql_statement, this, DBStatement.Type.ADD) {
             @Override
             public void statement_initialization() throws SQLException {
-                Statement s = Main.dBconnection.getConnection().createStatement();
+                Statement s = DBconnection.getInstance().getConnection().createStatement();
                 ResultSet r = s.executeQuery(" SELECT ORDER_TRANSACTION_SEQ.NEXTVAL from DUAL");
                 while (r.next())
                     this.getStatement_table().setTrans_id(r.getInt(1));
@@ -141,7 +142,7 @@ public class OrderTransaction implements TablesOperations<OrderTransaction> {
     public static ArrayList<OrderTransaction> getOrderTransactions(Order order) throws SQLException, DataNotFound {
         ArrayList<OrderTransaction> orderTransactions = new ArrayList<>();
         String sql_statement = "SELECT *  FROM ORDER_TRANSACTION WHERE ORDER_ID= ?";
-        PreparedStatement p = Main.dBconnection.getConnection().prepareStatement(sql_statement);
+        PreparedStatement p = DBconnection.getInstance().getConnection().prepareStatement(sql_statement);
         p.setInt(1, order.getOrder_id());
         ResultSet r = p.executeQuery();
         while (r.next()) {
@@ -204,7 +205,7 @@ public class OrderTransaction implements TablesOperations<OrderTransaction> {
         ArrayList<OrderTransaction> orderTransactions = new ArrayList<>();
         Map<Integer,Order> orderMap=new HashMap<>();
         String sql_statement = "SELECT *  FROM ORDER_TRANSACTION WHERE TRANS_TIME BETWEEN TO_TIMESTAMP(?,'YYYY-MM-DD HH24:MI:SS') AND TO_TIMESTAMP(?,'YYYY-MM-DD HH24:MI:SS')";
-        PreparedStatement p = Main.dBconnection.getConnection().prepareStatement(sql_statement);
+        PreparedStatement p = DBconnection.getInstance().getConnection().prepareStatement(sql_statement);
         p.setString(1, from.getTimeStamp());
         p.setString(2, to.getTimeStamp());
         ResultSet r = p.executeQuery();

@@ -48,13 +48,13 @@ public class DBOperations {
             for(DBStatement statement:this.operations_queue.values()){
                 statement.execute_statement();
             }
-            Main.dBconnection.getConnection().commit();
+            DBconnection.getInstance().getConnection().commit();
             operations_queue.clear();
 
         }
         catch (SQLException sqlException)
         {
-            Main.dBconnection.getConnection().rollback();
+            DBconnection.getInstance().getConnection().rollback();
             throw sqlException;
         }
     }

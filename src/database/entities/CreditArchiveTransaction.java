@@ -1,6 +1,7 @@
 package database.entities;
 
 import database.DBStatement;
+import database.DBconnection;
 import exceptions.DataNotFound;
 import main.Main;
 import utils.DateTime;
@@ -119,7 +120,7 @@ public class CreditArchiveTransaction implements TablesOperations<CreditArchiveT
         DBStatement<CreditArchiveTransaction> dbStatement = new DBStatement<CreditArchiveTransaction>(sql_statement, this, DBStatement.Type.ADD) {
             @Override
             public void statement_initialization() throws SQLException {
-                Statement s = Main.dBconnection.getConnection().createStatement();
+                Statement s = DBconnection.getInstance().getConnection().createStatement();
                 ResultSet r = s.executeQuery(" SELECT CREDIT_ARCHIVE_TRANSACTION_SEQ.NEXTVAL from DUAL");
                 while (r.next())
                     this.getStatement_table().setTrans_id(r.getInt(1));
@@ -162,7 +163,7 @@ public class CreditArchiveTransaction implements TablesOperations<CreditArchiveT
         CreditArchiveTransaction creditArchiveTransaction=null;
         ArrayList<CreditArchiveTransaction> creditArchiveTransactions=new ArrayList<>();
         String sql_statement="SELECT *  FROM CREDIT_ARCHIVE_TRANSACTION WHERE CUS_ID= ?";
-        PreparedStatement p=Main.dBconnection.getConnection().prepareStatement(sql_statement);
+        PreparedStatement p=DBconnection.getInstance().getConnection().prepareStatement(sql_statement);
         p.setInt(1,customer.getId());
         ResultSet r=p.executeQuery();
         while (r.next())

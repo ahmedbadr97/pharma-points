@@ -2,6 +2,7 @@ package main;
 
 import database.DBOperations;
 import database.DBStatement;
+import database.DBconnection;
 import database.entities.*;
 import exceptions.DataNotFound;
 import exceptions.InvalidTransaction;
@@ -22,6 +23,7 @@ import java.util.regex.Pattern;
 import database.entities.SystemConfiguration.SystemAttribute;
 
 public class AppSettings {
+    private static AppSettings uniqueInstance;
 
 
     private SystemUser logged_in_user;
@@ -34,7 +36,8 @@ public class AppSettings {
     private boolean isMainDevice;
     private DataRecoverySettings dataRecoverySettings;
 
-    public AppSettings() throws SystemError {
+
+    private AppSettings() throws SystemError {
         configurationFile = new ConfigurationFile("config");
         configurationFile.openSettingsFile();
         server_ip = configurationFile.getValue("serverip");
@@ -50,6 +53,16 @@ public class AppSettings {
         }
 
         configurationFile.closeSettingsFile();
+    }
+    public static void InstantiateInstance()throws SystemError
+    {
+        if (uniqueInstance==null)
+            uniqueInstance=new AppSettings();
+
+    }
+    public static AppSettings getInstance()  {
+
+        return uniqueInstance;
     }
 
     public String getPrinterName() {
@@ -124,7 +137,7 @@ public class AppSettings {
     }
 
     public void checkForDatabaseUpdate() throws SQLException, IOException {
-        DateTime current_time = Main.dBconnection.getCurrentDatabaseDate();
+        DateTime current_time = DBconnection.getInstance().getCurrentDatabaseDate();
         DateTime check_time = current_time.clone();
         check_time.add_to_date(dataRecoverySettings.years, dataRecoverySettings.months, dataRecoverySettings.days);
         if (current_time.compareTo(check_time) >= 0) {
@@ -137,7 +150,7 @@ public class AppSettings {
         DBOperations dbOperations = new DBOperations();
         SystemConfiguration updateExpiredOrdersConf = SystemConfiguration.getSystemConfiguration(SystemAttribute.EXPIRED_ORDERS_LAST_CHECK);
         dbOperations.add(updateExpiredOrdersConf, DBStatement.Type.UPDATE);
-        DateTime current_time = Main.dBconnection.getCurrentDatabaseDate();
+        DateTime current_time = DBconnection.getInstance().getCurrentDatabaseDate();
         if (current_time == null)
             throw new DataNotFound("can't bring database date");
         DateTime last_check = DateTime.fromDate(updateExpiredOrdersConf.getAttrib_value());
@@ -188,10 +201,10 @@ public class AppSettings {
     public static void saveBackupData(String backupPath) throws SQLException, IOException {
         // add directory path to database
         String sql = String.format("CREATE OR REPLACE DIRECTORY backup_dir AS '%s'", backupPath);
-        Statement s = Main.dBconnection.getConnection().createStatement();
+        Statement s = DBconnection.getInstance().getConnection().createStatement();
         s.execute(sql);
         s.close();
-        Main.dBconnection.getConnection().commit();
+        DBconnection.getInstance().getConnection().commit();
 
 
         DateTime dateTime = new DateTime();
@@ -245,10 +258,10 @@ public class AppSettings {
         }
         String fileName = pathList[pathList.length - 1];
         String sql = String.format("CREATE OR REPLACE DIRECTORY backup_dir AS '%s'", directorPath.toString());
-        Statement s = Main.dBconnection.getConnection().createStatement();
+        Statement s = DBconnection.getInstance().getConnection().createStatement();
         s.execute(sql);
         s.close();
-        Main.dBconnection.getConnection().commit();
+        DBconnection.getInstance().getConnection().commit();
         String command = String.format("impdp fayedpharmacy/fayed203046 TABLE_EXISTS_ACTION=REPLACE schemas=fayedpharmacy directory=backup_dir dumpfile='%s'", fileName);
 
         LoadingWindow loadingWindow = new LoadingWindow("Loading database backup");

@@ -14,16 +14,11 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
-import scenes.abstracts.CustomerDataPane;
 import scenes.abstracts.LoadingWindow;
-import scenes.abstracts.OrderDataPane;
-import scenes.main.*;
-import utils.DateTime;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import scenes.main.*;
+
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -45,10 +40,10 @@ public class Main extends Application {
         primaryStage.setTitle("Fayed Pharmacy");
         mainThreadsPool= Executors.newCachedThreadPool();
         try {
-            appSettings=new AppSettings();
+            AppSettings.InstantiateInstance();
             Login login=new Login();
             login.showStage();
-            dBconnection=new DBconnection(appSettings.getServer_ip());
+            dBconnection=DBconnection.getInstance();
             LoadingWindow loadingWindow=new LoadingWindow("connecting to database");
             loadingWindow.startProcess(()->{
                 try {

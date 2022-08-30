@@ -1,5 +1,6 @@
 package scenes.controller;
 
+import database.DBconnection;
 import database.entities.OrderTransaction;
 import exceptions.DataNotFound;
 import javafx.application.Platform;
@@ -13,6 +14,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
+import main.AppSettings;
 import main.Main;
 import scenes.abstracts.LoadingWindow;
 import scenes.abstracts.PrintSettings;
@@ -198,8 +200,8 @@ public class TransactionsLog {
             @Override
             public void print() {
                 try {
-                    DateTime currentDate = Main.dBconnection.getCurrentDatabaseTime();
-                    TreasurySummaryPrint.TreasurySummary treasurySummary = new TreasurySummaryPrint.TreasurySummary(Main.appSettings.getLogged_in_user().getUsername(),
+                    DateTime currentDate = DBconnection.getInstance().getCurrentDatabaseTime();
+                    TreasurySummaryPrint.TreasurySummary treasurySummary = new TreasurySummaryPrint.TreasurySummary(AppSettings.getInstance().getLogged_in_user().getUsername(),
                             total_money_in - total_money_out, totalOrderCreditIn - totalOrderCreditOut,
                             fromDateTime.getDateTime(), toDateTime.getDateTime(), currentDate);
                     TreasurySummaryPrint treasurySummaryPrint=new TreasurySummaryPrint(treasurySummary);

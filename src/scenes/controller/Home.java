@@ -1,5 +1,6 @@
 package scenes.controller;
 
+import database.DBconnection;
 import database.entities.Customer;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -41,7 +42,7 @@ public class Home {
                 transactions_log_btn_action(null);
             }
         });
-        setConnected(Main.dBconnection.isConnected());
+        setConnected(DBconnection.getInstance().isConnected());
 
     }
 

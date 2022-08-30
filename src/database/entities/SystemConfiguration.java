@@ -1,6 +1,7 @@
 package database.entities;
 
 import database.DBStatement;
+import database.DBconnection;
 import exceptions.DataNotFound;
 import main.AppSettings.CreditExpirySettings;
 import main.Main;
@@ -120,7 +121,7 @@ public class SystemConfiguration implements TablesOperations<SystemConfiguration
     public static void updateCurrentSale(SaleHistory saleHistory)throws SQLException
     {
         String sql_statement = "UPDATE  SYSTEM_CONFIGURATION ATTRIB_VALUE =? SET WHERE ATTRIB_NAME='CURRENT_SALE'";
-        PreparedStatement p = Main.dBconnection.getConnection().prepareStatement(sql_statement);
+        PreparedStatement p = DBconnection.getInstance().getConnection().prepareStatement(sql_statement);
         p.setString(1,Integer.toString(saleHistory.getSale_id()));
          p.execute();
         p.close();
@@ -131,7 +132,7 @@ public class SystemConfiguration implements TablesOperations<SystemConfiguration
     {
 
         String sql_statement = String.format("SELECT *  FROM SYSTEM_CONFIGURATION WHERE ATTRIB_NAME='%s'",systemAttribute.name());
-        Statement s = Main.dBconnection.getConnection().createStatement();
+        Statement s = DBconnection.getInstance().getConnection().createStatement();
         ResultSet r = s.executeQuery(sql_statement);
         SystemConfiguration sale_history_config = null;
         while (r.next())
@@ -143,7 +144,7 @@ public class SystemConfiguration implements TablesOperations<SystemConfiguration
 
     public static CreditExpirySettings get_CreditExpirySettings() throws SQLException {
         String sql_statement = "SELECT *  FROM SYSTEM_CONFIGURATION WHERE ATTRIB_NAME='CREDIT_EXPIRY_SETTINGS'";
-        Statement p = Main.dBconnection.getConnection().createStatement();
+        Statement p = DBconnection.getInstance().getConnection().createStatement();
         ResultSet r = p.executeQuery(sql_statement);
         CreditExpirySettings creditExpirySettings = null;
         while (r.next())

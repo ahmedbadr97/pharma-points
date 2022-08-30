@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import main.AppSettings;
 import main.Main;
 import scenes.abstracts.OrderDataPane;
 import scenes.main.Alerts;
@@ -60,7 +61,7 @@ public class OrderData {
     @FXML
     void delete_order(ActionEvent event)
     {
-        if(main_screen.getOrder().isOrder_archived()&& Main.appSettings.getLogged_in_user().getAdmin()==0)
+        if(main_screen.getOrder().isOrder_archived()&& AppSettings.getInstance().getLogged_in_user().getAdmin()==0)
         {
             new Alerts("لا يمكنك حذف فاتوره منتهية يجب الرجوع الى المسئول", Alert.AlertType.ERROR);
             return;
@@ -104,7 +105,7 @@ public class OrderData {
 
     @FXML
     void edit_order(ActionEvent event) {
-        if(main_screen.getOrder().isOrder_archived()&& Main.appSettings.getLogged_in_user().getAdmin()==0)
+        if(main_screen.getOrder().isOrder_archived()&& AppSettings.getInstance().getLogged_in_user().getAdmin()==0)
         {
             new Alerts("لا يمكنك تعديل فاتوره منتهية يجب الرجوع الى المسئول", Alert.AlertType.ERROR);
             return;

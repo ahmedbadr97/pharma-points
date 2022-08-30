@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import main.AppSettings;
 import main.Main;
 import scenes.abstracts.DatabaseRecovery;
 import scenes.abstracts.OrderSettings;
@@ -42,7 +43,7 @@ public class Settings {
 
 
         selectedButton=null;
-        if(Main.appSettings.getLogged_in_user().getAdmin()==1)
+        if(AppSettings.getInstance().getLogged_in_user().getAdmin()==1)
         {
             orderSettings=new OrderSettings();
             systemUsers=new SystemUsers();
@@ -53,7 +54,7 @@ public class Settings {
             usersSetBtn.setDisable(true);
             databaseRecovery_btn.setDisable(true);
         }
-        if(!Main.appSettings.isMainDevice())
+        if(!AppSettings.getInstance().isMainDevice())
             databaseRecovery_btn.setDisable(true);
         else{
             databaseRecovery=new DatabaseRecovery();

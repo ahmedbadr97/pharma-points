@@ -52,7 +52,7 @@ public class DatabaseRecovery {
         autoSavingDirChooser = new DirectoryChooser();
         saveNowDirChooser=new DirectoryChooser();
         backupNowFileChooser= new FileChooser();
-        dataRecoverySettings=Main.appSettings.getDataRecoverySettings();
+        dataRecoverySettings=AppSettings.getInstance().getDataRecoverySettings();
         loadData();
 
 
@@ -102,10 +102,10 @@ public class DatabaseRecovery {
             if(years+months+days==0)
                 throw new DataEntryError("يجب اضافه فتره زمانيه");
 
-            AppSettings.DataRecoverySettings dataRecoverySettings=Main.appSettings.new DataRecoverySettings(dataPath,years,months,days);
+            AppSettings.DataRecoverySettings dataRecoverySettings=AppSettings.getInstance().new DataRecoverySettings(dataPath,years,months,days);
             dataRecoverySettings.saveDataToConfigFile();
-            if(!Main.appSettings.isMainDevice())
-                Main.appSettings.setMainDevice(true);
+            if(!AppSettings.getInstance().isMainDevice())
+                AppSettings.getInstance().setMainDevice(true);
             this.dataRecoverySettings=dataRecoverySettings;
             new Alerts("تم حفط ظ البيانات بنجاح", Alert.AlertType.INFORMATION);
         }

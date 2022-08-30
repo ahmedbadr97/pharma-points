@@ -1,6 +1,7 @@
 package database.entities;
 
 import database.DBStatement;
+import database.DBconnection;
 import exceptions.DataNotFound;
 import main.Main;
 import utils.DateTime;
@@ -61,7 +62,7 @@ public class SaleHistory implements TablesOperations<SaleHistory>{
         DBStatement<SaleHistory> dbStatement=new DBStatement<SaleHistory>(sql,this,DBStatement.Type.ADD) {
             @Override
             public void statement_initialization() throws SQLException {
-                Statement s= Main.dBconnection.getConnection().createStatement();
+                Statement s= DBconnection.getInstance().getConnection().createStatement();
                 ResultSet r=s.executeQuery(" SELECT SALE_HISTORY_SEQ.NEXTVAL from DUAL");
                 while (r.next())
                     this.getStatement_table().setSale_id(r.getInt(1));
@@ -82,7 +83,7 @@ public class SaleHistory implements TablesOperations<SaleHistory>{
     {
         SaleHistory saleHistory=null;
         String sql_statement="SELECT *  FROM SALE_HISTORY WHERE SALE_ID= ?";
-        PreparedStatement p= Main.dBconnection.getConnection().prepareStatement(sql_statement);
+        PreparedStatement p= DBconnection.getInstance().getConnection().prepareStatement(sql_statement);
         p.setInt(1,id);
         ResultSet r=p.executeQuery();
         while (r.next())
@@ -96,7 +97,7 @@ public class SaleHistory implements TablesOperations<SaleHistory>{
 
         SaleHistory saleHistory=null;
         String sql_statement="SELECT *  FROM SALE_HISTORY ";
-        Statement s= Main.dBconnection.getConnection().createStatement();
+        Statement s= DBconnection.getInstance().getConnection().createStatement();
         ResultSet r=s.executeQuery(sql_statement);
         while (r.next())
         {

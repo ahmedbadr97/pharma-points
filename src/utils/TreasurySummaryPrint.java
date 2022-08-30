@@ -2,6 +2,7 @@ package utils;
 
 import exceptions.SystemError;
 import javafx.scene.control.Alert;
+import main.AppSettings;
 import main.Main;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
@@ -82,7 +83,7 @@ public class TreasurySummaryPrint {
     }
 
     public void print() throws Exception {
-        if (Main.appSettings.getPrinterName() == null)
+        if (AppSettings.getInstance().getPrinterName() == null)
             throw new SystemError(SystemError.ErrorType.printerError);
         ArrayList<TreasurySummary> jasperData = new ArrayList<>();
         jasperData.add(treasurySummary);
@@ -90,7 +91,7 @@ public class TreasurySummaryPrint {
         JasperReport report = JasperCompileManager.compileReport(jasperDesign);
         JRBeanCollectionDataSource DataSource = new JRBeanCollectionDataSource(jasperData);
         JasperPrint jasperPrint = JasperFillManager.fillReport(report, null, DataSource);
-        PrintReportToPrinter(jasperPrint, Main.appSettings.getPrinterName());
+        PrintReportToPrinter(jasperPrint, AppSettings.getInstance().getPrinterName());
 
 
     }

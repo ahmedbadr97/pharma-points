@@ -67,8 +67,8 @@ public class OrderSettings {
 
     public void ini()
     {
-        creditExpirySettings= Main.appSettings.getCreditExpirySettings();
-        currentSaleHistory=Main.appSettings.getCurrent_sale();
+        creditExpirySettings= AppSettings.getInstance().getCreditExpirySettings();
+        currentSaleHistory=AppSettings.getInstance().getCurrent_sale();
         newCreditExpirySettings=null;
         setExpiryDataMutability(false);
         updateExpiryDataFields();
@@ -199,11 +199,11 @@ public class OrderSettings {
             dbOperations.execute();
             if(newCreditExpirySettings!=null)
             {
-                Main.appSettings.setCreditExpirySettings(newCreditExpirySettings);
+                AppSettings.getInstance().setCreditExpirySettings(newCreditExpirySettings);
             }
             if(newSaleHistory!=null)
             {
-                Main.appSettings.setCurrent_sale(newSaleHistory);
+                AppSettings.getInstance().setCurrent_sale(newSaleHistory);
             }
 
         } catch (SQLException e) {

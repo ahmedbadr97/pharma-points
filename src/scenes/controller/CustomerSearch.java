@@ -15,6 +15,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import main.AppSettings;
 import main.Main;
 import scenes.abstracts.GetCustomerBar;
 import scenes.main.Alerts;
@@ -80,7 +81,7 @@ public class CustomerSearch {
         });
 
 
-        if(Main.appSettings.getLogged_in_user().getAdmin()==0)
+        if(AppSettings.getInstance().getLogged_in_user().getAdmin()==0)
             cus_edit_admin_panal.setVisible(false);
         // --------------initialize combo boxes----------------//
 

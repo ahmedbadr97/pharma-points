@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
+import main.AppSettings;
 import main.Main;
 import scenes.abstracts.CustomerDataPane;
 import scenes.main.Alerts;
@@ -222,7 +223,7 @@ public class CustomerData {
 
     @FXML
     void deleteCustomer(ActionEvent event) {
-        if(Main.appSettings.getLogged_in_user().getAdmin()==1)
+        if(AppSettings.getInstance().getLogged_in_user().getAdmin()==1)
         {
             try {
                 main_screen.getDbOperations().add(main_screen.getCustomer(), DBStatement.Type.DELETE);

@@ -1,6 +1,7 @@
 package database.entities;
 
 import database.DBStatement;
+import database.DBconnection;
 import exceptions.DataNotFound;
 import main.Main;
 
@@ -32,7 +33,7 @@ public class SystemUser implements TablesOperations<SystemUser>{
     {
         SystemUser systemUser=null;
         String sql_statement="SELECT *  FROM SYSTEM_USERS WHERE LOGIN_NAME=? and LOGIN_PASSWORD=? ";
-        PreparedStatement p= Main.dBconnection.getConnection().prepareStatement(sql_statement);
+        PreparedStatement p= DBconnection.getInstance().getConnection().prepareStatement(sql_statement);
         p.setString(1,login_name);
         p.setString(2,login_password);
         ResultSet r=p.executeQuery();
@@ -49,7 +50,7 @@ public class SystemUser implements TablesOperations<SystemUser>{
         ArrayList<SystemUser> systemUsers=new ArrayList<>();
         SystemUser systemUser=null;
         String sql_statement="SELECT *  FROM SYSTEM_USERS ";
-        Statement s= Main.dBconnection.getConnection().createStatement();
+        Statement s= DBconnection.getInstance().getConnection().createStatement();
 
         ResultSet r=s.executeQuery(sql_statement);
 
@@ -115,7 +116,7 @@ public class SystemUser implements TablesOperations<SystemUser>{
             DBStatement<SystemUser> dbStatement=new DBStatement<SystemUser>(sql,this,DBStatement.Type.ADD) {
                 @Override
                 public void statement_initialization() throws SQLException {
-                    Statement s= Main.dBconnection.getConnection().createStatement();
+                    Statement s= DBconnection.getInstance().getConnection().createStatement();
                     ResultSet r=s.executeQuery(" SELECT SYSTEM_USERS_SEQ.NEXTVAL from DUAL");
                     while (r.next())
                         this.getStatement_table().setUser_id(r.getInt(1));

@@ -1,6 +1,7 @@
 package database.entities;
 
 import database.DBStatement;
+import database.DBconnection;
 import exceptions.DataNotFound;
 import exceptions.InvalidTransaction;
 import main.Main;
@@ -165,7 +166,7 @@ public class Order implements TablesOperations<Order> {
     {
         ArrayList<Order> orders = new ArrayList<>();
         String sql_statement ="SELECT * FROM CUS_ORDER WHERE ORDER_ARCHIVED=0 AND EXPIRY_DATE< TO_DATE(?,'DD-MM-YYYY')";
-        PreparedStatement p = Main.dBconnection.getConnection().prepareStatement(sql_statement);
+        PreparedStatement p = DBconnection.getInstance().getConnection().prepareStatement(sql_statement);
         p.setString(1, current_time.get_Date());
         ResultSet  r = p.executeQuery();
         while (r.next()) {
@@ -361,14 +362,14 @@ public class Order implements TablesOperations<Order> {
             public void statement_initialization() throws SQLException {
 
                 // get order id
-                Statement s = Main.dBconnection.getConnection().createStatement();
+                Statement s = DBconnection.getInstance().getConnection().createStatement();
                 ResultSet r = s.executeQuery(" SELECT CUS_ORDER_SEQ.NEXTVAL from DUAL");
                 while (r.next())
                     this.getStatement_table().setOrder_id(r.getInt(1));
                 r.close();
                 s.close();
                 //get system time
-                s = Main.dBconnection.getConnection().createStatement();
+                s = DBconnection.getInstance().getConnection().createStatement();
                 r = s.executeQuery("SELECT CURRENT_TIMESTAMP FROM dual");
                 while (r.next()) {
                     String dateTimeStr = r.getString(1);
@@ -439,7 +440,7 @@ public class Order implements TablesOperations<Order> {
     public static ArrayList<Order> getCustomerOrders(Customer customer) throws SQLException, DataNotFound {
         ArrayList<Order> orders = new ArrayList<>();
         String sql_statement = "SELECT *  FROM CUS_ORDER WHERE CUS_ID= ?";
-        PreparedStatement p = Main.dBconnection.getConnection().prepareStatement(sql_statement);
+        PreparedStatement p = DBconnection.getInstance().getConnection().prepareStatement(sql_statement);
         p.setInt(1, customer.getId());
         ResultSet r = p.executeQuery();
         while (r.next()) {
@@ -458,7 +459,7 @@ public class Order implements TablesOperations<Order> {
     {
         Order order = null;
         String sql_statement = "SELECT *  FROM CUS_ORDER WHERE ORDER_ID= ?";
-        PreparedStatement p = Main.dBconnection.getConnection().prepareStatement(sql_statement);
+        PreparedStatement p = DBconnection.getInstance().getConnection().prepareStatement(sql_statement);
         p.setInt(1, id);
         ResultSet r = p.executeQuery();
         while (r.next()) {

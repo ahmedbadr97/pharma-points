@@ -13,8 +13,8 @@ public class Home extends WindowAbstract<scenes.controller.Home>{
         DBconnection.ConnectionAction connectionAction=connected -> {
             getController().setConnected(connected);
         };
-        Main.dBconnection.addConnectionAction(connectionAction);
-        addOnCloseAction(() -> Main.dBconnection.removeConnectionAction(connectionAction));
+        DBconnection.getInstance().addConnectionAction(connectionAction);
+        addOnCloseAction(() -> DBconnection.getInstance().removeConnectionAction(connectionAction));
 
     }
 

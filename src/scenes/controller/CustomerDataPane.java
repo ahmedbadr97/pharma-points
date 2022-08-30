@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import main.AppSettings;
 import main.Main;
 import scenes.main.Alerts;
 import scenes.main.CreditArchiveTransactions;
@@ -53,7 +54,7 @@ public class CustomerDataPane {
         cus_arch_credit_btn.setVisible(main_screen.isMutable());
         setEditMode(false);
         creditArchiveTransactions = null;
-        if(Main.appSettings.getLogged_in_user().getAdmin()==0)
+        if(AppSettings.getInstance().getLogged_in_user().getAdmin()==0)
             cus_arch_credit_btn.setDisable(true);
 
 

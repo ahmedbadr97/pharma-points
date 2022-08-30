@@ -7,6 +7,7 @@ import database.entities.Order;
 import database.entities.SaleHistory;
 import database.entities.SystemUser;
 import exceptions.DataNotFound;
+import main.AppSettings;
 import main.Main;
 import scenes.main.WindowAbstract;
 
@@ -42,7 +43,7 @@ public class OrderDataPane extends WindowAbstract<scenes.controller.OrderDataPan
 
     public void initialize_order(Customer customer) {
         this.customer = customer;
-        this.order = new Order(customer, Main.appSettings.getCurrent_sale());
+        this.order = new Order(customer, AppSettings.getInstance().getCurrent_sale());
         this.dbOperations.add(order, DBStatement.Type.ADD);
         dbOperations.add(customer, DBStatement.Type.UPDATE);
 

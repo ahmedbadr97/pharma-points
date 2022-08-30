@@ -12,6 +12,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import main.AppSettings;
 import main.Main;
 import scenes.main.Alerts;
 import scenes.abstracts.DataBaseSettings;
@@ -28,7 +29,7 @@ public class Login {
     public void init(scenes.main.Login scene_main){
         this.scene_main=scene_main;
         dataBaseSettings=null;
-        String lastLoginName=Main.appSettings.getLastLoginName();
+        String lastLoginName= AppSettings.getInstance().getLastLoginName();
         if(lastLoginName!=null)
         {
             login_user_tf.setText(lastLoginName);
@@ -56,8 +57,8 @@ public class Login {
             System.out.println("Welcome");
            Home home= new Home(logged_in_user);
            home.showStage();
-            Main.appSettings.loadAppSettings(scene_main.getLogged_in_user());
-            Main.appSettings.setLastLoginName(login_user);
+            AppSettings.getInstance().loadAppSettings(scene_main.getLogged_in_user());
+            AppSettings.getInstance().setLastLoginName(login_user);
             scene_main.closeStage();
 
         }

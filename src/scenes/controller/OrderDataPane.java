@@ -16,6 +16,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import main.AppSettings;
 import main.Main;
 import scenes.abstracts.OrderDataPane.OrderSettings;
 import database.entities.OrderTransaction.TransactionType;
@@ -161,9 +162,9 @@ public class OrderDataPane {
             order_id_lb.setText("0");
             order_time_lb.setText(new DateTime().toString());
             DateTime expected_expiry=new DateTime();
-            int years=Main.appSettings.getCreditExpirySettings().getYears();
-            int months=Main.appSettings.getCreditExpirySettings().getMonths();
-            int days=Main.appSettings.getCreditExpirySettings().getDays();
+            int years= AppSettings.getInstance().getCreditExpirySettings().getYears();
+            int months=AppSettings.getInstance().getCreditExpirySettings().getMonths();
+            int days=AppSettings.getInstance().getCreditExpirySettings().getDays();
             expected_expiry.add_to_date(years,months,days);
             order_expiry_date_lb.setText(expected_expiry.get_Date());
         }

@@ -1,6 +1,7 @@
 package database.entities;
 
 import database.DBStatement;
+import database.DBconnection;
 import exceptions.DataNotFound;
 import exceptions.InvalidTransaction;
 import main.Main;
@@ -157,7 +158,7 @@ public class Customer implements TablesOperations<Customer> {
             default:
                 throw new DataNotFound("Invalid Query Filter");
         }
-        PreparedStatement p = Main.dBconnection.getConnection().prepareStatement(sql_statement);
+        PreparedStatement p = DBconnection.getInstance().getConnection().prepareStatement(sql_statement);
         if (filter == QueryFilter.ID) {
             int id = Integer.parseInt(value);
             p.setInt(1, id);
@@ -183,7 +184,7 @@ public class Customer implements TablesOperations<Customer> {
     public static ArrayList<Customer> getCustomersByName(String name) throws SQLException, DataNotFound {
         ArrayList<Customer> customers = new ArrayList<>();
         String sql_statement = "SELECT *  FROM CUSTOMER WHERE CUS_NAME LIKE ?";
-        PreparedStatement p = Main.dBconnection.getConnection().prepareStatement(sql_statement);
+        PreparedStatement p = DBconnection.getInstance().getConnection().prepareStatement(sql_statement);
         p.setString(1, name + "%");
         ResultSet r = p.executeQuery();
         while (r.next())
@@ -214,7 +215,7 @@ public class Customer implements TablesOperations<Customer> {
             sql_statement += " CUS_ACTIVE_CREDIT<= ?";
         }
 
-        PreparedStatement p = Main.dBconnection.getConnection().prepareStatement(sql_statement);
+        PreparedStatement p = DBconnection.getInstance().getConnection().prepareStatement(sql_statement);
         if (credit_between_value) {
             p.setInt(prep_col_idx++, credit_start);
             p.setInt(prep_col_idx, credit_end);
@@ -241,7 +242,7 @@ public class Customer implements TablesOperations<Customer> {
         DBStatement<Customer> dbStatement = new DBStatement<Customer>(sql_statement, this, DBStatement.Type.ADD) {
             @Override
             public void statement_initialization() throws SQLException {
-                Statement s = Main.dBconnection.getConnection().createStatement();
+                Statement s = DBconnection.getInstance().getConnection().createStatement();
                 ResultSet r = s.executeQuery(" SELECT CUSTOMER_SEQ.NEXTVAL from DUAL");
                 while (r.next())
                     this.getStatement_table().setId(r.getInt(1));

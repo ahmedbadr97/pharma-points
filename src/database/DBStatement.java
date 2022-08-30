@@ -27,7 +27,7 @@ public abstract class DBStatement<Table> {
     }
 
     public void execute_statement()throws SQLException {
-        this.preparedStatement= Main.dBconnection.getConnection().prepareStatement(sql_statement);
+        this.preparedStatement= DBconnection.getInstance().getConnection().prepareStatement(sql_statement);
         this.statement_initialization();
         this.preparedStatement.execute();
         this.after_execution_action();

@@ -1,7 +1,9 @@
 package scenes.controller;
 
+import database.DBconnection;
 import exceptions.SystemError;
 import javafx.application.Platform;
+import main.AppSettings;
 import main.Main;
 import scenes.abstracts.LoadingWindow;
 import scenes.main.Alerts;
@@ -25,7 +27,7 @@ public class DataBaseSettings {
 
     public void ini(scenes.abstracts.DataBaseSettings main_scene) {
         this.main_scene = main_scene;
-        ip = Main.appSettings.getServer_ip();
+        ip = AppSettings.getInstance().getServer_ip();
         if ((ip != null) && !ip.isEmpty()) {
             Pattern p = Pattern.compile("\\d{1,3}.\\d{1,3}.\\d{1,3}+.\\d{1,3}");
             Matcher m = p.matcher(ip);
@@ -108,12 +110,12 @@ public class DataBaseSettings {
             scenes.abstracts.LoadingWindow loadingWindow = new LoadingWindow("connecting to database");
             loadingWindow.startProcess(() -> {
                 try {
-                    Main.dBconnection.setServerip(connectiondata);
-                    Main.dBconnection.disConnect();
-                    Main.dBconnection.Connect();
-                    Main.appSettings.setServer_ip(connectiondata);
+                    DBconnection.getInstance().setServerip(connectiondata);
+                    DBconnection.getInstance().disConnect();
+                    DBconnection.getInstance().Connect();
+                    AppSettings.getInstance().setServer_ip(connectiondata);
 
-                    if (Main.dBconnection.getConnection().isValid(10000)) {
+                    if (DBconnection.getInstance().getConnection().isValid(10000)) {
                         Platform.runLater(()->new Alerts("Connected successfully", Alert.AlertType.INFORMATION));
 
                     }
