@@ -86,10 +86,12 @@ public class SaleHistory implements TablesOperations<SaleHistory>{
         PreparedStatement p= DBconnection.getInstance().getConnection().prepareStatement(sql_statement);
         p.setInt(1,id);
         ResultSet r=p.executeQuery();
+
         while (r.next())
             saleHistory=fetch_resultSet(r);
         if (saleHistory==null)
             throw new DataNotFound("no saleHistory found with this id "+ id);
+        p.close();r.close();
         return saleHistory;
     }
     public static ArrayList<SaleHistory> getSaleHistory() throws SQLException , DataNotFound{
@@ -104,6 +106,7 @@ public class SaleHistory implements TablesOperations<SaleHistory>{
             saleHistory=fetch_resultSet(r);
             saleHistoryList.add(saleHistory);
         }
+        s.close();r.close();
         if (saleHistoryList.isEmpty())
             throw new DataNotFound("no saleHistory ");
         return saleHistoryList;

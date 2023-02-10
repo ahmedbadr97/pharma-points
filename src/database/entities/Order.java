@@ -177,6 +177,7 @@ public class Order implements TablesOperations<Order> {
             orders.add(order);
 
         }
+        p.close();r.close();
         if (orders.isEmpty())
             throw new DataNotFound("no expired orders found  ");
         return orders;
@@ -381,13 +382,14 @@ public class Order implements TablesOperations<Order> {
                     current_time.toMinTime();
                     this.getStatement_table().setExpiry_date(current_time);
                 }
-                r.close();
-                s.close();
+
                 this.getPreparedStatement().setInt(1, getStatement_table().getOrder_id());
                 this.getPreparedStatement().setInt(2, getStatement_table().getCustomer().getId());
                 this.getPreparedStatement().setInt(3, getStatement_table().getSale_id());
                 this.getPreparedStatement().setString(4, getStatement_table().getNotes());
                 this.getPreparedStatement().setString(5, getStatement_table().expiry_date.get_Date());
+                r.close();
+                s.close();
             }
 
             @Override
@@ -451,6 +453,7 @@ public class Order implements TablesOperations<Order> {
             orders.add(order);
 
         }
+        p.close();r.close();
         if (orders.isEmpty())
             throw new DataNotFound("no orders found for this customer " + customer.getName());
         return orders;
@@ -469,6 +472,7 @@ public class Order implements TablesOperations<Order> {
                 order.setOrderTransactions(OrderTransaction.getOrderTransactions(order));
 
         }
+        p.close();r.close();
         if (order==null)
             throw new DataNotFound("no orders found with id " + id);
         return order;

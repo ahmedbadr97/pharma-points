@@ -189,8 +189,11 @@ public class Customer implements TablesOperations<Customer> {
         ResultSet r = p.executeQuery();
         while (r.next())
             customers.add(fetch_resultSet(r));
+        r.close();
+        p.close();
         if (customers.isEmpty())
             throw new DataNotFound("no customer found with this name " + name);
+
         return customers;
     }
 

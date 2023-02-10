@@ -150,6 +150,7 @@ public class OrderTransaction implements TablesOperations<OrderTransaction> {
             orderTransaction.setOrder(order);
             orderTransactions.add(orderTransaction);
         }
+        p.close();r.close();
         if (orderTransactions.isEmpty())
             throw new DataNotFound("no order transactions found for this order id " + order.getOrder_id());
         return orderTransactions;
@@ -217,6 +218,7 @@ public class OrderTransaction implements TablesOperations<OrderTransaction> {
             orderTransaction.setOrder(order);
             orderTransactions.add(orderTransaction);
         }
+        p.close();r.close();
         if (orderTransactions.isEmpty())
             throw new DataNotFound("no order transactions found in this interval from " + from + " to " +to);
         return orderTransactions;
