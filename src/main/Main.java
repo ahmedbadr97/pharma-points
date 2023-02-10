@@ -1,15 +1,9 @@
 package main;
 
-import database.DBOperations;
 
-import database.DBStatement;
 import database.DBconnection;
 import database.entities.ClientComputer;
-import database.entities.Customer;
-import database.entities.Order;
-import database.entities.SystemUser;
-import exceptions.DataNotFound;
-import exceptions.SystemError;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
@@ -18,12 +12,13 @@ import scenes.abstracts.LoadingWindow;
 
 import scenes.main.*;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Main extends Application {
-    public  static DBconnection dBconnection;
+    public static DBconnection dBconnection;
     public static ClientComputer connectedComputer;
     public static ExecutorService mainThreadsPool;
     public static Stage mainStage;
@@ -31,43 +26,42 @@ public class Main extends Application {
     //TODO add running screens
 
     public static void main(String[] args) throws SQLException {
+
         launch(args);
     }
-
     @Override
-    public void start(Stage primaryStage)  {
-        Main.mainStage=primaryStage;
+    public void start(Stage primaryStage) {
+        Main.mainStage = primaryStage;
         primaryStage.setTitle("Fayed Pharmacy");
-        mainThreadsPool= Executors.newCachedThreadPool();
+        mainThreadsPool = Executors.newCachedThreadPool();
         try {
             AppSettings.InstantiateInstance();
-            Login login=new Login();
+            Login login = new Login();
             login.showStage();
-            dBconnection=DBconnection.getInstance();
-            LoadingWindow loadingWindow=new LoadingWindow("connecting to database");
-            loadingWindow.startProcess(()->{
+            dBconnection = DBconnection.getInstance();
+            LoadingWindow loadingWindow = new LoadingWindow("connecting to database");
+            loadingWindow.startProcess(() -> {
                 try {
                     dBconnection.Connect();
                     Platform.runLater(loadingWindow::closeStage);
                 } catch (SQLException e) {
-                    Platform.runLater(()->{
+                    Platform.runLater(() -> {
                         loadingWindow.closeStage();
-                        new Alerts(e);});
+                        new Alerts(e);
+                    });
                 }
 
             });
             loadingWindow.setOnTop();
             loadingWindow.showStage();
-        }
-        catch (Exception s)
-        {
+        } catch (Exception s) {
             new Alerts(s.getMessage(), Alert.AlertType.ERROR);
             System.exit(-1);
         }
 
     }
-    public static void shutdownSystem()
-    {
+
+    public static void shutdownSystem() {
         System.exit(-1);
     }
 }

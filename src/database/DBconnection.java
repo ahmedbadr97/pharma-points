@@ -22,7 +22,7 @@ public class DBconnection {
     private boolean connected;
     private boolean clientSet;
     public interface ConnectionAction{
-        public void isConnected(boolean connected);
+         void isConnected(boolean connected);
     }
 
     ArrayList<ConnectionAction> connectionActions;
@@ -43,8 +43,8 @@ public class DBconnection {
 
     private DBconnection()  {
         this.serverip = AppSettings.getInstance().getServer_ip();
-        this.username = "fayedpharmacy";
-        this.password = "fayed203046";
+        this.username = AppSettings.getInstance().getDbUsername();
+        this.password = AppSettings.getInstance().getDbPassword();
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
             System.out.println("Driver Class Loaded");

@@ -40,7 +40,7 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="78.0" prefWidth="384.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
-                  <Label styleClass="secondary_labels" text="سنتين" />
+                  <Label styleClass="secondary_labels" text="سنين" />
                   <TextField fx:id="every_years_tf" prefHeight="25.0" prefWidth="57.0" />
                   <Label styleClass="secondary_labels" text="شهور" />
                   <TextField fx:id="every_months_tf" prefHeight="25.0" prefWidth="57.0" />

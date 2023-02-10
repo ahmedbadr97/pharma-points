@@ -33,6 +33,8 @@ public class AppSettings {
     private ConfigurationFile configurationFile;
     private String printerName;
     private String lastLoginName;
+    private String dbUsername;
+    private String dbPassword;
     private boolean isMainDevice;
     private DataRecoverySettings dataRecoverySettings;
 
@@ -41,6 +43,9 @@ public class AppSettings {
         configurationFile = new ConfigurationFile("config");
         configurationFile.openSettingsFile();
         server_ip = configurationFile.getValue("serverip");
+        dbUsername=configurationFile.getValue("db_username");
+        dbPassword=configurationFile.getValue("db_password");
+
         lastLoginName = configurationFile.getValue("last_login_name");
         String main_device = configurationFile.getValue("main_device");
         printerName=configurationFile.getValue("printer_name");
@@ -67,6 +72,14 @@ public class AppSettings {
 
     public String getPrinterName() {
         return printerName;
+    }
+
+    public String getDbUsername() {
+        return dbUsername;
+    }
+
+    public String getDbPassword() {
+        return dbPassword;
     }
 
     public void setPrinterName(String printerName) throws SystemError{
