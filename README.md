@@ -2,6 +2,8 @@
 - Java Desktop application, with a local centralized DMS (ORACLE), used in pharmacies as a secondary application to increase sales growth, currently working in a pharmacy called fayed pharmacy
 ## Application main usage
 - Logs customer transactions, provide extra credit on purchased items in customer account with expiry date from date of the purchase, customer owns a (barcode) credit card for the pharmacy, to use this credit for further transactions
+### customer gifts card sample
+![parmaCard](./screenshots/parmaCard.jpg)
 ## Application business goal
 - customers the more they buy orders from the pharmacy the more they can collect a free credit in their account to use it so this will make the customer stay connected to the pharmacy (collecting and using free credit) and increase pharmacy sales
 ##	Roles covered in this project
